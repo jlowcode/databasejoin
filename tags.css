@@ -1,0 +1,26 @@
+.tag-container {
+    position: relative;
+    font-size       : 85%;
+    padding         : 0 10px 0 10px;
+    margin          : 0.25em 0.1em;
+    display         : inline-block;
+    background-color: #EEEEEF;
+    transition      : all 0.1s linear;
+    cursor          : pointer;
+    border-radius: 10px;
+}
+
+.tag-content {
+    padding-right: 5px;
+}
+
+.tag-close-button {
+    cursor: pointer;
+    color: #B0B1B0;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.autocomplete-input {
+    max-width: 50%;
+}
