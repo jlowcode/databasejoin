@@ -1,24 +1,26 @@
 //Check function if main functions have been overwritten
 let checkEvent = setInterval(function () {
-    var id = jQuery('.elementId').val();
-    const mod = jQuery('.modRender').val();
+    const modMultiNovo = jQuery('.modRenderMultiNovo').val();
+    const modAutoComplete = jQuery('.modRenderAutoComplete').val();
     var rewrite = true;
 
-    if(mod == 'multi-select-novo') {
-        rewrite = reWriteMulti(id);
+    if(modMultiNovo == 'multi-select-novo') {
+        var idMultiNovo = jQuery('.elementIdMultiNovo').val();
+        rewrite = reWriteMulti(idMultiNovo);
         
         if(rewrite.eventsInputSearch || rewrite.eventsSelect) {
-            eventChange(id);
-            eventKeyup(id);
+            eventChange(idMultiNovo);
+            eventKeyup(idMultiNovo);
         }
 
         if(rewrite.eventsButtonRemove) {
-            deleteTags(id);
+            deleteTags(idMultiNovo);
         }
     }
 
-    if(mod == 'auto-complete') {
-        var eventsInput = jQuery('#' + id + '-auto-complete').data('events');
+    if(modAutoComplete == 'auto-complete') {
+        var idAutoComplete = jQuery('.elementIdAutoComplete').val();
+        var eventsInput = jQuery('#' + idAutoComplete + '-auto-complete').data('events');
         
         jQuery.each(eventsInput['keyup'], function  () {
             if(this.handler.toString().indexOf('event.keyCode == 13 || event.keyCode == 188') > 0) {
@@ -27,7 +29,7 @@ let checkEvent = setInterval(function () {
         });
         
         if(rewrite) {
-            tagsAutocomplete(id);
+            tagsAutocomplete(idAutoComplete);
         }
     }
 }, 1000);
@@ -36,6 +38,7 @@ let checkEvent = setInterval(function () {
 function tagsAutocomplete(id) {
     jQuery('#' + id + '-auto-complete').on('keyup', function (event) {
         var optionsMessage = jQuery('.dropdown-menu li .alert-info i').html();
+        console.log(optionsMessage);
         if(optionsMessage != undefined) {
             if(event.keyCode == 13 || event.keyCode == 188) { //Important for line 26
                 var Tag = jQuery(this).val();

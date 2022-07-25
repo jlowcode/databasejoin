@@ -1905,7 +1905,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		
 		//Update initial suggest
 		$limit = $params->get('dbjoin_autocomplete_rows');
-		$elementId = $formModel->get('aJoinObjs')[$repeatCounter]->element_id;
+		$elementId = $this->getJoins()[$repeatCounter]->element_id;
 		$formId = $data['formid'];
 		$urlAjax = '/index.php?option=com_fabrik&format=json&view=plugin&task=pluginAjax&g=element&element_id=' . $elementId . '&formid=' . $formId . '&plugin=databasejoin&method=autocomplete_options&package=fabrik';
 
@@ -1917,8 +1917,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		//Update of tags for databasejoin
-		$html[] = '<input class="elementId" type="hidden" value="' . $id . '"/>';
-		$html[] = '<input class="modRender" type="hidden" value="auto-complete"/>';
+		$html[] = '<input class="elementIdAutoComplete" type="hidden" value="' . $id . '"/>';
+		$html[] = '<input class="modRenderAutoComplete" type="hidden" value="auto-complete"/>';
 		if((bool) $params->get('moldTags')) {
 			$this->jsTags();
 		}
@@ -2019,8 +2019,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$data = '<input class="join_name-' . $this->getElement()->name . '" type="hidden" value="' . $join_name . '"/>' .
-			'<input class="elementId" type="hidden" value="' . $id . '"/>' . // Add to the Update of tags for databasejoin
-			'<input class="modRender" type="hidden" value="multi-select-novo"/>' . // Add to the Update of tags for databasejoin
+			'<input class="elementIdMultiNovo" type="hidden" value="' . $id . '"/>' . // Add to the Update of tags for databasejoin
+			'<input class="modRenderMultiNovo" type="hidden" value="multi-select-novo"/>' . // Add to the Update of tags for databasejoin
 			'<input class="elName-' . $this->getElement()->name . '" type="hidden" value="' . $elName . '"/>' .
 			'<input class="join_val_column-' . $this->getElement()->name . '" type="hidden" value="' . $join_val_column . '"/>' .
 			'<input class="join_key_column-' . $this->getElement()->name . '" type="hidden" value="' . $join_key_column . '"/>' .
