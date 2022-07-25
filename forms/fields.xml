@@ -125,6 +125,29 @@
 			       label="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_LABEL"
 			       rows="6"/>
 
+			<!-- begin - Update initial suggest -->
+			<field name="jsSuggest"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_ELEMENT_DBJOIN_JSSUGGEST_DESC"
+			       label="PLG_ELEMENT_DBJOIN_JSSUGGEST_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<!-- End - Update initial suggest -->
+
+			<!-- Begin - Update of tags for databasejoin -->
+			<field name="moldTags"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_ELEMENT_DBJOIN_MOLDTAGS_DESC"
+			       label="PLG_ELEMENT_DBJOIN_MOLDTAGS_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<!-- End - Update of tags for databasejoin -->
 		</fieldset>
 
 		<fieldset label="PLG_FABRIK_DBJOIN_DATA_WHERE"

@@ -1877,6 +1877,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$id         = $this->getHTMLId($repeatCounter);
 		// Get the LABEL from the form's data.
 		$label = (array) $this->getValue($data, $repeatCounter, array('valueFormat' => 'label'));
+
 		/*
 		 * $$$ rob 18/06/2012 if form submitted with errors - reshowing the auto-complete wont have access to the submitted values label
 		* 02/11/2012 if new form then labels not present either.
@@ -1891,6 +1892,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				$label = (array) $this->getLabelForValue($label[0], $label[0], true);
 			}
 		}
+
 		$class = ' class="fabrikinput inputbox autocomplete-trigger ' . $params->get('bootstrap_class', 'input-large') . '"';
 		$placeholder      = ' placeholder="' . htmlspecialchars($params->get('placeholder', ''), ENT_COMPAT) . '"';
 		$autoCompleteName = str_replace('[]', '', $thisElName) . '-auto-complete';
@@ -1899,6 +1901,27 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		// $$$ rob - class property required when cloning repeat groups - don't remove
 		$html[] = '<input type="hidden" tabindex="-1" class="fabrikinput" name="' . $thisElName . '" id="' . $id . '" value="'
 			. FArrayHelper::getValue($default, 0, '') . '"/>';
+
+		
+		//Update initial suggest
+		$limit = $params->get('dbjoin_autocomplete_rows');
+		$elementId = $formModel->get('aJoinObjs')[$repeatCounter]->element_id;
+		$formId = $data['formid'];
+		$urlAjax = '/index.php?option=com_fabrik&format=json&view=plugin&task=pluginAjax&g=element&element_id=' . $elementId . '&formid=' . $formId . '&plugin=databasejoin&method=autocomplete_options&package=fabrik';
+
+		$html[] = '<input class="urlAjax" type="hidden" value="' . $urlAjax . '"/>';
+		$html[] = '<input class="limitResults" type="hidden" value="' . $limit . '"/>';
+		
+		if((bool) $params->get('jsSuggest')) {
+			$this->jsSuggest();
+		}
+
+		//Update of tags for databasejoin
+		$html[] = '<input class="elementId" type="hidden" value="' . $id . '"/>';
+		$html[] = '<input class="modRender" type="hidden" value="auto-complete"/>';
+		if((bool) $params->get('moldTags')) {
+			$this->jsTags();
+		}
 	}
 
 	/**
@@ -1996,6 +2019,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$data = '<input class="join_name-' . $this->getElement()->name . '" type="hidden" value="' . $join_name . '"/>' .
+			'<input class="elementId" type="hidden" value="' . $id . '"/>' . // Add to the Update of tags for databasejoin
+			'<input class="modRender" type="hidden" value="multi-select-novo"/>' . // Add to the Update of tags for databasejoin
 			'<input class="elName-' . $this->getElement()->name . '" type="hidden" value="' . $elName . '"/>' .
 			'<input class="join_val_column-' . $this->getElement()->name . '" type="hidden" value="' . $join_val_column . '"/>' .
 			'<input class="join_key_column-' . $this->getElement()->name . '" type="hidden" value="' . $join_key_column . '"/>' .
@@ -2007,7 +2032,18 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			'<input class="limit_query-' . $this->getElement()->name . '" type="hidden" value="' . 
 					htmlspecialchars(JComponentHelper::getParams('com_fabrik')->get('autocomplete_max_rows')) . '"/>';
 
-		$html[] = '<div class="multiselect-autocomplete" id="' . $id . '">'.$data.'<select name="' . $elName . '" multiple="multiple" style="width: 100%;">'.$select.'</select></div>';
+		//Update initial suggest
+		if($params->get('jsSuggest')) {
+			$html[] = '<div class="multiselect-autocomplete" id="' . $id . '">'.$data.'<select suggest name="' . $elName . '" multiple="multiple" style="width: 100%;">'.$select.'</select></div>';
+		} else {
+			//Original
+			$html[] = '<div class="multiselect-autocomplete" id="' . $id . '">'.$data.'<select name="' . $elName . '" multiple="multiple" style="width: 100%;">'.$select.'</select></div>';
+		}
+
+		//Update of tags for databasejoin
+		if((bool) $params->get('moldTags')) {
+			$this->jsTags();
+		}
 	}
 
 	/**
@@ -4942,6 +4978,146 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 			$db->setQuery($query);
 			$db->execute();
+		}
+	}
+
+	/**
+	 * Update initial suggest
+	 * Method that will include a js file on the page to add a listener to the checkbox to suggest initial data
+	 */
+	public function jsSuggest() {
+		$params = $this->getParams();
+		$document = JFactory::getDocument();
+		
+		if(!$params->get('jsSuggest')) {
+			return;
+		}
+
+		$document->addScript('/plugins/fabrik_element/databasejoin/jquery.min.js');
+		$document->addScript('/plugins/fabrik_element/databasejoin/scriptInitialSuggest.js');
+	}
+
+	/**
+	 * Update of tags for databasejoin
+	 * 
+	 */
+	public function jsTags() {
+		$params = $this->getParams();
+		$document = JFactory::getDocument();
+		
+		if(!(bool) $params->get('moldTags')) {
+			return;
+		}
+
+		$document->addScript('/plugins/fabrik_element/databasejoin/jquery.min.js');
+		$document->addScript('/plugins/fabrik_element/databasejoin/scriptTags.js');
+	}
+
+	/**
+	 * The method is executed at the begin of the form submission process, both add and edit.
+	 */
+	public function onBeforeStore() {
+		$db = FabrikWorker::getDbo(true);
+		$formModel = $this->getFormModel();
+		$element = $this->getElement();
+		$params = $this->getParams();
+		$join = $this->getJoin();
+
+		$elementName = $element->get('name');
+		$joinFromTable = $join->join_from_table;
+		$formData = $formModel->formData;
+
+		//Update of tags for databasejoin
+		$formDataWithTableName = $formModel->formDataWithTableName;
+		$label = $params->get('join_val_column');
+		if((bool) $params->get('moldTags')) {
+			$rootcat = $params->get('root_category2');
+			if(isset($rootcat) && !empty($rootcat)) {
+				$worker = new FabrikWorker;
+				$categoryRoot = $worker->parseMessageForPlaceHolder($params->get('root_category2'), array(), false, false, null, false);
+				$resRootCategory = FabrikHelperHTML::isDebug() ? eval($categoryRoot) : @eval($categoryRoot);
+				$moreColumns = true;
+			}
+
+			if($params->get('database_join_display_type') == 'auto-complete') {
+				$tagId = $formDataWithTableName[$joinFromTable . '___' .$elementName][0];
+				if(strstr($tagId, '#fabrik#')) {
+					$tagId = str_replace('#fabrik#', '', $tagId);
+					$query = $db->getQuery(true);
+					$query->insert($join->table_join)->set($db->quoteName($label) . ' = ' . $tagId);
+
+					if($moreColumns) {
+						$query->set($resRootCategory);
+					}
+
+					$db->setQuery($query);
+					$db->execute();
+					$tagId = $db->insertid();
+
+					$this->form->formData[$joinFromTable . '___' . $elementName][0] = $tagId;
+					$this->form->formData[$joinFromTable . '___' . $elementName . '_raw'][0] = $tagId;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Called at end of form record save. Used for many-many join elements to save their data
+	 *
+	 * @param   array  &$data  Form data
+	 *
+	 * @since  3.1rc1
+	 *
+	 * @return  void
+	 */
+	public function onFinalStoreRow(&$data)
+	{
+		$db = FabrikWorker::getDbo(true);
+		$params = $this->getParams();
+		$name = $this->getFullName(true, false);
+		$rawName = $name . '_raw';
+		$formData = &$this->getFormModel()->formDataWithTableName;
+		$tagIds = (array) $formData[$rawName];
+		$join = $this->getJoin();
+		
+		//Update of tags for databasejoin
+		if((bool) $params->get('moldTags')) {
+			$rootcat = $params->get('root_category2');
+			if(isset($rootcat) && !empty($rootcat)) {
+				$worker = new FabrikWorker;
+				$categoryRoot = $worker->parseMessageForPlaceHolder($params->get('root_category2'), array(), false, false, null, false);
+				$resRootCategory = FabrikHelperHTML::isDebug() ? eval($categoryRoot) : @eval($categoryRoot);
+				$moreColumns = true;
+			}
+
+			foreach ($tagIds as $tagKey => &$tagId) {
+				if (empty($tagId)) {
+					unset($tagIds[$tagKey]);
+					continue;
+				}
+
+				$label = $params->get('join_val_column');
+				$tableJoin = $params->get('join_db_name');
+				if($params->get('database_join_display_type') == 'checkbox') {
+					if (strstr($tagId, '#fabrik#')) {
+						$tagId = str_replace('#fabrik#', '', $tagId);
+						$query = $db->getQuery(true);
+						$query->insert($tableJoin)->set($db->quoteName($label) . ' = ' . $db->quote($tagId));
+						
+						if($moreColumns) {
+							$query->set($resRootCategory);
+						}
+
+						$db->setQuery($query);
+						$db->execute();
+						$tagId = $db->insertid();
+					}
+				}
+			}
+
+			$formData[$name] = $tagIds;
+			$formData[$rawName] = $tagIds;
+			parent::onFinalStoreRow($data);
 		}
 	}
 }
