@@ -1,8 +1,8 @@
 jQuery(document).ready(function() {
-    var id = jQuery('.elementId').val();
+    var id = jQuery('.elementIdAutoComplete').val();
     var urlAjax = jQuery('.urlAjax').val();
     var limitResults = jQuery('.limitResults').val();
-    
+
     jQuery('#' + id + '-auto-complete').on('click', function() {
         jQuery('.dropdown-menu').css({'visibility': 'visible'});
         if(jQuery(this).val() == '') {
