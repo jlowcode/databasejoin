@@ -19,6 +19,10 @@ if (initDivStA.length) {
             const elementTreeId = String('#' + 'tree_single_' + attribute_name);
             const databasejoin_linked_items = $(mainDiv).find('.databasejoin_linked_items-' + nameElement)[0].value;
             const rootCategory = $(mainDiv).find('.category_root-' + nameElement)[0].value;
+            
+            //Update initial suggest
+            const idParent = $(mainDiv).find('.idParent-' + nameElement)[0].value;
+            const suggest = $(mainDiv).find('.suggest-' + nameElement)[0].value;
 
             //If the user set the data-WHERE propriety in the administrator page
             const dataWhereInput = $(mainDiv).find('.data_where-' + nameElement);
@@ -342,11 +346,27 @@ if (initDivStA.length) {
                 closeAllLists(e.target);
             });
 
+            //Update initial suggest
+            mainInput.addEventListener("click", function () {
+                searchValues(e);
+            });
+
             mainInput.addEventListener("input", function (e) {
-                var a, b, i, val = this.value;
+                searchValues(e);
+            })
+
+            //Update initial suggest
+            //Added searchValues in a function to attend input and click events
+            function searchValues(e) {
+                var a, b, i, val = this.value;                
+                
+                if(!val) {
+                    val = document.getElementById(join_name + '_single').value;
+                }
+
                 /*close any already open lists of autocompleted values*/
                 closeAllLists();
-                if (!val) { return false; }
+                if (!val && !suggest) { return false; }
                 currentFocus = -1;
                 /*create a DIV element that will contain the items (values):*/
                 a = document.createElement("DIV");
@@ -354,9 +374,12 @@ if (initDivStA.length) {
                 a.setAttribute("name", join_name + "-autocomplete-list");
                 a.setAttribute("class", "autocomplete-items");
                 /*append the DIV element as a child of the autocomplete container:*/
-                this.parentNode.appendChild(a);
-                if (val.length < 2)
-                    return;
+
+                //Changed for update initial suggest
+                //this.parentNode.appendChild(a);
+                document.getElementById(idParent).appendChild(a);
+
+                if (val.length < 2 && !suggest) return;
 
                 $.ajax({
                     url: root_urlStA + 'plugins/fabrik_element/databasejoin/autocompleteSearch.php',
@@ -397,8 +420,7 @@ if (initDivStA.length) {
                     },
                     dataType: "json"
                 });
-            })
-
+            }
         })
     });
 }

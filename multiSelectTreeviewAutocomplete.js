@@ -23,6 +23,10 @@ if (initDivTA.length) {
             const filter_sortedby = $(element).find('.filter_sortedby-' + nameElement)[0].value;
             const rootCategory = $(element).find('.category_root-' + nameElement)[0].value;
 
+            //Update initial suggest
+            const idParent = $(element).find('.idParent-' + nameElement)[0].value;
+            const suggest = $(element).find('.suggest-' + nameElement)[0].value;
+
             //If the user set the data-WHERE propriety in the administrator page
             const dataWhereInput = $(element).find('.data_where-' + nameElement);
             const data_where = dataWhereInput[0] ? JSON.parse(dataWhereInput[0].value) : '';
@@ -180,7 +184,7 @@ if (initDivTA.length) {
                 tag.content.textContent = tag.text;
                 tag.closeButton.textContent = 'x';
 
-                tag.closeButton.addEventListener('click', function () {
+                tag.closeButton.addEventListener("click", function () {
                     removeTag(tags.indexOf(tag));
                 });
 
@@ -379,10 +383,26 @@ if (initDivTA.length) {
             }
 
             mainInput.addEventListener("input", function (e) {
+                searchValues(e);
+            })
+
+            //Update initial suggest
+            mainInput.addEventListener('click', function (e) {
+                searchValues(e);
+            });
+
+            //Update initial suggest
+            //Added searchValues in a function to attend input and click events
+            function searchValues(e) {
                 var a, b, i, val = this.value;
+
+                if(!val) {
+                    val = document.getElementById(idParent + '[]').value;
+                }
+
                 /*close any already open lists of autocompleted values*/
                 closeAllLists();
-                if (!val) { return false; }
+                if (!val && !suggest) { return false; }
                 currentFocus = -1;
                 /*create a DIV element that will contain the items (values):*/
                 a = document.createElement("DIV");
@@ -390,9 +410,12 @@ if (initDivTA.length) {
                 a.setAttribute("name", join_name + "-autocomplete-list");
                 a.setAttribute("class", "autocomplete-items");
                 /*append the DIV element as a child of the autocomplete container:*/
-                this.parentNode.appendChild(a);
-                if (val.length < 2)
-                    return;
+
+                //Changed for update initial suggest
+                //this.parentNode.appendChild(a);
+                document.getElementById(idParent + '[]').parentNode.appendChild(a);
+                
+                if (val.length < 2 && !suggest) return;
 
                 $.ajax({
                     url: root_url + 'plugins/fabrik_element/databasejoin/autocompleteSearch.php',
@@ -433,7 +456,7 @@ if (initDivTA.length) {
                     },
                     dataType: "json"
                 });
-            })
+            }
 
         })
     })

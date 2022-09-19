@@ -1832,6 +1832,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$hiddenInputs = $this->filterHiddenFieldsForTreeView($thisElName);
 		$hiddenInputs .= '<input id="input-autocompletetreeview-id" class="input-single-autocomplete-treeview" type="hidden" value="' . $thisElName . '"/>';
 		$element    = $this->getElement()->name;
+
+		//Update initial suggest
+		$hiddenInputs .= '<input class="suggest-' . $this->getElement()->name .'" type="hidden" value="' . (bool) $params->get('jsSuggest') . '"/>';
+		$hiddenInputs .= '<input class="idParent-' . $this->getElement()->name .'" type="hidden" value="' . $id . '"/>';
+
 		//If the user set the Concat label in the administrator page
 		if ($params->get('join_val_column_concat')) {
 			$hiddenInputs .= '<input class="result-array" type="hidden" value="' . htmlspecialchars(json_encode($tmp)) . '"/>';
@@ -2137,6 +2142,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$data .= '<input class="data_where-' . $element . '" type="hidden" value="' . htmlspecialchars(json_encode($data_where)) . '"/>';
 		$data .= '<input class="concat-' . $element . '" type="hidden" value="' . htmlspecialchars(json_encode($concat)) . '"/>';
 
+		//Update initial suggest
+		$data .= '<input class="suggest-' . $element .'" type="hidden" value="' . (bool) $params->get('jsSuggest') . '"/>';
+		$data .= '<input class="idParent-' . $element .'" type="hidden" value="' . $id . '"/>';
+		
 		$rootcat = $params->get('root_category2');
 		if(isset($rootcat) && !empty($rootcat)){
 			$worker = new FabrikWorker;
