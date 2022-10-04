@@ -360,6 +360,14 @@
 			       type="bootstrapfieldclass"
 			       description="PLG_ELEMENT_DBJOIN_CLASS_DESC"
 			       label="PLG_ELEMENT_DBJOIN_CLASS_LABEL"/>
+				
+			<field name="dbjoin_initial_suggest_size"
+				   type="field"
+				   class="input-mini"
+				   default="10"
+				   description="PLG_ELEMENT_DBJOIN_INITIAL_SUGGEST_SIZE_DESC"
+				   label="PLG_ELEMENT_DBJOIN_INITIAL_SUGGEST_SIZE_LABEL"
+				   size="2"/>
 
 		</fieldset>
 

@@ -861,7 +861,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$sig .= '.' . serialize($opts);
 		$db    = FabrikWorker::getDbo();
 		$query = $db->getQuery(true);
-
+		
 		if (isset($this->sql[$sig])) {
 			return $this->sql[$sig];
 		}
@@ -1909,10 +1909,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		
 		//Update initial suggest
-		$limit = $params->get('dbjoin_autocomplete_rows');
+		$limit = $params->get('dbjoin_initial_suggest_size');
 		$elementId = $this->getJoins()[$repeatCounter]->element_id;
 		$formId = $data['formid'];
-		$urlAjax = '/index.php?option=com_fabrik&format=json&view=plugin&task=pluginAjax&g=element&element_id=' . $elementId . '&formid=' . $formId . '&plugin=databasejoin&method=autocomplete_options&package=fabrik';
+
+		$join_name = $params->get('join_db_name');
+		$join_val_column = $params->get('join_val_column');
+		$join_key_column = $params->get('join_key_column');
+		$urlAjax = '/plugins/fabrik_element/databasejoin/autocompleteSearch.php?value=&join_name=' . $join_name .'&join_val_column=' . $join_val_column . '&limit_query=' . $limit . '&join_key_column=' . $join_key_column;
+		//$urlAjax = '/index.php?option=com_fabrik&format=json&view=plugin&task=pluginAjax&g=element&element_id=' . $elementId . '&formid=' . $formId . '&plugin=databasejoin&method=autocomplete_options&package=fabrik'; //Old method
 
 		$html[] = '<input class="urlAjax" type="hidden" value="' . $urlAjax . '"/>';
 		$html[] = '<input class="limitResults" type="hidden" value="' . $limit . '"/>';

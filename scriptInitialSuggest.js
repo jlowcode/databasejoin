@@ -2,7 +2,7 @@ jQuery(document).ready(function() {
     var id = jQuery('.elementIdAutoComplete').val();
     var urlAjax = jQuery('.urlAjax').val();
     var limitResults = jQuery('.limitResults').val();
-
+    
     jQuery('#' + id + '-auto-complete').on('click', function() {
         jQuery('.dropdown-menu').css({'visibility': 'visible'});
         if(jQuery(this).val() == '') {
@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
             
             jQuery.ajax({
                 url: urlAjax,
-                type: 'post',
+                type: 'get',
                 beforeSend: function () {
                     var elementLoading = '<div class=\"spinner\" id=\"spinner-l5bxtram\" style=\"display: block; width: 1075px; height: 55px; position: absolute; left: 210px; top: 280px; opacity: 0.9;\">';
                         elementLoading += '<div class=\"spinner-content\" style=\"position: absolute; left: 523.5px; top: 0px;\">';
@@ -20,7 +20,7 @@ jQuery(document).ready(function() {
                         elementLoading += '<div class=\"spinner-img\"</div>';
                         elementLoading += '</div>';
                         elementLoading += '</div>';
-                    jQuery('.fb_el_prot_livros___escritor .controls .fabrikElement').append(elementLoading);
+                    jQuery('.urlAjax').parent().append(elementLoading);
                 }
             }).done(function (response) {
                 var results = response.slice(0, limitResults);
