@@ -2,7 +2,8 @@ jQuery(document).ready(function() {
     var id = jQuery('.elementIdAutoComplete').val();
     var urlAjax = jQuery('.urlAjax').val();
     var limitResults = jQuery('.limitResults').val();
-    
+    var limitChars = jQuery('.limitChars').val();
+
     jQuery('#' + id + '-auto-complete').on('click', function() {
         jQuery('.dropdown-menu').css({'visibility': 'visible'});
         if(jQuery(this).val() == '') {
@@ -27,7 +28,11 @@ jQuery(document).ready(function() {
                 jQuery('.dropdown-menu').css({'visibility': 'visible', 'display': 'block', 'left': coordsElement.left, 'top': (coordsElement.top + coordsElement.height) - 1, 'width': coordsElement.width});
                 ul = document.querySelector('.dropdown-menu');
                 jQuery.each(results, function (index, value) {
-                    a = new Element('a', {'href': '#', 'data-value': value.value, tabindex: '-1'}).set('text', value.text);
+                    var text = value.text;
+                    if(text.length > limitChars && limitChars > 0) {
+                        text = value.text.substr(1, limitChars) + '...';
+                    }
+                    a = new Element('a', {'href': '#', 'data-value': value.value, tabindex: '-1'}).set('text', text);
                     li = new Element('li').adopt(a);
                     li.inject(ul);
                 });

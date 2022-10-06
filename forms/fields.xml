@@ -360,7 +360,8 @@
 			       type="bootstrapfieldclass"
 			       description="PLG_ELEMENT_DBJOIN_CLASS_DESC"
 			       label="PLG_ELEMENT_DBJOIN_CLASS_LABEL"/>
-				
+			
+			<!-- begin - Update initial suggest -->
 			<field name="dbjoin_initial_suggest_size"
 				   type="field"
 				   class="input-mini"
@@ -368,6 +369,17 @@
 				   description="PLG_ELEMENT_DBJOIN_INITIAL_SUGGEST_SIZE_DESC"
 				   label="PLG_ELEMENT_DBJOIN_INITIAL_SUGGEST_SIZE_LABEL"
 				   size="2"/>
+			<!-- end - Update initial suggest -->
+
+			<!-- begin - Update customized label search -->
+			<field name="dbjoin_customized_label_size"
+				   type="number"
+				   default="0"
+				   description="PLG_ELEMENT_DBJOIN_CUSTOMIZED_LABEL_SIZE_DESC"
+				   label="PLG_ELEMENT_DBJOIN_CUSTOMIZED_LABEL_SIZE_LABEL"
+			       class="input-mini"
+			/>
+			<!-- end - Update customized label search -->
 
 		</fieldset>
 

@@ -286,6 +286,16 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			}
 		}
 
+		//Begin - Update customized label search
+		$numberCharacters = $params->get('dbjoin_customized_label_size');
+		
+		foreach($rows as $row) {
+			if(strlen($row->text) > $numberCharacters && $numberCharacters > 0 && $params->get('database_join_display_type') == 'auto-complete' && $params->get('database_join_display_style') == 'only-autocomplete') {
+				$row->text = substr($row->text, 1, $numberCharacters) . '...';
+			}
+		}
+		//End - Update customized label search
+
 		return $rows;
 	}
 
@@ -861,12 +871,12 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$sig .= '.' . serialize($opts);
 		$db    = FabrikWorker::getDbo();
 		$query = $db->getQuery(true);
-		
+		$params = $this->getParams();
+
 		if (isset($this->sql[$sig])) {
 			return $this->sql[$sig];
 		}
 
-		$params = $this->getParams();
 		$query  = $this->buildQueryWhere($data, $incWhere, null, $opts, $query);
 
 		if(isset($this->autocomplete_where) && !empty($this->autocomplete_where)){
@@ -1916,11 +1926,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$join_name = $params->get('join_db_name');
 		$join_val_column = $params->get('join_val_column');
 		$join_key_column = $params->get('join_key_column');
+		$limit_chars = $params->get('dbjoin_customized_label_size');
+
 		$urlAjax = '/plugins/fabrik_element/databasejoin/autocompleteSearch.php?value=&join_name=' . $join_name .'&join_val_column=' . $join_val_column . '&limit_query=' . $limit . '&join_key_column=' . $join_key_column;
 		//$urlAjax = '/index.php?option=com_fabrik&format=json&view=plugin&task=pluginAjax&g=element&element_id=' . $elementId . '&formid=' . $formId . '&plugin=databasejoin&method=autocomplete_options&package=fabrik'; //Old method
 
 		$html[] = '<input class="urlAjax" type="hidden" value="' . $urlAjax . '"/>';
 		$html[] = '<input class="limitResults" type="hidden" value="' . $limit . '"/>';
+		$html[] = '<input class="limitChars" type="hidden" value="' . $limit_chars . '"/>';
 		
 		if((bool) $params->get('jsSuggest')) {
 			$this->jsSuggest();
