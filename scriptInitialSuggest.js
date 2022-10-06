@@ -30,7 +30,7 @@ jQuery(document).ready(function() {
                 jQuery.each(results, function (index, value) {
                     var text = value.text;
                     if(text.length > limitChars && limitChars > 0) {
-                        text = value.text.substr(1, limitChars) + '...';
+                        text = value.text.substr(0, limitChars) + '...';
                     }
                     a = new Element('a', {'href': '#', 'data-value': value.value, tabindex: '-1'}).set('text', text);
                     li = new Element('li').adopt(a);

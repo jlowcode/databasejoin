@@ -291,7 +291,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		
 		foreach($rows as $row) {
 			if(strlen($row->text) > $numberCharacters && $numberCharacters > 0 && $params->get('database_join_display_type') == 'auto-complete' && $params->get('database_join_display_style') == 'only-autocomplete') {
-				$row->text = substr($row->text, 1, $numberCharacters) . '...';
+				$row->text = substr($row->text, 0, $numberCharacters) . '...';
 			}
 		}
 		//End - Update customized label search
