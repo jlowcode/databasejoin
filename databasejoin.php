@@ -287,6 +287,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		//Begin - Update customized label search
+		$params = $this->getParams();
 		$numberCharacters = $params->get('dbjoin_customized_label_size');
 		
 		foreach($rows as $row) {
