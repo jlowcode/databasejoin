@@ -5,8 +5,7 @@
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-bootstrap', './autocompleteMultiselect', './multiSelectTreeView', 
-'./singleSelectTreeView', './multiSelectTreeviewAutocomplete', './singleSelectTreeviewAutocomplete', './autocompletemultiselectnovo'],
+define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-bootstrap'],
     function (jQuery, FbElement, Encoder, Fabrik, AutoComplete) {
     window.FbDatabasejoin = new Class({
         Extends: FbElement,
@@ -54,25 +53,6 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             }
         },
 
-        getHiddenInputsFromTreeview: function(elementNameSplitted, modalInput){
-            var dataWhereInput = jQuery(document).find('.data_where-' + elementNameSplitted);
-            var concatInput = jQuery(document).find('.concat-' + elementNameSplitted);
-            var hiddenInputs = {
-                'value': this.options.displayStyle == 'only-autocomplete' ? modalInput : null,
-                'join_name': jQuery(document).find(String('.join_name-' + elementNameSplitted))[0].value,
-                'join_val_column': jQuery(document).find('.join_val_column-' + elementNameSplitted)[0].value,
-                'join_key_column': jQuery(document).find('.join_key_column-' + elementNameSplitted)[0].value,
-                'tree_parent_id': jQuery(document).find('.tree_parent_id-' + elementNameSplitted)[0] ? jQuery(document).find('.tree_parent_id-' + elementNameSplitted)[0].value : null,
-                'filter_sortedby': jQuery(document).find('.filter_sortedby-' + elementNameSplitted)[0] ? jQuery(document).find('.filter_sortedby-' + elementNameSplitted)[0].value : null,
-                'data_where': dataWhereInput[0] ? JSON.parse(dataWhereInput[0].value) : '',
-                'concat_val': concatInput[0] ? JSON.parse(concatInput[0].value) : '',
-                'valueFromModal': modalInput
-
-            }
-
-            return hiddenInputs;
-        },
-
         /**
          * Add option via a popup form. Opens a window with the related form
          * inside
@@ -118,49 +98,8 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 return;
             }
             var a = c.getElement('.toggle-addoption'),
-                url = typeOf(a) === 'null' ? e.target.get('href') : a.get('href'), self = this;
+                url = typeOf(a) === 'null' ? e.target.get('href') : a.get('href');
 
-            if(this.options.blankPage){
-                var prefixUrl = Fabrik.liveSite;
-                var nameEl = this.element.id;
-                nameEl = nameEl.split("___");
-                var join_name = jQuery(document).find(String('.join_name-' + nameEl[1]))[0].value, join_val_column = jQuery(document).find('.join_val_column-' + nameEl[1])[0].value;
-                var popupForm = window.open(url, "", "top=300,width=800,height=600");
-                localStorage.clear();
-                jQuery(popupForm).on('unload', function(){
-                    const dataPopUp = JSON.parse(localStorage.getItem('popUpForm'));
-                    if(dataPopUp && join_name && join_val_column){
-                        var valueInputModal = dataPopUp[join_name + '___' + join_val_column];
-                        const theUrl = prefixUrl + (self.options.displayStyle == 'only-autocomplete' ? 'plugins/fabrik_element/databasejoin/autocompleteSearch.php' : 'plugins/fabrik_element/databasejoin/treeViewSearch.php');
-                        
-                        
-                        if(valueInputModal){
-                            jQuery.ajax({
-                                url: theUrl,
-                                data: self.getHiddenInputsFromTreeview(nameEl[1], valueInputModal),
-                                success: function (result) {
-                                    var res = result[0];
-                                    if(self.options.displayStyle == 'only-treeview'){
-                                        input = new Element('input', { 'value': res.id, 'type': 'checkbox', 'data': res.name, 'name': self.element.id + '[]', 'checked': true, 'style': 'display: none;'});
-                                        self.element.append(input);
-                                        self.addTag(res.name, res.id, true);
-                                    } else {
-                                        self.options.displayStyle == 'only-autocomplete' ? self.addTag(res.text, res.value) : self.addTag(res.name, res.id);
-                                    }
-                                    // Refresh the tree
-                                    var link = document.getElementsByClassName('refreshTree');
-                                    console.log('debug link:')
-                                    console.log(link);
-                                    link[0].click();
-                                }
-                            });
-                        }
-                    }
-                })
-
-                return;
-            }
-                
             url += '&format=partial';
 
             var id = this.element.id + '-popupwin';
@@ -225,92 +164,6 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             }
         },
 
-        removeTag: function(value, label){
-            switch (this.options.displayType) {
-                case 'auto-complete':
-                    if(this.options.displayStyle == 'both-treeview-autocomplete'){
-                        var inputForRemove = this.element.getElement('input[name*=' + this.element.id + ']');
-                        if(inputForRemove){
-                            if(parseInt(inputForRemove.value) == value && inputForRemove.getAttribute('data') == label){
-                                inputForRemove.remove();
-                                this.element.getParent().getElement('div.tag-container').remove();
-                            }
-                        }
-                    } else {
-                        var inputForRemove = this.element.getElement('input[name*=' + this.element.id + ']');
-                        if(inputForRemove){
-                            if(parseInt(inputForRemove.value) == value && inputForRemove.getAttribute('data') == label){
-                                inputForRemove.remove();
-                                this.element.getParent().getElement('div.tag-container').remove();
-                            }
-                        }
-                    }
-                    break;
-                case 'checkbox':
-                    if (this.options.displayStyle == 'only-treeview'){
-                        if(this.element.getElement('input[value='+ value + ']')){
-                            this.element.getElement('input[value='+ value + ']').remove();
-                            this.element.getParent().getElement('div.tag-container').remove();
-                        }
-                    } else {
-                        if(this.element.getElement('option[value='+ value + ']')){
-                            this.element.getElement('option[value='+ value + ']').remove();
-                            this.element.getParent().getElement('div.tag-container').remove();
-                        }
-                    }
-                    break;
-            }
-        },
-
-        addTag: function(text, id, flagHiddenAdded = false) {
-            let tag = {
-                text: text,
-                container: document.createElement('div'),
-                content: document.createElement('span'),
-                option: document.createElement('option'),
-                closeButton: document.createElement('span')
-            };
-
-            tag.container.classList.add('tag-container');
-            tag.content.classList.add('tag-content');
-            tag.closeButton.classList.add('tag-close-button');
-
-            if(!flagHiddenAdded){
-                tag.option.text = tag.text;
-                tag.option.value = id;
-                tag.option.setAttribute('selected', 'selected');
-                
-                this.element.add(tag.option);
-            }
-            
-            tag.content.textContent = tag.text;
-            tag.closeButton.textContent = 'x';
-
-            var self = this;
-            tag.closeButton.addEventListener('click', function () {
-                self.removeTag(id, tag.text);
-            });
-
-            tag.container.appendChild(tag.content);
-            tag.container.appendChild(tag.closeButton);
-
-            jQuery(this.element.parentElement).prepend(tag.container);
-        },
-
-        addTagForSingle: function (value, label){
-            var inputOldSingle = this.element.getElement('input[name*=' + this.element.id + ']');
-            if(inputOldSingle){
-                inputOldSingle.value = value;
-                inputOldSingle.data = label;
-                this.element.getElement('div.tag-container').remove();
-                
-            } else {
-                var input = new Element('input', { 'value': value, 'type': 'checkbox', 'data': label, 'name': this.element.id + '[]', 'checked': true, 'style': 'display: none;'});
-                this.element.getElement('div[class*=selected-checkbox-]').appendChild(input);
-            }
-            this.addTag(label, value, true);
-        },
-
         /**
          * Adds an option to the db join element, for drop-downs and radio buttons
          * (where only one selection is possible from a visible list of options)
@@ -325,7 +178,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
          * @return  void
          */
         addOption: function (v, l, autoCompleteUpdate) {
-            var opt, rowOpt, selected, labelField, self = this;
+            var opt, rowOpt, selected, labelField;
             l = Encoder.htmlDecode(l);
             autoCompleteUpdate = typeof(autoCompleteUpdate) !== 'undefined' ? autoCompleteUpdate : true;
 
@@ -343,38 +196,15 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                     break;
                 case 'auto-complete':
                     if (autoCompleteUpdate) {
-                        if(this.options.displayStyle == 'both-treeview-autocomplete'){
-                            self.addTagForSingle(v, l, true);
-                        } else if(this.options.displayStyle == 'only-treeview'){
-                            self.addTagForSingle(v, l, true);
-                        } else {
-                            labelField = this.element.getParent('.fabrikElement').getElement('input[name*=-auto-complete]');
-                            this.element.value = v;
-                            labelField.value = l;
-                        }
+                        labelField = this.element.getParent('.fabrikElement').getElement('input[name*=-auto-complete]');
+                        this.element.value = v;
+                        labelField.value = l;
                     }
                     break;
                 case 'checkbox':
-                    if(this.options.displayStyle == 'both-treeview-autocomplete'){
-                        self.addTag(l, v);
-                    } else if(this.options.displayStyle == 'only-treeview'){
-                        var elDivTree = jQuery('#' + this.element.id);
-                        if(elDivTree[0]){
-                            input = new Element('input', { 'value': v, 'type': 'checkbox', 'data': l, 'name': this.element.id + '[]', 'checked': true, 'style': 'display: none;'});
-                            elDivTree[0].appendChild(input);
-                            self.addTag(l, v, true);
-                        }
-                    }  else if(this.options.displayStyle == 'only-autocomplete'){
-                        optionToAdd = new Element('option', { 'value': v, 'selected': 'selected'});
-                        optionToAdd.text = l;
-                        if(this.element.getElement('select[name*='+this.element.id+'[]]')){
-                            this.element.getElement('select[name*='+this.element.id+'[]]').append(optionToAdd);
-                        }
-                    } else {
-                        opt = this.getCheckboxTmplNode().clone();
-                        rowOpt = jQuery(Fabrik.jLayouts['fabrik-element-' + this.getPlugin() + '-form-rowopts'])[0];
-                        this._addOption(opt, l, v, rowOpt);
-                    }
+                    opt = this.getCheckboxTmplNode().clone();
+                    rowOpt = jQuery(Fabrik.jLayouts['fabrik-element-' + this.getPlugin() + '-form-rowopts'])[0];
+                    this._addOption(opt, l, v, rowOpt);
                     break;
                 case 'radio':
                 /* falls through */
@@ -399,7 +229,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
          */
         _addOption: function (opt, l, v, rowOpt) {
             var sel = typeOf(this.options.value) === 'array' ?
-                    this.options.value : Array.from(this.options.value),
+                    this.options.value : Array.mfrom(this.options.value),
                 i = opt.getElement('input'),
                 subOpts = this.getSubOptions(),
                 subOptsRows = this.getSubOptsRow(),
@@ -461,10 +291,8 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 if (!this.chxTmplNode && this.options.displayType === 'checkbox') {
                     var chxs = this.element.getElements('> .fabrik_subelement');
                     if (chxs.length === 0) {
-						if(this.element.getElement('.chxTmplNode')){
-							this.chxTmplNode = this.element.getElement('.chxTmplNode').getChildren()[0].clone();
-							this.element.getElement('.chxTmplNode').destroy();
-						}
+                        this.chxTmplNode = this.element.getElement('.chxTmplNode').getChildren()[0].clone();
+                        this.element.getElement('.chxTmplNode').destroy();
                     } else {
                         this.chxTmplNode = chxs.getLast().clone();
                     }
@@ -556,19 +384,30 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                     json.each(function (o) {
                         jsonValues.push(o.value);
                         if (!existingValues.contains(o.value) && o.value !== null) {
-                            sel = self.options.value === o.value;
-                            if(sel){
-                                self.addOption(o.value, o.text, sel);
+                            if (o.selected) {
+                                self.options.value = o.value;
+                                changed = true;
                             }
-                            changed = true;
+                            sel = self.options.value === o.value;
+                            if (sel && self.activePopUp) {
+                                changed = true;
+                            }
+                            self.addOption(o.value, o.text, sel);
+                        }
+                        else {
+                            if (o.selected) {
+                                if (self.options.value !== o.value) {
+                                    changed = true;
+                                    self.update(o.value);
+                                }
+                            }
                         }
                     });
 
                     existingValues.each(function (ev) {
                         if (!jsonValues.contains(ev)) {
-                            sel = self.getValue() === ev;
+                            sel = changed = self.getValue() === ev;
                             self.removeOption(ev, sel);
-                            changed = true;
                         }
                     });
 
@@ -651,7 +490,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
         appendInfo: function (data) {
             var rowId = data.rowid,
                 self = this,
-                url = '/index.php?option=com_fabrik&view=form&format=raw',
+                url = 'index.php?option=com_fabrik&view=form&format=raw',
                 post = {
                     'formid': this.options.popupform,
                     'rowid' : rowId
@@ -1121,24 +960,6 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             this.parent();
         },
 
-        isJson: function (item) {
-            item = typeof item !== "string"
-                ? JSON.stringify(item)
-                : item;
-        
-            try {
-                item = JSON.parse(item);
-            } catch (e) {
-                return false;
-            }
-        
-            if (typeof item === "object" && item !== null) {
-                return true;
-            }
-        
-            return false;
-        },
-
         init: function () {
             // Could be in a popup add record form, in which case we don't
             // want to ini on a main page load
@@ -1171,33 +992,15 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                                 // Need to get v if auto-complete and updating from posted popup form
                                 // as we only want to get ONE
                                 // option back inside update();
-                                var self = this;
                                 new Request.JSON({
-                                    url      : '/index.php?option=com_fabrik&view=form&format=raw',
-                                    'data'   : {
+                                    'url'      : 'index.php?option=com_fabrik&view=form&format=raw',
+                                    'data'     : {
                                         'formid': this.options.popupform,
                                         'rowid' : json.rowid
                                     },
-                                    onSuccess: function (json) {
-                                        self.update(json.data[this.options.key]);
-                                    },
-                                    onError: function (text, error){
-                                        var textString = text.toString();
-                                        var textSplitedArr = textString.split('</script>');
-                                        textSplitedArr.forEach(obj => {
-                                            if(!obj.test(/<script|<style/)){
-                                                var objJSON = JSON.parse(obj);
-                                                if(self.isJson(objJSON)){
-                                                    self.update(objJSON.data[self.options.key]);
-                                                    return;
-                                                }
-                                            }
-                                        });
-                                    },
-                                    onFailure: function (xhr){
-                                        console.log(xhr);
-                                    }
-                    
+                                    'onSuccess': function (json) {
+                                        this.update(json.data[this.options.key]);
+                                    }.bind(this)
                                 }).send();
                             }
                         } else {
