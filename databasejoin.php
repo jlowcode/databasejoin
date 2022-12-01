@@ -274,11 +274,12 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				
 				//In case of the user selected only recorded data in administration
 				$rowsResult = array();
-				foreach($rows as $row) {
+				//Commented to search all values from the database
+				/*foreach($rows as $row) {
 					if(in_array((string) $row->value, $ids)){
 						$rowsResult[] = $row;
 					}
-				}
+				}*/
 
 				$rows = empty($rowsResult) ? $rows : $rowsResult;
 			} else {
