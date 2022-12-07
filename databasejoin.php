@@ -1855,9 +1855,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$hiddenInputs .= '<input class="limit_query-' . $this->getElement()->name . '" type="hidden" value="' 
-			. htmlspecialchars(JComponentHelper::getParams('com_fabrik')->get('autocomplete_max_rows')) . '"/>';
+			. htmlspecialchars($params->get('dbjoin_autocomplete_rows')) . '"/>';
 
-		$params = $this->getParams();
 		$join_name = $params->get('join_db_name');
 
 		$selectedInput = '';
@@ -1985,7 +1984,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			'<input class="data_where-' . $this->getElement()->name . '" type="hidden" value="' . htmlspecialchars(json_encode($data_where)) . '"/>' .
 			'<input class="concat-' . $this->getElement()->name . '" type="hidden" value="' . htmlspecialchars(json_encode($concat)) . '"/>' .
 			'<input class="limit_query-' . $this->getElement()->name . '" type="hidden" value="' . 
-					htmlspecialchars(JComponentHelper::getParams('com_fabrik')->get('autocomplete_max_rows')) . '"/>';
+					htmlspecialchars($params->get('dbjoin_autocomplete_rows')) . '"/>';
 
 		// Iterates the default array to get the selected item's ids
 		foreach ($targetIds as $item_id) {
@@ -2055,7 +2054,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			'<input class="data_where-' . $this->getElement()->name . '" type="hidden" value="' . htmlspecialchars(json_encode($data_where)) . '"/>' .
 			'<input class="concat-' . $this->getElement()->name . '" type="hidden" value="' . htmlspecialchars(json_encode($concat)) . '"/>' .
 			'<input class="limit_query-' . $this->getElement()->name . '" type="hidden" value="' . 
-					htmlspecialchars(JComponentHelper::getParams('com_fabrik')->get('autocomplete_max_rows')) . '"/>';
+					htmlspecialchars($params->get('dbjoin_autocomplete_rows')) . '"/>';
 
 		//Update initial suggest
 		if($params->get('jsSuggest')) {
@@ -2177,7 +2176,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		$data .= '<input class="limit_query-' . $this->getElement()->name . '" type="hidden" value="' 
-			. htmlspecialchars(JComponentHelper::getParams('com_fabrik')->get('autocomplete_max_rows', '10')) . '"/>';
+			. htmlspecialchars($params->get('dbjoin_autocomplete_rows')) . '"/>';
 
 		// Iterates the default array to get the selected item's ids
 		foreach ($targetIds as $item_id) {
