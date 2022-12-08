@@ -5107,7 +5107,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$formData = &$this->getFormModel()->formDataWithTableName;
 		$tagIds = (array) $formData[$rawName];
 		$join = $this->getJoin();
-		
+		$storedJoins = false;
+
 		//Update of tags for databasejoin
 		if((bool) $params->get('moldTags')) {
 			$rootcat = $params->get('root_category2');
@@ -5145,6 +5146,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 			$formData[$name] = $tagIds;
 			$formData[$rawName] = $tagIds;
+			parent::onFinalStoreRow($data);
+			$storedJoins = true;
+		}
+
+		if(!$storedJoins) {
 			parent::onFinalStoreRow($data);
 		}
 	}
