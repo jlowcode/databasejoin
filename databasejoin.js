@@ -5,7 +5,8 @@
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-bootstrap'],
+define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-bootstrap', './autocompleteMultiselect', './multiSelectTreeView', 
+'./singleSelectTreeView', './multiSelectTreeviewAutocomplete', './singleSelectTreeviewAutocomplete', './autocompletemultiselectnovo'],
     function (jQuery, FbElement, Encoder, Fabrik, AutoComplete) {
     window.FbDatabasejoin = new Class({
         Extends: FbElement,
