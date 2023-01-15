@@ -38,16 +38,16 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
     - `Árvores Multi Seleção/Caixa de verificação`
     - `Multi seleção dropdown`
         
-        **Observação**: Há 2 modos de renderização de muitos para muitos e a Fabrik cria uma nova tabela de links chamada tablename_repeat_elementname para manter as referências de muitos para muitos.
+        **Observação**: Há 2 modos de renderização de muitos para muitos e o Fabrik cria uma nova tabela de *links* chamada *tablename_repeat_elementname* para manter as referências de muitos para muitos.
         - [Como sincronizar dados entre duas caixas de seleção de junção de banco de dados](http://fabrikar.com/forums/index.php?wiki/how-to-syncronize-two-tables-with-dbjoin-checkbox/) em duas tabelas diferentes.
 
-- `Conexão`:A conexão Fabrik que contém a tabela de banco de dados cujos dados queremos procurar para criar a lista
+- `Conexão`:A conexão Fabrik que contém a tabela de banco de dados cujos dados queremos procurar para criar a lista.
 
-     **Observação**: a Fabrik não pode unir conexões, portanto, a conexão selecionada deve ser a mesma da lista!
+     **Observação** - O Fabrik não pode unir conexões, portanto, a conexão selecionada deve ser a mesma da lista!
 
 - `Tabela`: A tabela do banco de dados que contém os dados de pesquisa (preenchida assim que uma conexão é selecionada).
 
-- `Valor`: No formulário, o valor desse elemento é usado como valor do menu suspenso. É esse valor que é registrado no banco de dados. Deve ser um valor exclusivo na tabela unida, geralmente a chave primária.
+- `Valor`: No formulário, o valor desse elemento é usado como valor do menu dropdowns É esse valor que é registrado no banco de dados. Deve ser um valor exclusivo na tabela unida, geralmente a chave primária.
 
 - `Rótulo`: No formulário, este é o dado que aparecerá na caixa dropdown. Ela também será usada ao ver uma lista do fabrik.
 
@@ -66,30 +66,31 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
      - Se seus campos contiverem valores NULL, você precisará convertê-los em *strings* vazias. 
        
          **Código(Texto)**: 
-
-              ISNULL(FirstName,''),'',ISNULL(LastName,'')
-            
+         ```
+           ISNULL(FirstName,''),'',ISNULL(LastName,'')
+         ``` 
             
      - Se você deseja definir um rótulo de um valor de dados que não é um espaço reservado disponível, você pode usar o MySQL Concat para recuperar o valor incorporando uma subconsulta no campo CONTACT Label: 
       
-     **Código(Texto)**: 
-     
+     **Código(SQL)**: 
+     ```sql
        (SELECT `column_containing_desired_value` FROM other_table WHERE `id` = {thistable}.field_containing_foreign_key)
-    
+     ```
     
     - Ao concatenar datas, esteja ciente de que elas serão retornadas como a data GMT, sem o fuso horário do Joomla aplicado a elas. 
      
       **Código(SQL)**:
-    
+    ```SQL
           DATE_FORMAT(CONVERT_TZ(gs_list_talks.talk_date,'+00:00','+2:00'), '%d-%m-%Y'),' - ',gs_list_talks.talk_name
-          
+    ```    
           
      - Se o rótulo do seu dbjoin for um valor dbjoin, obtenha seu rótulo com 
        
        **Código(SQL)**:
-      
+      ```SQL
             (SELECT name FROM table2 WHERE table2.id = {thistable}.element)
-      
+       ``` 
+       
 - `Sugestão Inicial`: Ao clicar na caixa de seleção será apresentado uma sugestão dos dados presentes neste elemento.
 
 - `Tags`: Realiza o funcionamento deste plugin como tags. Aplicável a `Árvore/Autocompletar` e a `Árvore Multi Seleção/Caixa de verificação`.
