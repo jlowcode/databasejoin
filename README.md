@@ -10,7 +10,7 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
   - [Data-where](#data-where)
       - [Notas sobre o uso do AJAX Update](#notas-sobre-o-uso-do-AJAX-Update)
   - [Por favor selecione](#por-favor-selecione)
-  - [Adicionar opção no frontend]
+  - [Adicionar opção no frontend](#adicionar-opção-no-frontend)
   - [Layout]
   - [Avançado]
 
@@ -236,6 +236,7 @@ No exemplo acima, {thistable}.view_level é o elemento de suas listas que armaze
 - `Seleção de frontend`:Fornece um botão que exibe a lista unida, permitindo que o usuário pesquise o registro que deseja.
 
 **OBSERVAÇÃO** - Você também deve selecionar um formulário na seleção 'Formulário pop-up' acima, mesmo que não esteja usando a opção 'Adicionar no frontend'.
+
 **NOTA**: O 'Valor' do elemento DEVE ser definido como a chave primária para que esta opção funcione.
 
 
