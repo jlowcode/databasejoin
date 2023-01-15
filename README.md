@@ -21,6 +21,8 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
 
 ### Opções
 
+<img src="/images/1.png" width="900px" />
+
 - `Opções de avaliação`: Código PHP para executar para alteração nas opções de elementos. Cada opção é um objeto e pode ser referenciado no código de avaliação com a variável $opt. Ela tem duas propriedades $opt->value e $opt->text.
 -  `Padão`: O valor padrão para selecionar ao mostrar um novo formulário.
 - `Oculto`:  É o elemento mostrado no formulário como um campo oculto.
