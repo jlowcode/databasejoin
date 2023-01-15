@@ -92,11 +92,11 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
 - `Ocultar itens já vinculados`:
  
 - `Joins where and/or order  by statement (SQL)`: OPCIONAL - Uma cláusula SQL Select "Where" que filtra os dados retornados. 
-    - Por exemplo, para mostrar apenas registros com publicado = 1:
+  - Por exemplo, para mostrar apenas registros com publicado = 1:
 
-  **Código(SQL)**:
-  
-      WHERE `published` = 1
+      **Código(SQL)**:
+
+          WHERE `published` = 1
 
   - Ou para mostrar apenas um conjunto de usuários que pertencem ao grupo id 14:
 
