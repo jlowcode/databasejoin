@@ -53,7 +53,7 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
 
 - `Ou concatenar rótulo`: Uma lista separada por vírgulas de dados e/ou strings que você deseja usar para o rótulo de junção do banco de dados. (por exemplo, `pessoas.último_nome, ', ', pessoas.primeiro_nome` pode produzir um rótulo de `Smith, John`) Deixe em branco como padrão para o rótulo selecionado no menu suspenso acima. Use o espaço reservado {thistable} para garantir que você use o nome da tabela correto (que pode ser sufixado com '_n' no caso de mais de uma junção na mesma tabela)
     
-    #### Exemplos
+      #### Exemplos
     
           lastname, ' ', firstname
       
