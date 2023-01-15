@@ -7,7 +7,7 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
   - [Opções](#opcoes)
   - [Dados](#dados)
     - [Ou concatenar rótulo - exemplos](#exemplos)
-  - [Data-where]
+  - [Data-where](#data)
   - [Por favor seleciona]
   - [Adicionar opção no frontend]
   - [Layout]
@@ -86,5 +86,12 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
 
 - `Tags`: Realiza o funcionamento deste plugin como tags. Aplicável a `Árvore/Autocompletar` e a `Árvore Multi Seleção/Caixa de verificação`.
 
+### Data-Where
 
+- `Ocultar itens já vinculados`:
+- `Joins where and/or order  by statement (SQL)`:
+- `Aplicar a`:
+- `Aplicar onde e quando`:
+- `AJAX Update`:
+- `Filter Where`:
 
