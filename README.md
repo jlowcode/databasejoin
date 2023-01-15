@@ -82,7 +82,9 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
       
             (SELECT name FROM table2 WHERE table2.id = {thistable}.element)
       
-- `Sugestão Inicial`:
-- `Tags`:
+- `Sugestão Inicial`: Ao clicar na caixa de seleção será apresentado uma sugestão dos dados presentes neste elemento.
+
+- `Tags`: Realiza o funcionamento deste plugin como tags. Aplicável a `Árvore/Autocompletar` e a `Árvore Multi Seleção/Caixa de verificação`.
+
 
 
