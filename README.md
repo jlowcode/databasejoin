@@ -56,24 +56,28 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
      #### Exemplos
             
      - Se seus campos contiverem valores NULL, você precisará convertê-los em *strings* vazias. 
+       
        **Código(Texto)**: 
                   
             ISNULL(FirstName,''),'',ISNULL(LastName,'')
             
             
      - Se você deseja definir um rótulo de um valor de dados que não é um espaço reservado disponível, você pode usar o MySQL Concat para recuperar o valor incorporando uma subconsulta no campo CONTACT Label: 
+      
       **Código(Texto)**: 
      
-          (SELECT `column_containing_desired_value` FROM other_table WHERE `id` = {thistable}.field_containing_foreign_key)
+            (SELECT `column_containing_desired_value` FROM other_table WHERE `id` = {thistable}.field_containing_foreign_key)
     
     
     - Ao concatenar datas, esteja ciente de que elas serão retornadas como a data GMT, sem o fuso horário do Joomla aplicado a elas. 
+     
      **Código(SQL)**:
     
           DATE_FORMAT(CONVERT_TZ(gs_list_talks.talk_date,'+00:00','+2:00'), '%d-%m-%Y'),' - ',gs_list_talks.talk_name
           
           
      - Se o rótulo do seu dbjoin for um valor dbjoin, obtenha seu rótulo com 
+       
        **Código(SQL)**:
       
             (SELECT name FROM table2 WHERE table2.id = {thistable}.element)
