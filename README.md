@@ -12,7 +12,10 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
   - [Por favor selecione](#por-favor-selecione)
   - [Adicionar opção no frontend](#adicionar-opção-no-frontend)
   - [Layout](#layout)
-  - [Avançado]
+  - [Avançado](#avançado)
+- [Validações](#validações)
+  - [Se database join não for de seleção múltipla](#se-database-join-não-for-de-seleção-múltipla)
+  - [Se database join for de seleção múltipla](#se-database-join-for-de-seleção-múltipla)
 
 ### Configurações
 
@@ -252,6 +255,53 @@ No exemplo acima, {thistable}.view_level é o elemento de suas listas que armaze
 - `Tamanho da sugestão inicial`: Defina a quantidade de linhas a serem sugeridas se o campo sugestão inicial estiver ativado.
 - `Comprimento dos caracteres dos valores de pesquisa`: Comprimento dos caracteres dos valores de pesquisa para não passar da caixa de seleção. Veja o tamanho necessário no frontend.
 
+### Avançado
 
+- `Eval options`: Código PHP a ser executado para alterar as opções do elemento. Seu código é chamado repetidamente, uma vez para cada opção. Cada opção é um objeto e pode ser referenciada no código eval com a variável $opt. Ele tem duas propriedades que você pode alterar, $opt->value e $opt->text. Você também pode definir $opt->disable como true, o que desativará essa opção em um contexto suspenso (embora ainda funcione como o valor atualmente selecionado durante a edição). Retorne false para remover a opção.
 
+    Este é um recurso extremamente poderoso. Você pode usar $row para obter valores de outros elementos na linha - e para remover uma opção, simplesmente retorne false.
 
+Por exemplo, neste código estou verificando 2 outros elementos que determinam se uma determinada opção deve estar disponível. E eu quero mudar o rótulo dessa mesma opção de outra forma. 
+
+**Código(PHP)**:
+
+    if($opt->value == 1) {
+        if( (int) $data['fb_conglomerates___hosp_count_raw'] > 0 && (int) $data['fb_conglomerates___part_of_hospital_system_raw'] <> 2 ){
+            return false;
+        } else {
+            $opt->text = 'Hospital';
+        }
+    }
+    
+ 
+Aqui está um exemplo de uso: se você juntar seu elemento a um campo de data, os valores exibidos estarão no formato MySQL. Ou seja, '7 de dezembro de 2014' seria exibido como '2014-12-07 00:00:00', o que não é muito amigável. Portanto, se você deseja mostrar datas legíveis, use o seguinte código:
+
+**Código(PHP)**:
+
+    $date = new DateTime($opt->text);
+    $opt->text =  $date->format('l j F Y');
+
+**Observação** - O código a seguir retornaria apenas a data em inglês. Se você tiver um site multilíngue, use a função JDate (observe o "F" maiúsculo em "Formato"):
+
+**Código(PHP)**:
+
+    $date = new JDate($opt->text);
+    $opt->text = $date->Format('l j F Y');
+    
+**Nota**: isso funcionaria no Joomla 3. Para o Joomla 2.5, use 'toFormat' em vez de 'Format'.
+- `Descrição do campo`: Selecione um campo da tabela unida que contém uma descrição adicional. Isso será mostrado ao lado do elemento e será atualizado com o conteúdo relacionado cada vez que o usuário selecionar uma opção diferente.
+- `Auto-complete how`: Para junções de preenchimento automático, controla se as opções são todas as entradas que contêm a *string* fornecida, apenas aquelas que começam com a *string* ou aquelas que contêm todas as palavras individualmente.
+- `Trim empty concats`: Usado quando você está usando a opção 'data->Or Concat label' com constantes de string, por exemplo <pre>'ref:',{thistable}.field</p.
+
+### Validações 
+
+Para verificar se uma opção está selecionada, adicione uma validação "isnot".
+
+#### Se database join **não** for de seleção múltipla
+
+Adicione um valor padrão à opção "Selecione"
+Na validação "isnot" coloque este valor no campo "isnot".
+
+#### Se database join for de seleção múltipla
+
+Na validação "isnot" deixe o campo "isnot" vazio.
