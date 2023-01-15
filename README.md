@@ -28,9 +28,9 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
     - `Árvore/Autocompletar`
     - `Árvores Multi Seleção/Caixa de verificação`
     - `Multi seleção dropdown`
+        
         **Observação**: Há 2 modos de renderização de muitos para muitos e a Fabrik cria uma nova tabela de links chamada tablename_repeat_elementname para manter as referências de muitos para muitos.
-
-        - Como sincronizar dados entre duas caixas de seleção de junção de banco de dados[http://fabrikar.com/forums/index.php?wiki/how-to-syncronize-two-tables-with-dbjoin-checkbox/] em duas tabelas diferentes.
+        - [Como sincronizar dados entre duas caixas de seleção de junção de banco de dados](http://fabrikar.com/forums/index.php?wiki/how-to-syncronize-two-tables-with-dbjoin-checkbox/) em duas tabelas diferentes.
 
 
 - `Conexão`:
