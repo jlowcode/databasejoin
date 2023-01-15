@@ -8,8 +8,8 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
   - [Dados](#dados)
     - [Ou concatenar rótulo - exemplos](#exemplos)
   - [Data-where](#data-where)
-      - [Notas sobre o uso do AJAX Update](notas_sobre_o_uso_do_AJAX_Update)
-  - [Por favor selecione](por-favor-selecione)
+      - [Notas sobre o uso do AJAX Update](#notas-sobre-o-uso-do-AJAX-Update)
+  - [Por favor selecione](#por-favor-selecione)
   - [Adicionar opção no frontend]
   - [Layout]
   - [Avançado]
