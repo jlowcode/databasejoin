@@ -9,7 +9,7 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
     - [Ou concatenar rótulo - exemplos](#exemplos)
   - [Data-where](#data-where)
       - [Notas sobre o uso do AJAX Update](notas-sobre-o-uso-do-AJAX-Update)
-  - [Por favor seleciona]
+  - [Por favor selecione](por-favor-selecione)
   - [Adicionar opção no frontend]
   - [Layout]
   - [Avançado]
@@ -218,4 +218,13 @@ A consulta de exemplo ficaria assim:
     WHERE user_id ='{$my->id}')
     
 No exemplo acima, {thistable}.view_level é o elemento de suas listas que armazena o ID de viewlevels do Joomla. A consulta faz referência à tabela viewlevels do Joomla e à tabela user_usergroup_map do Joomla para determinar quais registros na tabela unida correspondem aos níveis de exibição autorizados do usuário conectado no momento. Isso remove do menu suspenso do filtro de junção do banco de dados todos os registros que o usuário não está autorizado a ver. 
+
+### Por favor selecione
+
+- `Exibir por favor selecione`: Se definido para renderizar como um dropdown, você pode alternar se uma opção de seleção está incluída na lista. Não afeta listas de rádio.
+-  `Valor da opção 'Por favor selecione'`: O texto a ser registrado no banco de dados se nenhuma opção for selecionada no elemento.
+-  `Rótulo da opção 'Por favor selecione'`: O rótulo a ser exibido para a opção 'Selecione' - se nenhum for inserido, o padrão é 'Selecione'. Para modificar o rótulo mostrado no filtro suspenso (padrão "Todos"), anexe-o com ::, então selecione uma cidade::Mostrar todas as cidades.
+-  `Placeeholdere`: Espaço reservado HTML5 para campo de preenchimento automático.
+
+
 
