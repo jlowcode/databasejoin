@@ -3,8 +3,8 @@
 O elemento Database join é extremamente poderoso. Ele permite que você procure dados em outra tabela de banco de dados e preencha previamente uma lista de opções ou uma lista suspensa com os dados retornados da pesquisa. Por exemplo, você pode criar facilmente uma lista suspensa contendo todos os seus artigos Joomla ou uma lista de países.
 
 ### Sumário
-- [Configurações](#configuraçõess)
-  - [Opções](#opçõess)
+- [Configurações](#configurações)
+  - [Opções](#opções)
   - [Dados](#dados)
     - [Ou concatenar rótulo - exemplos](#exemplos)
   - [Data-where](#data-where)
