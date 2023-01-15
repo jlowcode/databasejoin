@@ -29,6 +29,8 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
 
 # Dados 
 
+<img src="/images/2.jpeg" width="900px" />
+
 - `Render as`: Define se exibe a associação como uma caixa dropdown ou uma série de botões de rádio. Além disso, se não estiver oculto, é possível renderizae os elemento como:
     - `Dropdown`
     - `Lista de radio`
@@ -93,6 +95,8 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
 - `Tags`: Realiza o funcionamento deste plugin como tags. Aplicável a `Árvore/Autocompletar` e a `Árvore Multi Seleção/Caixa de verificação`.
 
 ### Data-Where
+
+<img src="/images/3.jpeg" width="900px" />
 
 - `Ocultar itens já vinculados`:
  
@@ -226,12 +230,16 @@ No exemplo acima, {thistable}.view_level é o elemento de suas listas que armaze
 
 ### Por favor selecione
 
+<img src="/images/4.png" width="900px" />
+
 - `Exibir por favor selecione`: Se definido para renderizar como um dropdown, você pode alternar se uma opção de seleção está incluída na lista. Não afeta listas de rádio.
 -  `Valor da opção 'Por favor selecione'`: O texto a ser registrado no banco de dados se nenhuma opção for selecionada no elemento.
 -  `Rótulo da opção 'Por favor selecione'`: O rótulo a ser exibido para a opção 'Selecione' - se nenhum for inserido, o padrão é 'Selecione'. Para modificar o rótulo mostrado no filtro suspenso (padrão "Todos"), anexe-o com ::, então selecione uma cidade::Mostrar todas as cidades.
 -  `Placeeholdere`: Espaço reservado HTML5 para campo de preenchimento automático.
 
 ### Adicionar opção no frontend
+
+<img src="/images/5.png" width="900px" />
 
 - `Formulário popup`: Selecione o formulário que corresponde à tabela do banco de dados à qual a associação está conectada. Este é o formulário que é carregado na janela popup quando o botão "adicionar" é pressionado.
 - `Adicionar opção no frontend`: Se um 'Formulário popup' for selecionado, um botão Adicionar será adicionado ao elemento. Quando clicado, abrirá um formulário para adicionar novos registros.
@@ -246,6 +254,8 @@ No exemplo acima, {thistable}.view_level é o elemento de suas listas que armaze
 
 ### Layout
 
+<img src="/images/6.png" width="900px" />
+
 - `Enhanced Dropdowns`: Aprimora o comportamento do menu suspenso usando jQuery Chosen (semelhante ao Select2), que, por exemplo, fornece uma caixa de pesquisa se houver mais de 10 itens e fornece widgets que podem ser excluídos para seleção múltipla.
         **Observação***: Para que o Enhanced Dropdowns funcionem, você deve ativar o Enhanced Dropdowns na guia opções de Formulários do Fabrik. Você pode desativar ou ativar o Enhanced Dropdowns globalmente ou por elemento. 
 - `Opções por linha`:  Ao renderizar como um rádio ou lista de caixa de seleção, isso define quantos botões de rádio mostrar por linha, o padrão é 1.
@@ -258,6 +268,8 @@ No exemplo acima, {thistable}.view_level é o elemento de suas listas que armaze
 - `Comprimento dos caracteres dos valores de pesquisa`: Comprimento dos caracteres dos valores de pesquisa para não passar da caixa de seleção. Veja o tamanho necessário no frontend.
 
 ### Avançado
+
+<img src="/images/7.png" width="900px" />
 
 - `Eval options`: Código PHP a ser executado para alterar as opções do elemento. Seu código é chamado repetidamente, uma vez para cada opção. Cada opção é um objeto e pode ser referenciada no código eval com a variável $opt. Ele tem duas propriedades que você pode alterar, $opt->value e $opt->text. Você também pode definir $opt->disable como true, o que desativará essa opção em um contexto suspenso (embora ainda funcione como o valor atualmente selecionado durante a edição). Retorne false para remover a opção.
 
@@ -297,6 +309,8 @@ Aqui está um exemplo de uso: se você juntar seu elemento a um campo de data, o
 - `Trim empty concats`: Usado quando você está usando a opção 'data->Or Concat label' com constantes de string, por exemplo <pre>'ref:',{thistable}.field</p.
 
 ### Validações 
+
+<img src="/images/8.png" width="900px" />
 
 Para verificar se uma opção está selecionada, adicione uma validação "isnot".
 
