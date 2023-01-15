@@ -106,30 +106,33 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
   - Por exemplo, para mostrar apenas registros com publicado = 1:
 
       **Código(SQL)**:
-
-          WHERE `published` = 1
+      ```sql
+         WHERE `published` = 1
+       ```
 
   - Ou para mostrar apenas um conjunto de usuários que pertencem ao grupo id 14:
 
       **Código(SQL)**:
-
-        WHERE {thistable}.`username`
-            IN ( SELECT jos_users.username FROM jos_users, jos_user_usergroup_map
-                WHERE jos_users.id = jos_user_usergroup_map.user_id
-                AND jos_user_usergroup_map.group_id = 14)
+      ```sql
+          WHERE {thistable}.`username`
+              IN ( SELECT jos_users.username FROM jos_users, jos_user_usergroup_map
+                  WHERE jos_users.id = jos_user_usergroup_map.user_id
+                  AND jos_user_usergroup_map.group_id = 14)
+       ```
 
   - Você também pode adicionar um ORDER BY:
 
       **Código(SQL)**:
-
-        WHERE {thistable}.published = '1' ORDER BY {thistable}.somefield ASC
-
+      ```sql
+         WHERE {thistable}.published = '1' ORDER BY {thistable}.somefield ASC
+      ```
+      
   - Se você precisar adicionar um pedido, mas não precisar de uma cláusula WHERE, basta usar alguma cláusula que sempre retorne true, como:
 
       **Código(SQL)**:
-
-        WHERE 1=1 ORDER BY {thistable}.somefield ASC
-    
+      ```sql
+         WHERE 1=1 ORDER BY {thistable}.somefield ASC
+      ```
 **Nota**: Use o espaço reservado {thistable} para referenciar a tabela que você está juntando, em vez do nome da tabela real. Isso ocorre porque, se você tiver várias junções na mesma tabela, a Fabrik usará aliases para diferenciar as junções, como "SELECT yourtable AS yourtable_0", e não há como saber qual alias uma determinada junção terá. Portanto, a Fabrik substituirá {thistable} pelo alias apropriado.
 
 - `Aplicar a`: Selecione qual nível de visualização do usuário terá a instrução join where aplicada a eles.
@@ -141,8 +144,10 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
   - Exemplo com `AJAX Update`:
     Se eu tiver uma tabela de códigos postais por município e quiser apresentar apenas os códigos postais dentro de um município selecionado {esse município está no elemento "table_name___selected_county" então este código apresentará apenas os códigos postais desse município.
     
+     **Código(SQL)**:
+      ```sql
         WHERE county = '{table_name___selected_county_raw}'
-        
+      ```
    #### Notas sobre o uso do AJAX Update.
    
    - Um dos desafios do AJAX Updateé que você pode precisar 'disparar' o evento que faz com que o dbjoin seja preenchido no carregamento da página. O elemento 'controlling' não é 'alterado' no carregamento, portanto, a atualização do AJAX nunca é acionada para preencher o menu suspenso. Se a primeira etapa do usuário for preencher/escolher algo no elemento de controle, o evento change será acionado e esse elemento dbjoin será preenchido.
@@ -155,78 +160,80 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
    - Na caixa javascript, adicione o seguinte. **Nota**: modificado para usar jQuery em vez de mootools.bg
 
   **Código(JavaScript)**:
- 
+  ```javascript
       loadDBList(this);
-
+  ```
 
    - Isso chamará uma função no arquivo form_x.js (onde _x é o número do formulário).
    - Essa função deve ser:
 
  **Código(JavaScript)**:
- 
+ ```javascript
       function loadDBList(el) {
           var usedID = jQuery('#table___controlling' );
           usedID[0].fireEvent('change');
       }
- 
+  ```
  
   - Isso causará um evento de 'alteração' do elemento de controle, como se o usuário o tivesse alterado - portanto, o elemento dbjoin será preenchido. Se você definir o padrão no elemento de controle, o dbjoin será filtrado pelo valor padrão.
   - Se o campo de controle e o campo dbjoin estiverem em um grupo repetido, você precisará modificar o código para contabilizar o _x adicionado ao nome do campo no grupo repetido. O código é então.
 
 
  **Código(JavaScript)**:
- 
+  ```javascript
       função loadDBList ( el ) {
           var repeat = el. getRepeatNum ( ) ;
           var usadoID = jQuery ( 'table___controlling' + repeat ) ;
           ID usado [ 0 ] . fireEvent ( 'alterar' ) ;
       }
-      
+    ```
   
   - Versão um pouco mais elegante. Se você chamar o javascript do elemento "controlador", poderá evitar parte do incômodo de criar o nome do elemento. Isso é particularmente bom se você estiver trabalhando em grupos repetidos onde precisa lidar com repeatNum.
 
 
  **Código(JavaScript)**:
- 
+ ```javascript
     function loadStateList(el) {
         var elementName = '#' + el['strElement'];
         var usedID = jQuery(elementName);
         usedID[0].fireEvent('change');
     }
+ ```
     
    Ou
   
   
  **Código(JavaScript)**:
- 
+ ```javascript
      function loadStateList(el) {
       var usedID = jQuery('#' + el['strElement']);
       usedID[0].fireEvent('change');
     }
- 
+ ```
 
  Neste caso, *el* contém o nome do elemento em ['strElement']. Você pode adicionar o "#" e disparar o evento.
 
-**Observação**: Muitas vezes, os menus suspensos em cascata serão menos complicados - mas podem não funcionar em todos os casos . 
+**Observação** - Muitas vezes, os menus suspensos em cascata serão menos complicados - mas podem não funcionar em todos os casos . 
 
 
 - `Filter Where`: OPCIONAL - semelhante a "instrução de joins where", mas adiciona uma cláusula where à consulta usada para criar a lista de opções quando esse elemento é usado como um filtro de lista. Atualmente aplicado apenas se você estiver usando o método "Mostrar tudo" para suas opções de filtro, em que todas as linhas da tabela unida são incluídas na lista de filtros. Não prefixe isso com WHERE, AND, OR, etc. Portanto, por exemplo, para restringir seu filtro suspenso apenas às linhas com um campo chamado show_in_filter definido como 1, você usuário:
 
  **Código(SQL)**:
- 
+ ```sql
     {thistable}.show_in_filter = '1'
-    
+ ```
 **Dica**:
 Se você estiver ingressando em uma lista que possui um elemento que armazena um view_level, você pode filtrar as opções suspensas disponíveis para o usuário conectado com base no view_level armazenado nesse elemento de sua lista ingressada.
 
 A consulta de exemplo ficaria assim: 
 
-**Código(Texto)**:
-
+**Código(SQL)**:
+```sql
     {thistable}.view_level IN (SELECT DISTINCT `#__viewlevels`.`id`
     FROM #__user_usergroup_map
     LEFT JOIN #__viewlevels ON REPLACE(REPLACE(rules,'[',','),']',',') LIKE CONCAT('%,',`group_id`,',%')
     WHERE user_id ='{$my->id}')
+ ```
     
 No exemplo acima, {thistable}.view_level é o elemento de suas listas que armazena o ID de viewlevels do Joomla. A consulta faz referência à tabela viewlevels do Joomla e à tabela user_usergroup_map do Joomla para determinar quais registros na tabela unida correspondem aos níveis de exibição autorizados do usuário conectado no momento. Isso remove do menu suspenso do filtro de junção do banco de dados todos os registros que o usuário não está autorizado a ver. 
 
@@ -294,17 +301,19 @@ Por exemplo, neste código estou verificando 2 outros elementos que determinam s
 Aqui está um exemplo de uso: se você juntar seu elemento a um campo de data, os valores exibidos estarão no formato MySQL. Ou seja, '7 de dezembro de 2014' seria exibido como '2014-12-07 00:00:00', o que não é muito amigável. Portanto, se você deseja mostrar datas legíveis, use o seguinte código:
 
 **Código(PHP)**:
-
+ ```php
     $date = new DateTime($opt->text);
     $opt->text =  $date->format('l j F Y');
+ ```
 
 **Observação** - O código a seguir retornaria apenas a data em inglês. Se você tiver um site multilíngue, use a função JDate (observe o "F" maiúsculo em "Formato"):
 
 **Código(PHP)**:
-
+```php
     $date = new JDate($opt->text);
     $opt->text = $date->Format('l j F Y');
-    
+ ```
+ 
 **Nota**: isso funcionaria no Joomla 3. Para o Joomla 2.5, use 'toFormat' em vez de 'Format'.
 - `Descrição do campo`: Selecione um campo da tabela unida que contém uma descrição adicional. Isso será mostrado ao lado do elemento e será atualizado com o conteúdo relacionado cada vez que o usuário selecionar uma opção diferente.
 - `Auto-complete how`: Para junções de preenchimento automático, controla se as opções são todas as entradas que contêm a *string* fornecida, apenas aquelas que começam com a *string* ou aquelas que contêm todas as palavras individualmente.
