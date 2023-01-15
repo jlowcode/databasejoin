@@ -191,7 +191,7 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
      function loadStateList(el) {
       var usedID = jQuery('#' + el['strElement']);
       usedID[0].fireEvent('change');
-  }
+    }
  
 
  Neste caso, *el* contém o nome do elemento em ['strElement']. Você pode adicionar o "#" e disparar o evento.
@@ -225,6 +225,19 @@ No exemplo acima, {thistable}.view_level é o elemento de suas listas que armaze
 -  `Valor da opção 'Por favor selecione'`: O texto a ser registrado no banco de dados se nenhuma opção for selecionada no elemento.
 -  `Rótulo da opção 'Por favor selecione'`: O rótulo a ser exibido para a opção 'Selecione' - se nenhum for inserido, o padrão é 'Selecione'. Para modificar o rótulo mostrado no filtro suspenso (padrão "Todos"), anexe-o com ::, então selecione uma cidade::Mostrar todas as cidades.
 -  `Placeeholdere`: Espaço reservado HTML5 para campo de preenchimento automático.
+
+### Adicionar opção no frontend
+
+- `Formulário popup`: Selecione o formulário que corresponde à tabela do banco de dados à qual a associação está conectada. Este é o formulário que é carregado na janela popup quando o botão "adicionar" é pressionado.
+- `Adicionar opção no frontend`: Se um 'Formulário popup' for selecionado, um botão Adicionar será adicionado ao elemento. Quando clicado, abrirá um formulário para adicionar novos registros.
+- `Abrir em páina em branco`: Se selecionado então abre o formulário em uma nova aba.
+- `Largura da janela popup`: A largura da janela popup em pixels.
+- `Link para registro associado`: Aplica-se quando em uma exibição detalhada ou se os níveis de acesso do elemento significam que ele está configurado para ler somente quando estiver em um formulário. Se esta opção for selecionada, o valor somente leitura será colocado em um link. Este link aponta para uma visualização detalhada do registro referenciado pelos dados do elemento join do banco de dados.
+- `Seleção de frontend`:Fornece um botão que exibe a lista unida, permitindo que o usuário pesquise o registro que deseja.
+
+**OBSERVAÇÃO** - Você também deve selecionar um formulário na seleção 'Formulário pop-up' acima, mesmo que não esteja usando a opção 'Adicionar no frontend'.
+**NOTA**: O 'Valor' do elemento DEVE ser definido como a chave primária para que esta opção funcione.
+
 
 
 
