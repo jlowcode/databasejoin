@@ -8,7 +8,7 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
   - [Dados](#dados)
     - [Ou concatenar rótulo - exemplos](#exemplos)
   - [Data-where](#data-where)
-    [Notas sobre o uso do AJAX Update]
+      - [Notas sobre o uso do AJAX Update](notas-sobre-o-uso-do-AJAX-Update)
   - [Por favor seleciona]
   - [Adicionar opção no frontend]
   - [Layout]
@@ -91,32 +91,33 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
 
 - `Ocultar itens já vinculados`:
  
-- `Joins where and/or order  by statement (SQL)`: OPCIONAL - Uma cláusula SQL Select "Where" que filtra os dados retornados. Por exemplo, para mostrar apenas registros com publicado = 1:
+- `Joins where and/or order  by statement (SQL)`: OPCIONAL - Uma cláusula SQL Select "Where" que filtra os dados retornados. 
+    - Por exemplo, para mostrar apenas registros com publicado = 1:
 
   **Código(SQL)**:
   
       WHERE `published` = 1
 
-Ou para mostrar apenas um conjunto de usuários que pertencem ao grupo id 14:
+  - Ou para mostrar apenas um conjunto de usuários que pertencem ao grupo id 14:
 
-  **Código(SQL)**:
+      **Código(SQL)**:
 
-    WHERE {thistable}.`username`
-        IN ( SELECT jos_users.username FROM jos_users, jos_user_usergroup_map
-            WHERE jos_users.id = jos_user_usergroup_map.user_id
-            AND jos_user_usergroup_map.group_id = 14)
+        WHERE {thistable}.`username`
+            IN ( SELECT jos_users.username FROM jos_users, jos_user_usergroup_map
+                WHERE jos_users.id = jos_user_usergroup_map.user_id
+                AND jos_user_usergroup_map.group_id = 14)
 
-Você também pode adicionar um ORDER BY:
+  - Você também pode adicionar um ORDER BY:
 
-  **Código(SQL)**:
-  
-    WHERE {thistable}.published = '1' ORDER BY {thistable}.somefield ASC
+      **Código(SQL)**:
 
-Se você precisar adicionar um pedido, mas não precisar de uma cláusula WHERE, basta usar alguma cláusula que sempre retorne true, como:
+        WHERE {thistable}.published = '1' ORDER BY {thistable}.somefield ASC
 
-  **Código(SQL)**:
+  - Se você precisar adicionar um pedido, mas não precisar de uma cláusula WHERE, basta usar alguma cláusula que sempre retorne true, como:
 
-    WHERE 1=1 ORDER BY {thistable}.somefield ASC
+      **Código(SQL)**:
+
+        WHERE 1=1 ORDER BY {thistable}.somefield ASC
     
 **Nota**: Use o espaço reservado {thistable} para referenciar a tabela que você está juntando, em vez do nome da tabela real. Isso ocorre porque, se você tiver várias junções na mesma tabela, a Fabrik usará aliases para diferenciar as junções, como "SELECT yourtable AS yourtable_0", e não há como saber qual alias uma determinada junção terá. Portanto, a Fabrik substituirá {thistable} pelo alias apropriado.
 
