@@ -11,7 +11,7 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
       - [Notas sobre o uso do AJAX Update](#notas-sobre-o-uso-do-AJAX-Update)
   - [Por favor selecione](#por-favor-selecione)
   - [Adicionar opção no frontend](#adicionar-opção-no-frontend)
-  - [Layout]
+  - [Layout](#layout)
   - [Avançado]
 
 ### Configurações
@@ -238,6 +238,19 @@ No exemplo acima, {thistable}.view_level é o elemento de suas listas que armaze
 **OBSERVAÇÃO** - Você também deve selecionar um formulário na seleção 'Formulário pop-up' acima, mesmo que não esteja usando a opção 'Adicionar no frontend'.
 
 **NOTA**: O 'Valor' do elemento DEVE ser definido como a chave primária para que esta opção funcione.
+
+### Layout
+
+- `Enhanced Dropdowns`: Aprimora o comportamento do menu suspenso usando jQuery Chosen (semelhante ao Select2), que, por exemplo, fornece uma caixa de pesquisa se houver mais de 10 itens e fornece widgets que podem ser excluídos para seleção múltipla.
+        **Observação***: Para que o Enhanced Dropdowns funcionem, você deve ativar o Enhanced Dropdowns na guia opções de Formulários do Fabrik. Você pode desativar ou ativar o Enhanced Dropdowns globalmente ou por elemento. 
+- `Opções por linha`:  Ao renderizar como um rádio ou lista de caixa de seleção, isso define quantos botões de rádio mostrar por linha, o padrão é 1.
+- `Multi select max`: Trabalho em andamento: recurso experimental para permitir a especificação de um número máximo de seleções ao usar menus suspensos aprimorados, no modo de seleção múltipla.
+- `Tamanho da multi-lista`: Se a junção for renderizada como uma lista múltipla, esse valor inteiro especifica a altura da lista.
+- `Auto-complete widh`: Valor do atributo de tamanho para campo de entrada/exibição de preenchimento automático. Só afeta o tamanho visível se não estiver dentro de um modelo bootstrap. Caso contrário, use a opção "classe de inicialização".
+- `Auto-complete rows`: Defina o número máximo de opções de preenchimento automático a serem exibidas no Enhanced Dropdowns.
+- `Bootstrap class` - Use isso para definir a largura do campo, se o seu site usar um modelo Bootstrap.
+- `Tamanho da sugestão inicial`: Defina a quantidade de linhas a serem sugeridas se o campo sugestão inicial estiver ativado.
+- `Comprimento dos caracteres dos valores de pesquisa`: Comprimento dos caracteres dos valores de pesquisa para não passar da caixa de seleção. Veja o tamanho necessário no frontend.
 
 
 
