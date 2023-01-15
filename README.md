@@ -85,7 +85,7 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
         DATE_FORMAT(CONVERT_TZ(gs_list_talks.talk_date,'+00:00','+2:00'), '%d-%m-%Y'),' - ',gs_list_talks.talk_name
       ```    
           
-     - Se o rótulo do seu dbjoin for um valor dbjoin, obtenha seu rótulo com 
+     - Se o rótulo do seu dbjoin for um valor dbjoin, obtenha seu rótulo com:
      
         **Código(SQL)**:
         ```sql
@@ -133,14 +133,14 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
       ```sql
          WHERE 1=1 ORDER BY {thistable}.somefield ASC
       ```
-**Nota**: Use o espaço reservado {thistable} para referenciar a tabela que você está juntando, em vez do nome da tabela real. Isso ocorre porque, se você tiver várias junções na mesma tabela, a Fabrik usará aliases para diferenciar as junções, como "SELECT yourtable AS yourtable_0", e não há como saber qual alias uma determinada junção terá. Portanto, a Fabrik substituirá {thistable} pelo alias apropriado.
+**Nota**: Use o espaço reservado {thistable} para referenciar a tabela que você está juntando, em vez do nome da tabela real. Isso ocorre porque, se você tiver várias junções na mesma tabela, o Fabrik usará aliases para diferenciar as junções, como "SELECT yourtable AS yourtable_0", e não há como saber qual alias uma determinada junção terá. Portanto, o Fabrik substituirá {thistable} pelo alias apropriado.
 
 - `Aplicar a`: Selecione qual nível de visualização do usuário terá a instrução join where aplicada a eles.
 
 - `Aplicar onde e quando`: Quando o filtro onde deve ser aplicado à consulta do elemento de junção do banco de dados.
 
 - `AJAX Update`: Se você usar espaços reservados de elemento em sua instrução WHERE, habilite isso para forçar o filtro a atualizar quando você alterar qualquer um dos elementos de referência. Sem a atualização do AJAX ativada, o filtro é baseado no valor do espaço reservado referido no carregamento. Se esse espaço reservado estiver vazio, talvez você não obtenha os resultados desejados.
-  - O `AJAX Update` é aplicado com base na configuração em `Aplicar onde quando`
+  - O `AJAX Update` é aplicado com base na configuração em `Aplicar onde quando`.
   - Exemplo com `AJAX Update`:
     Se eu tiver uma tabela de códigos postais por município e quiser apresentar apenas os códigos postais dentro de um município selecionado {esse município está no elemento "table_name___selected_county" então este código apresentará apenas os códigos postais desse município.
     
@@ -159,57 +159,57 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
    - Adicione o evento javascript "onLoad" ao elemento "table___dbjoin" (realmente não importa qual elemento você usa, apenas para que o elemento seja carregado para que o onload java seja acionado).
    - Na caixa javascript, adicione o seguinte. **Nota**: modificado para usar jQuery em vez de mootools.bg
 
-  **Código(JavaScript)**:
-  ```javascript
-      loadDBList(this);
-  ```
+      **Código(JavaScript)**:
+      ```javascript
+          loadDBList(this);
+      ```
 
    - Isso chamará uma função no arquivo form_x.js (onde _x é o número do formulário).
    - Essa função deve ser:
 
- **Código(JavaScript)**:
- ```javascript
-      function loadDBList(el) {
-          var usedID = jQuery('#table___controlling' );
-          usedID[0].fireEvent('change');
-      }
-  ```
+       **Código(JavaScript)**:
+       ```javascript
+            function loadDBList(el) {
+                var usedID = jQuery('#table___controlling' );
+                usedID[0].fireEvent('change');
+            }
+        ```
  
   - Isso causará um evento de 'alteração' do elemento de controle, como se o usuário o tivesse alterado - portanto, o elemento dbjoin será preenchido. Se você definir o padrão no elemento de controle, o dbjoin será filtrado pelo valor padrão.
   - Se o campo de controle e o campo dbjoin estiverem em um grupo repetido, você precisará modificar o código para contabilizar o _x adicionado ao nome do campo no grupo repetido. O código é então.
 
 
- **Código(JavaScript)**:
-  ```javascript
-      função loadDBList ( el ) {
-          var repeat = el. getRepeatNum ( ) ;
-          var usadoID = jQuery ( 'table___controlling' + repeat ) ;
-          ID usado [ 0 ] . fireEvent ( 'alterar' ) ;
-      }
-    ```
+     **Código(JavaScript)**:
+      ```javascript
+          função loadDBList ( el ) {
+              var repeat = el. getRepeatNum ( ) ;
+              var usadoID = jQuery ( 'table___controlling' + repeat ) ;
+              ID usado [ 0 ] . fireEvent ( 'alterar' ) ;
+          }
+        ```
   
   - Versão um pouco mais elegante. Se você chamar o javascript do elemento "controlador", poderá evitar parte do incômodo de criar o nome do elemento. Isso é particularmente bom se você estiver trabalhando em grupos repetidos onde precisa lidar com repeatNum.
 
 
- **Código(JavaScript)**:
- ```javascript
-    function loadStateList(el) {
-        var elementName = '#' + el['strElement'];
-        var usedID = jQuery(elementName);
-        usedID[0].fireEvent('change');
-    }
- ```
+     **Código(JavaScript)**:
+     ```javascript
+        function loadStateList(el) {
+            var elementName = '#' + el['strElement'];
+            var usedID = jQuery(elementName);
+            usedID[0].fireEvent('change');
+        }
+     ```
     
    Ou
   
   
- **Código(JavaScript)**:
- ```javascript
-     function loadStateList(el) {
-      var usedID = jQuery('#' + el['strElement']);
-      usedID[0].fireEvent('change');
-    }
- ```
+     **Código(JavaScript)**:
+     ```javascript
+         function loadStateList(el) {
+          var usedID = jQuery('#' + el['strElement']);
+          usedID[0].fireEvent('change');
+        }
+     ```
 
  Neste caso, *el* contém o nome do elemento em ['strElement']. Você pode adicionar o "#" e disparar o evento.
 
@@ -218,22 +218,22 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
 
 - `Filter Where`: OPCIONAL - semelhante a "instrução de joins where", mas adiciona uma cláusula where à consulta usada para criar a lista de opções quando esse elemento é usado como um filtro de lista. Atualmente aplicado apenas se você estiver usando o método "Mostrar tudo" para suas opções de filtro, em que todas as linhas da tabela unida são incluídas na lista de filtros. Não prefixe isso com WHERE, AND, OR, etc. Portanto, por exemplo, para restringir seu filtro suspenso apenas às linhas com um campo chamado show_in_filter definido como 1, você usuário:
 
- **Código(SQL)**:
- ```sql
-    {thistable}.show_in_filter = '1'
- ```
+   **Código(SQL)**:
+   ```sql
+      {thistable}.show_in_filter = '1'
+   ```
 **Dica**:
 Se você estiver ingressando em uma lista que possui um elemento que armazena um view_level, você pode filtrar as opções suspensas disponíveis para o usuário conectado com base no view_level armazenado nesse elemento de sua lista ingressada.
 
 A consulta de exemplo ficaria assim: 
 
-**Código(SQL)**:
-```sql
-    {thistable}.view_level IN (SELECT DISTINCT `#__viewlevels`.`id`
-    FROM #__user_usergroup_map
-    LEFT JOIN #__viewlevels ON REPLACE(REPLACE(rules,'[',','),']',',') LIKE CONCAT('%,',`group_id`,',%')
-    WHERE user_id ='{$my->id}')
- ```
+  **Código(SQL)**:
+  ```sql
+      {thistable}.view_level IN (SELECT DISTINCT `#__viewlevels`.`id`
+      FROM #__user_usergroup_map
+      LEFT JOIN #__viewlevels ON REPLACE(REPLACE(rules,'[',','),']',',') LIKE CONCAT('%,',`group_id`,',%')
+      WHERE user_id ='{$my->id}')
+   ```
     
 No exemplo acima, {thistable}.view_level é o elemento de suas listas que armazena o ID de viewlevels do Joomla. A consulta faz referência à tabela viewlevels do Joomla e à tabela user_usergroup_map do Joomla para determinar quais registros na tabela unida correspondem aos níveis de exibição autorizados do usuário conectado no momento. Isso remove do menu suspenso do filtro de junção do banco de dados todos os registros que o usuário não está autorizado a ver. 
 
