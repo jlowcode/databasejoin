@@ -265,6 +265,7 @@ Por exemplo, neste código estou verificando 2 outros elementos que determinam s
 
 **Código(PHP)**:
 
+```php
     if($opt->value == 1) {
         if( (int) $data['fb_conglomerates___hosp_count_raw'] > 0 && (int) $data['fb_conglomerates___part_of_hospital_system_raw'] <> 2 ){
             return false;
@@ -272,7 +273,7 @@ Por exemplo, neste código estou verificando 2 outros elementos que determinam s
             $opt->text = 'Hospital';
         }
     }
-    
+ ```  
  
 Aqui está um exemplo de uso: se você juntar seu elemento a um campo de data, os valores exibidos estarão no formato MySQL. Ou seja, '7 de dezembro de 2014' seria exibido como '2014-12-07 00:00:00', o que não é muito amigável. Portanto, se você deseja mostrar datas legíveis, use o seguinte código:
 
