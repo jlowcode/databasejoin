@@ -66,7 +66,7 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
       
      **Código(Texto)**: 
      
-            (SELECT `column_containing_desired_value` FROM other_table WHERE `id` = {thistable}.field_containing_foreign_key)
+       (SELECT `column_containing_desired_value` FROM other_table WHERE `id` = {thistable}.field_containing_foreign_key)
     
     
     - Ao concatenar datas, esteja ciente de que elas serão retornadas como a data GMT, sem o fuso horário do Joomla aplicado a elas. 
