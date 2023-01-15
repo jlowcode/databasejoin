@@ -58,9 +58,9 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
             
      - Se seus campos contiverem valores NULL, você precisará convertê-los em *strings* vazias. 
        
-       **Código(Texto)**: 
-                  
-            ISNULL(FirstName,''),'',ISNULL(LastName,'')
+         **Código(Texto)**: 
+
+              ISNULL(FirstName,''),'',ISNULL(LastName,'')
             
             
      - Se você deseja definir um rótulo de um valor de dados que não é um espaço reservado disponível, você pode usar o MySQL Concat para recuperar o valor incorporando uma subconsulta no campo CONTACT Label: 
