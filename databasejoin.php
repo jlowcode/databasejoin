@@ -1295,6 +1295,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$layout                        = $this->getLayout('form-final');
 		$displayData                   = new stdClass;
 
+		//Begin - Update customized label search
+		$numberCharacters = $params->get('dbjoin_customized_label_size');
+		foreach($tmp as $t) {
+			if(strlen($t->text) > $numberCharacters && $numberCharacters > 0) {
+				$t->text = substr($t->text, 0, $numberCharacters) . '...';
+			}
+		}
+		//End - Update customized label search
+
 		if (!$formModel->isEditable() || !$this->isEditable()) {
 			// Read only element formatting...
 			if (FArrayHelper::getValue($defaultLabels, 0) === $params->get('database_join_noselectionlabel', FText::_('COM_FABRIK_PLEASE_SELECT'))) {
