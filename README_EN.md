@@ -11,7 +11,7 @@ The database join element is an extremely powerful element. It allows you to loo
   - [Please select](#please-select)
   - [Add option in front end](#add-option-in-front-end)
   - [Layout](#layout)
-  Advanced
+  - [Advanced](#advanced)
   Validation (empty/is not)
   If dbjoin is not multiselect
   If dbjoin is multiselect 
@@ -315,3 +315,4 @@ If you have created a Fabrik table pointing to the database table you selected f
 - `Characters lenght of search values`: Number of characters of search values to not pass of select box. Look the size needed in front-end!
 
 
+### Advanced
