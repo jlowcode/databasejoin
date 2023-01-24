@@ -163,9 +163,7 @@ The database join element is an extremely powerful element. It allows you to loo
 
 - The AJAX default (see below) can be used, in some cases, to set the default for the dbjoin, but if you don't want a default value, but you do want the (filtered) list to be populated, this would require the user to deselect and re-select the value in the controlling element.
 
-- What you can do is fire a change event for the controlling element on load of the dbjoin element.
-    
- - Example:
+- What you can do is fire a change event for the controlling element on load of the dbjoin element. Example:
     
  - If the dbjoin field you want to populate is "table___dbjoin" and the controlling field is "table___controlling" then the following code will cause fire a 'change' event for the controlling field on form load. This will cause the dbjoin field to populate as if the user had changed the controlling field.
 
@@ -179,56 +177,57 @@ The database join element is an extremely powerful element. It allows you to loo
         loadDBList(this);
     ```
 
-  -  This will call a function in the form_x.js file (where _x is the form number). That function should be:
+ - This will call a function in the form_x.js file (where _x is the form number). That function should be:
 
    **Code (Javascript)**:
 
-      ```javascript
+    ```javascript
         function loadDBList(el) {
             var usedID = jQuery('#table___controlling' );
             usedID[0].fireEvent('change');
         }
-      ```
- - This will cause a 'change' event of the controlling element just as if the user had changed it - so the dbjoin element will be populated. If you set the default in the controlling element, then the dbjoin will be filtered by the default value.
+     ```
+
+- This will cause a 'change' event of the controlling element just as if the user had changed it - so the dbjoin element will be populated. If you set the default in the controlling element, then the dbjoin will be filtered by the default value.
     
-  - If the controlling field and dbjoin field are in a repeated group - you will need to modify the code to account for the _x added onto the field name in the repeated group. The code is then.
+- If the controlling field and dbjoin field are in a repeated group - you will need to modify the code to account for the _x added onto the field name in the repeated group. The code is then.
 
 
-**Code (javaScript):**
+  **Code (javaScript):**
 
-```javascript
-    function loadDBList(el) {
-        var repeat = el.getRepeatNum();
-        var usedID = jQuery('table___controlling' + repeat);
-        usedID[0].fireEvent('change');
-    }
-  ```
+    ```javascript
+        function loadDBList(el) {
+            var repeat = el.getRepeatNum();
+            var usedID = jQuery('table___controlling' + repeat);
+            usedID[0].fireEvent('change');
+        }
+     ```
       
- - Slightly more elegant version. If you call the javascript from the "controlling" element, you can avoid some of the hassle of building the element name. This is particularly nice if you are working in repeated groups where you need to deal with repeatNum.
+- Slightly more elegant version. If you call the javascript from the "controlling" element, you can avoid some of the hassle of building the element name. This is particularly nice if you are working in repeated groups where you need to deal with repeatNum.
 
-**Code (javaScript):**
+  **Code (javaScript):**
 
-```javascript
-   function loadStateList(el) {
-      var elementName = '#' + el['strElement'];
-      var usedID = jQuery(elementName);
-      usedID[0].fireEvent('change');
-   }
-  ```
+    ```javascript
+       function loadStateList(el) {
+          var elementName = '#' + el['strElement'];
+          var usedID = jQuery(elementName);
+          usedID[0].fireEvent('change');
+       }
+     ```
   
   Or
   
   **Code (JavaScript)**:
+
+    ```javascript
+       function loadStateList(el) {
+          var elementName = '#' + el['strElement'];
+          var usedID = jQuery(elementName);
+          usedID[0].fireEvent('change');
+       }
+    ```
   
-  ```javascript
-   function loadStateList(el) {
-      var elementName = '#' + el['strElement'];
-      var usedID = jQuery(elementName);
-      usedID[0].fireEvent('change');
-   }
-  ```
-  
-  In this case el contains the element name in ['strElement']. You can add the "#" on and fire the event.
+ In this case el contains the element name in ['strElement']. You can add the "#" on and fire the event.
   
   **Note**: Often cascading drop downs will be less hassle - but they may not work in all cases. 
   
@@ -239,23 +238,22 @@ The database join element is an extremely powerful element. It allows you to loo
    
 - `Filter Where`: - OPTIONAL - similar to "Joins where statement", but adds a where clause to the query used to build the list of options when this element is used as a list filter. Currently only applied if you are using the "Show All" method for your filter options, whereby all rows from the joined table are included in the filter list. Do not prefix this with WHERE, AND, OR, etc. So for instance, to restrict your dropdown filter to only those rows with a field called show_in_filter set to 1, you would use:
 
- **Code (SQL)**:
- 
-  ```sql
-   {thistable}.show_in_filter = '1'
-  ```
+   **Code (SQL)**:
+
+    ```sql
+     {thistable}.show_in_filter = '1'
+    ```
   
  Tip: If you are joining a list that has an element that stores a view_level, you can filter the available drop-down options for the logged in user based on the view_level stored in that element of your joined list.
 
 The example query would look like this:
 
-**Code (Text)**:
-
-```
-  {thistable}.view_level IN (SELECT DISTINCT `#__viewlevels`.`id`
-  FROM #__user_usergroup_map
-  LEFT JOIN #__viewlevels ON REPLACE(REPLACE(rules,'[',','),']',',') LIKE CONCAT('%,',`group_id`,',%')
-  WHERE user_id ='{$my->id}')
-```
+**Código(SQL)**:
+  ```sql
+      {thistable}.view_level IN (SELECT DISTINCT `#__viewlevels`.`id`
+      FROM #__user_usergroup_map
+      LEFT JOIN #__viewlevels ON REPLACE(REPLACE(rules,'[',','),']',',') LIKE CONCAT('%,',`group_id`,',%')
+      WHERE user_id ='{$my->id}')
+   ```
 
 In the above example, the {thistable}.view_level is the element of your lists element that stores the Joomla viewlevels id. The query references the Joomla viewlevels table and the Joomla user_usergroup_map table to determine which records in the joined table match the current logged in user's authorized view levels. This removes from the drop-down of the database join's filter, any records that the user is not authorized to see.
