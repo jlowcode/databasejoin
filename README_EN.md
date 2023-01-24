@@ -5,7 +5,7 @@ The database join element is an extremely powerful element. It allows you to loo
 ## Contents
   - [Options](#options)
   - [Data](#data)
-    - [Or Concat label examples](#or_concat_label_examples)
+    - [Or Concat label examples](#or-concat-label-examples)
   Data - where
   Notes on using AJAX Update.
   Please select
