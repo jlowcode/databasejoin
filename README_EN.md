@@ -9,7 +9,7 @@ The database join element is an extremely powerful element. It allows you to loo
   - [Data - where](#data-where)
     - [Notes on using AJAX Update](#notes-on-using-AJAX-Update)
   - [Please select](#please-select)
-  Add option in front end
+  - [Add option in front end](#add-option-in-front-end)
   Layout
   Advanced
   Validation (empty/is not)
@@ -261,7 +261,7 @@ In the above example, the {thistable}.view_level is the element of your lists el
 ### Please select
 
 - `Show please select`: If set to render as a dropdown you can toggle whether a please select option is included in the list. Does not effect radio / checkbox lists.
-- 
+
 - `Value of please select option`: The text to record in the database if no option selected from the element. Defaults to .
     
 - `Label of please select option`: The label to show for the 'Please select' option - if none entered this defaults to 'Please select'. To modify the label shown in the dropdown filter (default "All") append it with ::, so:
@@ -269,6 +269,26 @@ In the above example, the {thistable}.view_level is the element of your lists el
     
 - `Placeholder`: HTML5 placeholder for autocomplete field.
 
-    
+### Add option in front end
 
+If you have created a Fabrik table pointing to the database table you selected for this database join element then you can decide if you want your users to be able to add records into that form. The element will then appear with an "add" button like this:
+
+- Clicking on "Add" will open an AJAX Fabrik form as such:
+
+- Entering Holland and pressing "Save" will post the form via AJAX to the Fabrik form processing code. Once processed the pop-up window will close and your database join element will be updated to contain.
+
+
+- `Popup form`: Select the form that corresponds to the database table the join is connected to. This is the form that is loaded in the popup window when the "add" button is pressed.
+    
+- `Add option in front end`: If a 'Popup form' selected, then an add button is added to the element. When clicked on this will open a form to add in new records.
+   
+- `Open in a blank page`: If 'Yes' then open the form in a new tab.
+
+- `Popup window width`: The popup window width in pixels.
+    
+- `Link to joined record`: Applies when in a detailed view, or if the element's access levels mean that it is set to read only when in a form. If this option is selected, then the read only value is encased in a link. This link points to a detailed view of the record referenced by the database join element's data.
+    
+- `Front end select`: Provides a button which pops up the joined list, allowing the user to search for the record they want.
+    **NOTE**: You must also select a form from the 'Popup form' selection above, even if you are not using the 'Add option in front end'.
+    **NOTE**: The element's 'Value' MUST be set to the primary key for this option to work.
 
