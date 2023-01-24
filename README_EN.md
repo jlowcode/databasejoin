@@ -8,7 +8,7 @@ The database join element is an extremely powerful element. It allows you to loo
     - [Or Concat label examples](#or-concat-label-examples)
   - [Data - where](#data-where)
     - [Notes on using AJAX Update](#notes-on-using-AJAX-Update)
-  - [Please select](#please_select)
+  - [Please select](#please-select)
   Add option in front end
   Layout
   Advanced
