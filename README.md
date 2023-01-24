@@ -215,6 +215,11 @@ O elemento Database join é extremamente poderoso. Ele permite que você procure
 
 **Observação** - Muitas vezes, os menus suspensos em cascata serão menos complicados - mas podem não funcionar em todos os casos . 
 
+- `Distinct for group_concat command`: 
+Se sim a query para este elemento retornará os valores usando DISTINCT no comando group_concat do SQL. Se não, os valores retornados possivelmente virão repetidos.
+
+**Contexto**:
+Criado para solucionar problema na visualizaçao de alguns produtos que vinham duplicados, devido a isso foi constatado que o problema ocorria devido a query gerada que ao utilizar o comando group_concat no arquivo databasejoin.php na função buildQueryElementConcat() não havia DISTINCT para retornar apenas valores diferentes. OBS: Alterações foram realizadas entre os comentários "Begin - Solving problem with repetible products" e "End - Solving problem with repetible products".
 
 - `Filter Where`: OPCIONAL - semelhante a "instrução de joins where", mas adiciona uma cláusula where à consulta usada para criar a lista de opções quando esse elemento é usado como um filtro de lista. Atualmente aplicado apenas se você estiver usando o método "Mostrar tudo" para suas opções de filtro, em que todas as linhas da tabela unida são incluídas na lista de filtros. Não prefixe isso com WHERE, AND, OR, etc. Portanto, por exemplo, para restringir seu filtro suspenso apenas às linhas com um campo chamado show_in_filter definido como 1, você usuário:
 
