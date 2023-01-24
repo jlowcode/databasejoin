@@ -4313,7 +4313,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$parentKey  = $this->buildQueryParentKey();
 		$fullElName = $this->_db->qn($this->getFullName(true, false));
-		$sql        = "(SELECT GROUP_CONCAT(" . $jKey . " " . $where . " SEPARATOR '" . GROUPSPLITTER . "') FROM $joinTable
+		$sql        = "(SELECT GROUP_CONCAT("; 
+		
+		//Begin - Solving problem with repetible products
+		$distinct = $params->get('databasejoin_concat_distinct');
+		$distinct ? $sql .= 'DISTINCT ' : $sql .= ' ';
+		//End - Solving problem with repetible products
+
+		$sql .= $jKey . " " . $where . " SEPARATOR '" . GROUPSPLITTER . "') FROM $joinTable
 		LEFT JOIN " . $dbName . " AS lookup ON lookup." . $this->getJoinValueFieldName() . " = $joinTable." . $this->getElement()->name . " WHERE "
 			. $joinTable . ".parent_id = " . $parentKey . ")";
 
