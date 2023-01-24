@@ -10,7 +10,7 @@ The database join element is an extremely powerful element. It allows you to loo
     - [Notes on using AJAX Update](#notes-on-using-AJAX-Update)
   - [Please select](#please-select)
   - [Add option in front end](#add-option-in-front-end)
-  Layout
+  - [Layout](#layout)
   Advanced
   Validation (empty/is not)
   If dbjoin is not multiselect
@@ -291,4 +291,27 @@ If you have created a Fabrik table pointing to the database table you selected f
 - `Front end select`: Provides a button which pops up the joined list, allowing the user to search for the record they want.
     **NOTE**: You must also select a form from the 'Popup form' selection above, even if you are not using the 'Add option in front end'.
     **NOTE**: The element's 'Value' MUST be set to the primary key for this option to work.
+
+### Layout
+
+
+- `Enhanced Dropdowns`: Enhances Dropdown behaviour using jQuery Chosen (similar to Select2), which e.g. provides a search box if there are more than 10 items and provides deletable widgets for multi-select.
+        **Note**: For Enhanced Dropdowns to work you must have turned on Enhanced Dropdowns in the Fabrik Options Forms Tab. You can turn Enhanced Dropdowns off or on globally, or per element. 
+    
+- `Options per row`: When rendering as a radio or checkbox list, this defines how many radio buttons to show per row, defaults to 1.
+    
+- `Multi select max` - Work In Progress: experimental feature to allow specifying a maximum number of selections when using Enhanced Dropdowns, in multi-select mode.
+    
+- `Multilist size`: If the join is rendered as a multi list, then this integer value specifies the list height.
+   
+- `Auto-complete width`: Value of size attribute for auto-complete input / display field. Only effects visible size if not within a bootstrap template. Otherwise use the "bootstrap class" option.
+    
+- `Auto-complete rows`: Set the maximum number of auto-complete options to display in the dropdown menu.
+    
+- `Bootstrap class`: Use this to define the width of the field, if your site uses a Bootstrap template.
+
+- `Initial suggestion size`: Set the number of lines to be suggested if the initial suggestion field is activated.
+
+- `Characters lenght of search values`: Number of characters of search values to not pass of select box. Look the size needed in front-end!
+
 
