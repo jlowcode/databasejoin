@@ -52,43 +52,43 @@ The database join element is an extremely powerful element. It allows you to loo
 
 - `Or Concat label`: Alternatively you can select multiple fields from the database table by supplying a mySQL concat string e.g.
 
-#### Or Concat label examples
+    #### Or Concat label examples
 
-**Code (Text)**:
+    **Code (Text)**:
 
-```
-  lastname, ' ', firstname
-```
+    ```
+      lastname, ' ', firstname
+    ```
 
-If your fields contain NULL values you would need to convert these to empty strings. 
+    If your fields contain NULL values you would need to convert these to empty strings. 
 
-**Code (Text)**:
+    **Code (Text)**:
 
-```
-  ISNULL(FirstName,''),'',ISNULL(LastName,'')
-```
+    ```
+      ISNULL(FirstName,''),'',ISNULL(LastName,'')
+    ```
 
-If you wish to set a label from a data value that is not an available placeholder, you can use MySQL Concat to retrieve the value by embedding a subquery within the CONTACT Label field:
+    If you wish to set a label from a data value that is not an available placeholder, you can use MySQL Concat to retrieve the value by embedding a subquery within the CONTACT Label field:
 
-**Code (Text)**:
+    **Code (Text)**:
 
-```
-  (SELECT `column_containing_desired_value` FROM other_table WHERE `id` = {thistable}.field_containing_foreign_key)
-```
+    ```
+      (SELECT `column_containing_desired_value` FROM other_table WHERE `id` = {thistable}.field_containing_foreign_key)
+    ```
 
-When concatenating dates, please be aware that they will be returned as the GMT date, without your Joomla timezone applied to them, To set them to the correct timezone you can do the following (setting the timezone offset to +2 hours)
+    When concatenating dates, please be aware that they will be returned as the GMT date, without your Joomla timezone applied to them, To set them to the correct timezone you can do the following (setting the timezone offset to +2 hours)
 
-**Code (SQL)**:
+    **Code (SQL)**:
 
-```sql
-  DATE_FORMAT(CONVERT_TZ(gs_list_talks.talk_date,'+00:00','+2:00'), '%d-%m-%Y'),' - ',gs_list_talks.talk_name
-```
+    ```sql
+      DATE_FORMAT(CONVERT_TZ(gs_list_talks.talk_date,'+00:00','+2:00'), '%d-%m-%Y'),' - ',gs_list_talks.talk_name
+    ```
 
-If the label of your dbjoin is a dbjoin value itself get it's label with
+    If the label of your dbjoin is a dbjoin value itself get it's label with
 
-**Code (SQL)**:
+    **Code (SQL)**:
 
-```sql
- (SELECT name FROM table2 WHERE table2.id = {thistable}.element)
-```
+    ```sql
+     (SELECT name FROM table2 WHERE table2.id = {thistable}.element)
+    ```
 
