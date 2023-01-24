@@ -5,7 +5,7 @@ The database join element is an extremely powerful element. It allows you to loo
 ## Contents
   - [Options](#options)
   - [Data](#data)
-  Or Concat label examples
+    - [Or Concat label examples](#or_concat_label_examples)
   Data - where
   Notes on using AJAX Update.
   Please select
@@ -91,4 +91,8 @@ The database join element is an extremely powerful element. It allows you to loo
     ```sql
      (SELECT name FROM table2 WHERE table2.id = {thistable}.element)
     ```
+- `Initial Suggest`: By clicking on the selection box, a suggestion of the data present in this element will be displayed.
+
+- `Tags`: Performs the operation of this plugin as tags. Applicable to Treeview / Auto-complete and Multiple Treeview / Checkbox.
+
 
