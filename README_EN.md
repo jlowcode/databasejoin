@@ -7,8 +7,8 @@ The database join element is an extremely powerful element. It allows you to loo
   - [Data](#data)
     - [Or Concat label examples](#or-concat-label-examples)
   - [Data - where](#data-where)
-  - [Notes on using AJAX Update](#notes-on-using-AJAX-Update)
-  Please select
+    - [Notes on using AJAX Update](#notes-on-using-AJAX-Update)
+  - [Please select](#please_select)
   Add option in front end
   Layout
   Advanced
@@ -257,3 +257,18 @@ The example query would look like this:
    ```
 
 In the above example, the {thistable}.view_level is the element of your lists element that stores the Joomla viewlevels id. The query references the Joomla viewlevels table and the Joomla user_usergroup_map table to determine which records in the joined table match the current logged in user's authorized view levels. This removes from the drop-down of the database join's filter, any records that the user is not authorized to see.
+
+### Please select
+
+- `Show please select`: If set to render as a dropdown you can toggle whether a please select option is included in the list. Does not effect radio / checkbox lists.
+- 
+- `Value of please select option`: The text to record in the database if no option selected from the element. Defaults to .
+    
+- `Label of please select option`: The label to show for the 'Please select' option - if none entered this defaults to 'Please select'. To modify the label shown in the dropdown filter (default "All") append it with ::, so:
+    Please select a city::Show all cities
+    
+- `Placeholder`: HTML5 placeholder for autocomplete field.
+
+    
+
+
