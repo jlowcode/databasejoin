@@ -6,7 +6,7 @@ The database join element is an extremely powerful element. It allows you to loo
   - [Options](#options)
   - [Data](#data)
     - [Or Concat label examples](#or-concat-label-examples)
-  Data - where
+  - [Data - where](#data-where)
   Notes on using AJAX Update.
   Please select
   Add option in front end
@@ -95,4 +95,62 @@ The database join element is an extremely powerful element. It allows you to loo
 
 - `Tags`: Performs the operation of this plugin as tags. Applicable to Treeview / Auto-complete and Multiple Treeview / Checkbox.
 
+### Data - where
 
+- ` Hide linked items`:
+
+- `Joins where and/or order by statement (SQL)`: An SQL Select "Where" clause which filters the returned data. For example, to show only records with published = 1:
+
+**Code (SQL)**:
+
+```sql
+  WHERE `published` = 1
+```
+
+Or to show only a set of users who belong to the group id 14:
+
+**Code (SQL)**:
+
+```sql
+  WHERE {thistable}.`username`
+    IN ( SELECT jos_users.username FROM jos_users, jos_user_usergroup_map
+        WHERE jos_users.id = jos_user_usergroup_map.user_id
+        AND jos_user_usergroup_map.group_id = 14)
+```
+
+You can also add an ORDER BY to this
+
+**Code (SQL)**:
+
+```sql
+   WHERE {thistable}.published = '1' ORDER BY {thistable}.somefield ASC
+```
+
+If you need to add an order by but don't need a WHERE clause, you can just use some clause which always returns true, like ...
+
+**Code (SQL)**:
+
+```sql
+   WHERE 1=1 ORDER BY {thistable}.somefield ASC
+```
+
+Use the placeholder {thistable} to reference the table you are joining, rather than the actual table name. This is because if you have multiple joins to the same table, Fabrik uses aliases to differentiate the joins, like "SELECT yourtable AS yourtable_0", and there is no way of knowing which alias a given join will have. So Fabrik will replace {thistable} with the appropriate alias.
+
+- `Apply where to`: Select which user view level will have the join where statement applied to them.
+    
+- `Apply where when`: When should the where filter be applied to the database join's element's query.
+
+- `AJAX Update`: If you use element placeholders in your WHERE statement, enable this to force the fiter to update when you change any of the referring elements. Without having AJAX update on, the filter is based on the value of the referred to placeholder on load. If that placeholder is empty you may not get the results you want.
+  - Ajax update is applied based on the setting in "Apply where when"
+
+  - Example. With AJAX Update
+
+  If I have a table of zip codes by county and I want to present only the zip codes within a selected county {that county is in element "table_name___selected_county" then this code will present only those zipcodes from that county.
+  
+  **Code (SQL)**:
+  
+  ```sql
+    WHERE county = '{table_name___selected_county_raw}'
+  ```
+ - Don't forget the raw....
+   **Note**: In this simple example it might be easier to use a cascading dropdown.
