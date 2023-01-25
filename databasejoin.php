@@ -1934,7 +1934,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$join_key_column = $params->get('join_key_column');
 		$limit_chars = $params->get('dbjoin_customized_label_size');
 
-		$urlAjax = '/plugins/fabrik_element/databasejoin/autocompleteSearch.php?value=&join_name=' . $join_name .'&join_val_column=' . $join_val_column . '&limit_query=' . $limit . '&join_key_column=' . $join_key_column;
+		$urlAjax = JURI::root() . '/plugins/fabrik_element/databasejoin/autocompleteSearch.php?value=&join_name=' . $join_name .'&join_val_column=' . $join_val_column . '&limit_query=' . $limit . '&join_key_column=' . $join_key_column;
 		//$urlAjax = '/index.php?option=com_fabrik&format=json&view=plugin&task=pluginAjax&g=element&element_id=' . $elementId . '&formid=' . $formId . '&plugin=databasejoin&method=autocomplete_options&package=fabrik'; //Old method
 
 		$html[] = '<input class="urlAjax" type="hidden" value="' . $urlAjax . '"/>';
@@ -5029,8 +5029,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			return;
 		}
 
-		$document->addScript('/plugins/fabrik_element/databasejoin/jquery.min.js');
-		$document->addScript('/plugins/fabrik_element/databasejoin/scriptInitialSuggest.js');
+		$document->addScript(JURI::root() . '/plugins/fabrik_element/databasejoin/jquery.min.js');
+		$document->addScript(JURI::root() . '/plugins/fabrik_element/databasejoin/scriptInitialSuggest.js');
 	}
 
 	/**
@@ -5045,8 +5045,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			return;
 		}
 
-		$document->addScript('/plugins/fabrik_element/databasejoin/jquery.min.js');
-		$document->addScript('/plugins/fabrik_element/databasejoin/scriptTags.js');
+		$document->addScript(JURI::root() . '/plugins/fabrik_element/databasejoin/jquery.min.js');
+		$document->addScript(JURI::root() . '/plugins/fabrik_element/databasejoin/scriptTags.js');
 	}
 
 	/**

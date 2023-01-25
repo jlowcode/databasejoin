@@ -289,6 +289,9 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 this.chxTmplNode = jQuery(
                     Fabrik.jLayouts['fabrik-element-' + this.getPlugin() + '-form-checkbox' + '_' + this.strElement]
                 )[0];
+               // nova linha begin
+              if(typeof chxTmplNode !== "undefined" && chxTmplNode !== null){
+               	// nova linha end
                 if (!this.chxTmplNode && this.options.displayType === 'checkbox') {
                     var chxs = this.element.getElements('> .fabrik_subelement');
                     if (chxs.length === 0) {
@@ -298,6 +301,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         this.chxTmplNode = chxs.getLast().clone();
                     }
                 }
+               }
             }
 
             return this.chxTmplNode;
