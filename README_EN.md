@@ -12,9 +12,9 @@ The database join element is an extremely powerful element. It allows you to loo
   - [Add option in front end](#add-option-in-front-end)
   - [Layout](#layout)
   - [Advanced](#advanced)
-  Validation (empty/is not)
-  If dbjoin is not multiselect
-  If dbjoin is multiselect 
+  - [Validation](#validation)
+      - [If dbjoin is not multiselect](#if-dbjoin-is-not-multiselect)
+      - [If dbjoin is multiselect](#if-dbjoin-is-multiselect) 
   
   ### Options
   
@@ -316,3 +316,56 @@ If you have created a Fabrik table pointing to the database table you selected f
 
 
 ### Advanced
+
+- `Eval options`: PHP code to run to alter the element options. Your code is called repeatedly, once for each option. Each option is an object and can be referenced in the eval code with the variable $opt. It has two properties you can change, $opt->value and $opt->text. You may also set $opt->disable to true, which will disable that option in a dropdown context (although it will still work as the currently selected value when editing). Return false to remove the option.
+
+    This is an extremely powerful feature. You may use $row to get values from other elements in the row - and to remove an option, simply return false. For example, in this code I am checking 2 other elements which determine whether a certain option should be available. And I want to change the label of that same option otherwise.
+    
+    **CODE(PHP):**
+    
+```php
+    if($opt->value == 1) {
+        if( (int) $data['fb_conglomerates___hosp_count_raw'] > 0 && (int) $data['fb_conglomerates___part_of_hospital_system_raw'] <> 2 ){
+            return false;
+        } else {
+            $opt->text = 'Hospital';
+        }
+    }
+```
+
+Here is an example of use: if you join your element to a date field, the values displayed are in MySQL format. That is, 'December 7, 2014' would display as '2014-12-07 00:00:00', which is not very user friendly. So if you want to show readable dates, use the following code:​
+
+ **CODE(PHP):**
+ 
+```php
+  $date = new DateTime($opt->text);
+  $opt->text =  $date->format('l j F Y');
+```
+
+Note: the following code would return only the date in English. If you have a multilingual site, use the JDate function instead (please notice the uppercase "F" in "Format"):
+
+```php
+    $date = new JDate($opt->text);
+    $opt->text = $date->Format('l j F Y');
+```
+
+Note: this would work in Joomla 3. For Joomla 2.5 use 'toFormat' instead of 'Format'.
+
+- `Description field`: Select a field from the joined table that contains an additional description. This will be shown next to the element and will be updated with the related content each time the user selects a different option.
+
+- `Auto-complete how`: For auto-complete joins, controls whether choices are all entries containing the supplied string, or only those starting with the string, or those containing all the words individually.
+
+- `Trim empty concats`: Used when you are using the 'data->Or Concat label' option with string constants, e.g. <pre>'ref:',{thistable}.field</pre>. If this option is off, and {thistable}.ref is an empty value, then Fabrik shows 'ref:' as the concatinated label. By turning this option on the 'ref:' will be stripped from the concat label
+
+### Validation
+To check if an option is selectet, add a "is not" validation.
+
+#### If dbjoin is not multiselect
+
+Add a default value to the "Please select" option
+In "is not" validation put this value in "is not" field
+
+#### If dbjoin is multiselect 
+
+In "is not" validation leave "is not" field empty 
+
