@@ -18,6 +18,8 @@ The database join element is an extremely powerful element. It allows you to loo
   
   ### Options
   
+  <img src="/images/9.png" width="900px" />
+  
  - `Eval defaut`: Should the default value be evaluated as a PHP expression. Element default examples.
     
  - `Default`: The default value to select when showing a new form.
@@ -25,6 +27,9 @@ The database join element is an extremely powerful element. It allows you to loo
  - `Hidden`: Is the element shown on the form as a hidden field.
 
 ### Data
+
+<img src="/images/10.png" width="900px" />
+<img src="/images/10b.png" width="900px" />
 
 - `Render as`: If not hidden do we render the element as a:
    - `radio list`
@@ -96,6 +101,8 @@ The database join element is an extremely powerful element. It allows you to loo
 - `Tags`: Performs the operation of this plugin as tags. Applicable to Treeview / Auto-complete and Multiple Treeview / Checkbox.
 
 ### Data - where
+
+<img src="/images/11.png" width="900px" />
 
 - ` Hide linked items`:
 
@@ -231,11 +238,6 @@ The database join element is an extremely powerful element. It allows you to loo
   
   **Note**: Often cascading drop downs will be less hassle - but they may not work in all cases. 
   
-  
-  - `AJAX Default`: Optional PHP code to return a default when update through AJAX. Should return a single value.
-
-  - `Additional join statements`: OPTIONAL - a standard MySQL JOIN clause, using any number of JOIN clauses, such as 'LEFT JOIN foo ON {thistable}.id = foo.parent_id RIGHT OUTER JOIN bar ON bar.foo_id = foo.id'. Fields form these joins will be available in your CONCAT Label or WHERE statements. 
-   
 - `Filter Where`: - OPTIONAL - similar to "Joins where statement", but adds a where clause to the query used to build the list of options when this element is used as a list filter. Currently only applied if you are using the "Show All" method for your filter options, whereby all rows from the joined table are included in the filter list. Do not prefix this with WHERE, AND, OR, etc. So for instance, to restrict your dropdown filter to only those rows with a field called show_in_filter set to 1, you would use:
 
    **Code (SQL)**:
@@ -260,6 +262,8 @@ In the above example, the {thistable}.view_level is the element of your lists el
 
 ### Please select
 
+<img src="/images/13.png" width="900px" />
+
 - `Show please select`: If set to render as a dropdown you can toggle whether a please select option is included in the list. Does not effect radio / checkbox lists.
 
 - `Value of please select option`: The text to record in the database if no option selected from the element. Defaults to .
@@ -271,12 +275,18 @@ In the above example, the {thistable}.view_level is the element of your lists el
 
 ### Add option in front end
 
+<img src="/images/16.png" width="900px" />
+
 If you have created a Fabrik table pointing to the database table you selected for this database join element then you can decide if you want your users to be able to add records into that form. The element will then appear with an "add" button like this:
+
 
 - Clicking on "Add" will open an AJAX Fabrik form as such:
 
+<img src="/images/14.png" width="900px" />
+
 - Entering Holland and pressing "Save" will post the form via AJAX to the Fabrik form processing code. Once processed the pop-up window will close and your database join element will be updated to contain.
 
+<img src="/images/15.png" width="900px" />
 
 - `Popup form`: Select the form that corresponds to the database table the join is connected to. This is the form that is loaded in the popup window when the "add" button is pressed.
     
@@ -294,6 +304,7 @@ If you have created a Fabrik table pointing to the database table you selected f
 
 ### Layout
 
+<img src="/images/17.png" width="900px" />
 
 - `Enhanced Dropdowns`: Enhances Dropdown behaviour using jQuery Chosen (similar to Select2), which e.g. provides a search box if there are more than 10 items and provides deletable widgets for multi-select.
         **Note**: For Enhanced Dropdowns to work you must have turned on Enhanced Dropdowns in the Fabrik Options Forms Tab. You can turn Enhanced Dropdowns off or on globally, or per element. 
@@ -316,6 +327,8 @@ If you have created a Fabrik table pointing to the database table you selected f
 
 
 ### Advanced
+
+<img src="/images/18.png" width="900px" />
 
 - `Eval options`: PHP code to run to alter the element options. Your code is called repeatedly, once for each option. Each option is an object and can be referenced in the eval code with the variable $opt. It has two properties you can change, $opt->value and $opt->text. You may also set $opt->disable to true, which will disable that option in a dropdown context (although it will still work as the currently selected value when editing). Return false to remove the option.
 
