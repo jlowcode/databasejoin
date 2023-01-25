@@ -100,7 +100,7 @@ The database join element is an extremely powerful element. It allows you to loo
 
 - `Tags`: Performs the operation of this plugin as tags. Applicable to Treeview / Auto-complete and Multiple Treeview / Checkbox.
 
-### Data - where
+### Data-where
 
 <img src="/images/11.png" width="900px" />
 
