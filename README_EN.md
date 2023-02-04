@@ -7,7 +7,7 @@ The database join element is an extremely powerful element. It allows you to loo
   - [Data](#data)
     - [Or Concat label examples](#or-concat-label-examples)
   - [Data - where](#data-where)
-    - [Notes on using AJAX Update](#notes-on-using-AJAX-Update)
+    - [Notes on using AJAX Update](#notes-on-using-ajax-update)
   - [Please select](#please-select)
   - [Add option in front end](#add-option-in-front-end)
   - [Layout](#layout)
@@ -49,9 +49,11 @@ The database join element is an extremely powerful element. It allows you to loo
 
 - `Parent`: Select the element to represent the parent of the nodes tree.
 
-- `Root category`: 
+- `Root category`: Indicate the element that will be the root of the category tree
 
-- `Style`:
+- `Style`: Select the field's display style. You can set tree view, autocomplete or both views. See the use of this item in the figure below:
+
+<img src="/images/9pt.png" width="900px" />
 
 - `List synchronicity`: Synchronization of the two lists by the name of their fields.
 
