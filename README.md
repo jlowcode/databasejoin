@@ -239,7 +239,10 @@ The database join element is an extremely powerful element. It allows you to loo
  In this case el contains the element name in ['strElement']. You can add the "#" on and fire the event.
   
   **Note**: Often cascading drop downs will be less hassle - but they may not work in all cases. 
-  
+
+- `Distinct for group_concat command`: 
+If so the query for this element returns the values using DISTINCT in the SQL group_concat command. If not, the returned values will possibly be repeated.
+
 - `Filter Where`: - OPTIONAL - similar to "Joins where statement", but adds a where clause to the query used to build the list of options when this element is used as a list filter. Currently only applied if you are using the "Show All" method for your filter options, whereby all rows from the joined table are included in the filter list. Do not prefix this with WHERE, AND, OR, etc. So for instance, to restrict your dropdown filter to only those rows with a field called show_in_filter set to 1, you would use:
 
    **Code (SQL)**:
