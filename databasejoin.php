@@ -244,7 +244,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				$rows = array_values($this->checkboxRows(null, null, null, null, 0, $limit));
 			}
 		} else {
-			$listModel = $this->getlistModel();
+			//Commented to search all values from the database
+			/*$listModel = $this->getlistModel();
 			$idName    = $this->getFullName(false, false);
 			$ids = $listModel->getColumnData($idName);
 			
@@ -255,7 +256,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				} else {
 					$ids[$x] = addslashes($ids[$x]);
 				}
-			}
+			}*/
 
 			// Autocomplete with concat label was not working if we called the parent method
 			if ($this->app->input->get('method') === 'autocomplete_options') {
