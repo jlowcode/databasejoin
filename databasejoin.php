@@ -3566,6 +3566,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				$usersConfig->get('autocomplete_max_rows', '10')
 			);
 			$autoOpts['storeMatchedResultsOnly'] = true;
+
+			// Begin - Individual Customized Min Trigger Characters
+			$this->minTriggerCharsCustomized($autoOpts);
+			// End - Individual Customized Min Trigger Characters
+
 			FabrikHelperHTML::autoComplete($id, $this->getElement()->get('id'), $this->getFormModel()->getId(), 'databasejoin', $autoOpts);
 		}
 
@@ -3668,6 +3673,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$this->elementJavascriptJoinOpts($opts);
 		$opts->isJoin   = $this->isJoin();
 		$opts->advanced = $this->getAdvancedSelectClass() != '';
+
+		// Begin - Individual Customized Min Trigger Characters
+		$this->minTriggerCharsCustomized($opts->autoCompleteOpts);
+		// End - Individual Customized Min Trigger Characters
 
 		/*
 		 * Testing watching placeholders used in the where, and AJAX reloading the join when changed
@@ -5162,5 +5171,20 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		if(!$storedJoins) {
 			parent::onFinalStoreRow($data);
 		}
+	}
+
+	/*
+	 * Individual Customized Min Trigger Characters
+	 * Function that provides individual numbers for min trigger characters for databasejoin auto-complete
+	 * 
+	*/
+	private function minTriggerCharsCustomized(&$opts) {
+		$params = $this->getParams();
+		$minChars = $params->get('dbjoin_autocomplete_min_trigger_chars');
+		if(!empty($opts) && $minChars) {
+			is_array($opts) ? $opts['minTriggerChars'] = $minChars : $opts->minTriggerChars = $minChars;
+		}
+
+		return true;
 	}
 }
