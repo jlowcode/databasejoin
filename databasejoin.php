@@ -3724,6 +3724,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$params = $this->getParams();
 
 		switch ($params->get('database_join_display_type', 'dropdown')) {
+			/**
+			 * Begin - Toogle Submit in databasejoin
+			 * Adding databasejoin to validation Toogle Submit 
+			 * 
+			 * Id Task: 70
+			 */
+			case 'checkbox':
+			//End - Toogle Submit in databasejoin
 			case 'dropdown':
 				$trigger = 'change';
 				break;
@@ -3991,8 +3999,19 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				break;
 			case 'auto-complete':
 				$trigger = 'blur';
-				$id      = str_replace('[]', '', $id) . '-auto-complete';
+				/**
+				 * Begin - Toogle Submit in databasejoin
+				 * Adding databasejoin to validation Toogle Submit 
+				 * 
+				 * Id Task: 70
+				 */
+				//$id      = str_replace('[]', '', $id) . '-auto-complete';
 				break;
+			case 'checkbox':
+				$trigger = 'change';
+				$id = str_replace('[]', '', $id);
+				break;
+				// End - Toogle Submit in databasejoin
 			default:
 				$trigger = 'click';
 				break;
