@@ -435,6 +435,17 @@
 				<option value="1">JYES</option>
 			</field>
 
+			<!-- Begin - Individual Customized Min Trigger Characters -->
+			<field name="dbjoin_autocomplete_min_trigger_chars"
+			       type="number"
+			       default="0"
+			       description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_MIN_TRIGGER_CHARS_DESC"
+			       label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_MIN_TRIGGER_CHARS_LABEL"
+				   class="readonly"
+				   size="3">
+			</field>
+			<!-- End - Individual Customized Min Trigger Characters -->
+
 		</fieldset>
 	</fields>
 </form>
