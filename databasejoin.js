@@ -1017,6 +1017,41 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
 
             if (this.options.editable) {
                 this.watchSelect();
+
+                /**
+                 * Begin - Toogle Submit in databasejoin
+                 * Adding databasejoin to validation Toogle Submit 
+                 * 
+                 * Id Task: 70
+                 */
+                switch (this.options.displayType) {
+                    case 'auto-complete':
+                        this.element.addEvent('change', function (e) {
+                            jQuery('#'+this.element.id).trigger('blur');
+                        }.bind(this));
+                        break;
+                    
+                    case 'checkbox':
+                        let el = document.getElement('#'+this.element.id+'-multi-select');
+                        el = document.getElement('.select2-selection__rendered');
+                        var idElTarget = this.element.id;
+                        let observerConfig = { childList: true, subtree: true };
+                        var observer = new MutationObserver(observeMultiselect(idElTarget));
+                        observer.observe(el, observerConfig);
+                        
+                        function observeMultiselect(idElTarget) {
+                            return function(mutationsList, observer) {
+                                for(var mutation of mutationsList) {
+                                    if (mutation.type === 'childList') {
+                                        jQuery('#'+idElTarget).trigger('change');
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                }
+                // End - Toogle Submit in databasejoin
+
                 if (this.options.showDesc === true) {
                     this.element.addEvent('change', function (e) {
                         this.showDesc(e);
