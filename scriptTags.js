@@ -5,16 +5,20 @@ let checkEvent = setInterval(function () {
     var rewrite = true;
 
     if(modMultiNovo == 'multi-select-novo') {
-        var idMultiNovo = jQuery('.elementIdMultiNovo').val();
-        rewrite = reWriteMulti(idMultiNovo);
-        
-        if(rewrite.eventsInputSearch || rewrite.eventsSelect) {
-            eventChange(idMultiNovo);
-            eventKeyup(idMultiNovo);
-        }
+        var MultisNovo = jQuery('.elementIdMultiNovo');
+        for (let i = 0; i < MultisNovo.length; i++) {
+            const element = MultisNovo[i];
+            var idMultiNovo = element.value;
+            rewrite = reWriteMulti(idMultiNovo);
+            
+            if(rewrite.eventsInputSearch || rewrite.eventsSelect) {
+                eventChange(idMultiNovo);
+                eventKeyup(idMultiNovo);
+            }
 
-        if(rewrite.eventsButtonRemove) {
-            deleteTags(idMultiNovo);
+            if(rewrite.eventsButtonRemove) {
+                deleteTags(idMultiNovo);
+            }
         }
     }
 
@@ -60,9 +64,9 @@ function tagsAutocomplete(id) {
 /* BEGIN - For modRender multi-select-novo */
 //Function for decision of rewrite or not
 function reWriteMulti(id) {
-    var eventsInputSearch = jQuery('.select2-search__field').data('events');
+    var eventsInputSearch = jQuery('#' + id + ' .select2-search__field').data('events');
     var eventsSelect = jQuery('#' + id + ' select').data('events');
-    var eventsButtonRemove = jQuery('.select2-selection__choice__remove').data('events');
+    var eventsButtonRemove = jQuery('#' + id + ' .select2-selection__choice__remove').data('events');
     var rewrite = new Array();
 
     rewrite['eventsInputSearch'] = true;
@@ -98,7 +102,7 @@ function reWriteMulti(id) {
 
 //Function for editing event of new tags in select and as span
 function eventKeyup(id) {
-    jQuery('.select2-search__field').on('keyup', function (event) {
+    jQuery('#'+id+' .select2-search__field').on('keyup', function (event) {
         var optionsMessage = jQuery('.select2-results__message').html();
         if(optionsMessage != undefined) {
             if(event.keyCode == 13 || event.keyCode == 188) {
@@ -106,7 +110,7 @@ function eventKeyup(id) {
                 jQuery(this).val('');
 
                 if(!duplicateTags(id, Tag)) {
-                    AddSpan(Tag);
+                    AddSpan(Tag, id);
                     AddSelect(id, Tag);
                 }
             }
@@ -132,23 +136,23 @@ function eventChange(id) {
     jQuery('#' + id + ' select').off('change');
     jQuery('#' + id + ' select').on('change', function() {
         setTimeout(function() {
-            jQuery('.select2-selection__choice').remove();
+            jQuery('#' + id + ' .select2-selection__choice').remove();
             jQuery('#' + id + ' select').find('option').each(function() {
                 var Tag = jQuery(this).html();
-                AddSpan(Tag);
+                AddSpan(Tag, id);
             });
         }, 1);
     });
 }
 
 //Span tag addition function
-function AddSpan(Tag) {
+function AddSpan(Tag, id) {
     var valueTag = '#fabrik#' + Tag;
     var htmlLi = '<li class=\"select2-selection__choice\" title=\"' + Tag + '\"data-select2-id=\"' + valueTag + '\">';
         htmlLi += 	'<span class=\"select2-selection__choice__remove\" role=\"presentation\">&times;</span>';
         htmlLi += 	Tag;
         htmlLi +='</li>';
-    jQuery('.select2-selection__rendered').prepend(htmlLi);
+    jQuery('#'+id+' .select2-selection__rendered').prepend(htmlLi);
 }
 
 //Tag addition function in select
@@ -161,7 +165,7 @@ function AddSelect(id, Tag) {
 
 //Function to delete tags added in select
 function deleteTags(id) {
-    jQuery('.select2-selection__choice__remove').on('click', function() {
+    jQuery('#' + id + ' .select2-selection__choice__remove').on('click', function() {
         jQuery(this).parent().remove(); //delete in spans
 
         var label = jQuery(this).parent().html().split('</span>')[1];
