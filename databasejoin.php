@@ -3557,6 +3557,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	public function elementJavascript($repeatCounter)
 	{
 		$id = $this->getHTMLId($repeatCounter);
+		$opts = $this->elementJavascriptOpts($repeatCounter);
 
 		if ($this->getParams()->get('database_join_display_type', 'dropdown') == 'auto-complete') {
 			$usersConfig           = JComponentHelper::getParams('com_fabrik');
@@ -3572,11 +3573,24 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			// End - Individual Customized Min Trigger Characters
 
 			FabrikHelperHTML::autoComplete($id, $this->getElement()->get('id'), $this->getFormModel()->getId(), 'databasejoin', $autoOpts);
+			
+			/**
+			 * Begin - Toogle Submit in solicitações
+			 * Adding auto-complete element in formElements at JS
+			 * 
+			 * Id Task: 116
+			 */
+			$return[] = array('FbDatabasejoin', $id, $opts);
+			$return[] = array('FbDatabasejoin', $id.'-auto-complete', $opts);
+		} else {
+			$return = array('FbDatabasejoin', $id, $opts);
 		}
 
-		$opts = $this->elementJavascriptOpts($repeatCounter);
+		//Original Id task 116
+		//return array('FbDatabasejoin', $id, $opts);
+		return $return;
+        // End - Toogle Submit in solicitações
 
-		return array('FbDatabasejoin', $id, $opts);
 	}
 
 	/**

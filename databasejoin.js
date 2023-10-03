@@ -912,8 +912,27 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
          */
         cloneAutoComplete: function () {
             var f = this.getAutoCompleteLabelField();
-            f.id = this.element.id + '-auto-complete';
-            f.name = this.element.name.replace('[]', '') + '-auto-complete';
+            
+            /**
+             * Begin - Toogle Submit in solicitações
+             * Altering the names of clone elements
+             * 
+             * Id Task: 116
+             */
+            var d = f.getParent('.fabrikElement').getElement('.elementIdAutoComplete');
+            if(f.id.indexOf('-auto-complete') < 0) {
+                f.id = this.element.id + '-auto-complete';
+            }
+            if(f.name.indexOf('-auto-complete') < 0) {
+                f.name = this.element.name.replace('[]', '') + '-auto-complete';
+            }
+            if (d) {
+                d.setProperty('value', f.id.replace('-auto-complete', ''));
+            }
+            this.options.element = f.id;
+            this.origId = this.options.fullName;
+            // End - Toogle Submit in solicitações
+
             document.id(f.id).value = '';
             new AutoComplete(this.element.id, this.options.autoCompleteOpts);
         },
