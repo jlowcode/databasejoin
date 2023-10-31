@@ -920,12 +920,12 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
              * Id Task: 116
              */
             var d = f.getParent('.fabrikElement').getElement('.elementIdAutoComplete');
-            if(f.id.indexOf('-auto-complete') < 0) {
+            /*if(f.id.indexOf('-auto-complete') < 0) {
                 f.id = this.element.id + '-auto-complete';
             }
             if(f.name.indexOf('-auto-complete') < 0) {
                 f.name = this.element.name.replace('[]', '') + '-auto-complete';
-            }
+            }*/
             if (d) {
                 d.setProperty('value', f.id.replace('-auto-complete', ''));
             }
@@ -934,6 +934,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             // End - Toogle Submit in solicitações
 
             document.id(f.id).value = '';
+            document.id(f.id.replace('-auto-complete', '')).value = '';
             new AutoComplete(this.element.id, this.options.autoCompleteOpts);
         },
 
@@ -1046,7 +1047,8 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 switch (this.options.displayType) {
                     case 'auto-complete':
                         this.element.addEvent('change', function (e) {
-                            jQuery('#'+this.element.id).trigger('blur');
+                            // Alter blur to focusout by id task: 172
+                            jQuery('#'+this.element.id).trigger('focusout');
                         }.bind(this));
                         break;
                     
@@ -1080,11 +1082,17 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
         },
 
         getAutoCompleteLabelField: function () {
-            var p = this.element.getParent('.fabrikElement');
-            var f = p.getElement('input[name*=-auto-complete]');
-            if (typeOf(f) === 'null') {
-                f = p.getElement('input[id*=-auto-complete]');
+            // Id task: 172
+            if(this.element.id.indexOf('-auto-complete') >= 0) {
+                var p = this.element.getParent('.fabrikElement');
+                var f = p.getElement('input[name*=-auto-complete]');
+                if (typeOf(f) === 'null') {
+                    f = p.getElement('input[id*=-auto-complete]');
+                }
+            } else {
+                var f = this.element;
             }
+
             return f;
         },
 

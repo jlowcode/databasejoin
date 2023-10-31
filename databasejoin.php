@@ -3759,7 +3759,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				$trigger = 'change';
 				break;
 			case 'auto-complete':
-				$trigger = 'blur';
+                // Alter blur to focusout by id task: 172
+				$trigger = 'focusout';
 				break;
 			default:
 				$trigger = 'click';
@@ -4021,7 +4022,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				$trigger = 'change';
 				break;
 			case 'auto-complete':
-				$trigger = 'blur';
+				$trigger = 'focusout';
 				/**
 				 * Begin - Toogle Submit in databasejoin
 				 * Adding databasejoin to validation Toogle Submit 
