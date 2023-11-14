@@ -935,15 +935,6 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
 
             document.id(f.id).value = '';
             document.id(f.id.replace('-auto-complete', '')).value = '';
-            //Id task: 203
-            if(f.id.indexOf('-auto-complete') < 0) {
-                id = f.id;
-                r = id.split('_').pop();
-                origId = id.slice(0, id.indexOf(r)-1);
-                elToogle = f.getParent().getElement('#'+origId+'_0-toogle-submit');
-                elToogle.id = origId + '_' + r + '-toogle-submit';
-                elToogle.value = '';
-            }
             new AutoComplete(this.element.id, this.options.autoCompleteOpts);
         },
 
