@@ -1923,7 +1923,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		// $$$ rob - class property required when cloning repeat groups - don't remove
 		$html[] = '<input type="hidden" tabindex="-1" class="fabrikinput" name="' . $thisElName . '" id="' . $id . '" value="'
 			. FArrayHelper::getValue($default, 0, '') . '"/>';
-
 		
 		//Update initial suggest
 		$limit = $params->get('dbjoin_initial_suggest_size');
