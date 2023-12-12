@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<extension group="fabrik_element" method="upgrade" type="plugin" version="3">
+<extension group="fabrik_element" method="upgrade" type="plugin" version="4">
 	<name>plg_fabrik_element_databasejoin</name>
 	<author>Media A-Team, Inc.</author>
-	<creationDate>August 2021</creationDate>
-	<copyright>Copyright (C) 2005-2021 Media A-Team, Inc. - All rights reserved.</copyright>
+	<creationDate>October 2023</creationDate>
+	<copyright>Copyright (C) 2005-2023 Media A-Team, Inc. - All rights reserved.</copyright>
 	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<authorEmail>rob@pollen-8.co.uk</authorEmail>
 	<authorUrl>www.fabrikar.com</authorUrl>
-	<version>3.10</version>
+	<version>4.0Zeta</version>
 	<help url="PLG_ELEMENT_DATABASEJOIN_HELP_SERVER"/>
 	<description>PLG_ELEMENT_DATABASEJOIN_DESCRIPTION</description>
 
@@ -15,25 +15,7 @@
 		<filename plugin="databasejoin">databasejoin.php</filename>
 		<filename>databasejoin.js</filename>
 		<filename>databasejoin-min.js</filename>
-		<filename>autocompleteMultiselect.js</filename>
-		<filename>autocompletemultiselectnovo.js</filename>
-		<filename>autocompleteSearch.php</filename>
-		<filename>selectedNodesForMultipleTreeview.php</filename>
-		<filename>selectedNodesForSingleTreeview.php</filename>
-		<filename>jqtree.css</filename>
-		<filename>multiSelectTreeView.js</filename>
-		<filename>multiSelectTreeviewAutocomplete.js</filename>
-		<filename>singleSelectTreeView.js</filename>
-		<filename>singleSelectTreeviewAutocomplete.js</filename>
-		<filename>tags.css</filename>
-		<filename>autocompletetreeview.css</filename>
-		<filename>tree.jquery.js</filename>
-		<filename>treeViewSearch.php</filename>
-		<filename>jquery.min.js</filename> <!-- Update initial suggest -->
-		<filename>scriptInitialSuggest.js</filename> <!-- Update initial suggest -->
-		<filename>scriptTags.js</filename> <!-- Update of tags for databasejoin -->
 		<folder>forms</folder>
-		<folder>dist</folder>
 		<filename>index.html</filename>
 		<folder>language</folder>
 		<folder>layouts</folder>

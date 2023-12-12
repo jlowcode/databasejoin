@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <form>
 	<fields>
 		<fieldset label="COM_FABRIK_OPTIONS"
@@ -11,6 +11,7 @@
 			       name="eval"
 			       type="radio"
 			       class="btn-group"
+				layout="joomla.form.field.radio.switcher"
 			       description="PLG_ELEMENT_DBJOIN_EVAL_DESC"
 			       label="PLG_ELEMENT_DBJOIN_EVAL_LABEL">
 				<option value="0">JNO</option>
@@ -20,12 +21,15 @@
 			<field name="default"
 			       type="fabrikeditor"
 			       mode="php"
+				cols="60"
+				rows="6"
 			       label="PLG_ELEMENT_DBJOIN_DEFAULT_LABEL"/>
 
 			<field name="hidden"
 			       type="radio"
 			       default="0"
 			       class="btn-group"
+				layout="joomla.form.field.radio.switcher"
 			       label="PLG_ELEMENT_DBJOIN_HIDDEN">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -82,42 +86,6 @@
 			       label="PLG_ELEMENT_DBJOIN_JOIN_LABEL_LABEL"
 			       table="params_join_db_name"/>
 
-			<field name="tree_parent_id"
-			       type="listfields"
-			       highlightpk="false"
-			       connection="params_join_conn_id"
-			       description="PLG_ELEMENT_DBJOIN_PARENT_ID_DESC"
-			       label="PLG_ELEMENT_DBJOIN_PARENT_ID_LABEL"
-			       table="params_join_db_name"/>
-
-			<field name="root_category2"
-                   label="PLG_ELEMENT_DBJOIN_ROOT_CATEGORY_LABEL"
-                   type="fabrikeditor"
-                   mode="php"/>
-			
-			<!-- <field name="root_category"
-			       type="text"
-			       size="3"
-			       class="input-mini"
-			       default=""
-			       label="PLG_ELEMENT_DBJOIN_ROOT_CATEGORY_LABEL"/> -->
-
-			<field name="database_join_display_style"
-			       type="list"
-			       default="only-autocomplete"
-			       label="PLG_ELEMENT_DBJOIN_STYLE_DISPLAY">
-				<option value="both-treeview-autocomplete">PLG_ELEMENT_DBJOIN_STYLE_DISPLAY_BOTH</option>
-				<option value="only-treeview">PLG_ELEMENT_DBJOIN_STYLE_DISPLAY_TREEVIEW</option>
-				<option value="only-autocomplete">PLG_ELEMENT_DBJOIN_STYLE_DISPLAY_AUTOCOMPLETE</option>
-			</field>
-
-			<field name="join_val_col_synchronism"
-				   type="listfields"
-				   connection="params_join_conn_id"
-				   description="PLG_ELEMENT_DBJOIN_JOIN_SYNCHRONISM_DESC"
-				   label="PLG_ELEMENT_DBJOIN_JOIN_SYNCHRONISM_LABEL"
-				   table="params_join_db_name"/>
-
 			<field name="join_val_column_concat"
 			       type="textarea"
 			       cols="40"
@@ -125,42 +93,10 @@
 			       label="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_LABEL"
 			       rows="6"/>
 
-			<!-- begin - Update initial suggest -->
-			<field name="jsSuggest"
-			       type="radio"
-			       default="0"
-			       class="btn-group"
-			       description="PLG_ELEMENT_DBJOIN_JSSUGGEST_DESC"
-			       label="PLG_ELEMENT_DBJOIN_JSSUGGEST_LABEL">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-			<!-- End - Update initial suggest -->
-
-			<!-- Begin - Update of tags for databasejoin -->
-			<field name="moldTags"
-			       type="radio"
-			       default="0"
-			       class="btn-group"
-			       description="PLG_ELEMENT_DBJOIN_MOLDTAGS_DESC"
-			       label="PLG_ELEMENT_DBJOIN_MOLDTAGS_LABEL">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-			<!-- End - Update of tags for databasejoin -->
 		</fieldset>
 
 		<fieldset label="PLG_FABRIK_DBJOIN_DATA_WHERE"
 		          name="plg-databasejoin-where">
-
-			<field name="databasejoin_linked_items"
-			       type="radio"
-			       default="0"
-			       class="btn-group"
-			       label="PLG_ELEMENT_DBJOIN_HIDDEN_LINKED_ITEMS_LABEL">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
 
 			<field type="helplink"
 			       url="PLG_ELEMENT_DATABASEJOIN_HELP_SERVER"/>
@@ -168,6 +104,8 @@
 			<field name="database_join_where_sql"
 			       type="fabrikeditor"
 			       mode="mysql"
+				cols="60"
+				rows="6"
 			       description="PLG_ELEMENT_DBJOIN_WHERE_STATEMENT_DESC"
 			       label="PLG_ELEMENT_DBJOIN_WHERE_STATEMENT_LABEL"/>
 
@@ -176,6 +114,17 @@
 			       default="1"
 			       description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_DESC"
 			       label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_LABEL"/>
+
+			<field name="database_join_where_access_invert"
+				   type="radio"
+				   default="0"
+				   class="btn-group"
+				layout="joomla.form.field.radio.switcher"
+				   label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_INVERT_LABEL"
+				   description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_ACCESS_INVERT_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 
 			<field name="database_join_where_when"
 			       type="list"
@@ -191,27 +140,46 @@
 			       type="radio"
 			       default="0"
 			       class="btn-group"
+				layout="joomla.form.field.radio.switcher"
 			       label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_LABEL"
 			       description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_DESC">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<!--Begin - Solving problem with repetible products-->
-			<field name="databasejoin_concat_distinct"
-			       type="radio"
-			       default="0"
-			       class="btn-group"
-			       label="PLG_ELEMENT_DBJOIN_JOIN_CONCAT_DISTINCT_LABEL"
-			       description="PLG_ELEMENT_DBJOIN_JOIN_CONCAT_DISTINCT_DESC">
+			<field name="databasejoin_where_ajax_on_load"
+				   type="radio"
+				   class="btn-group"
+				   default="0"
+				layout="joomla.form.field.radio.switcher"
+				   description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_ON_LOAD_DESC"
+				   label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_ON_LOAD_LABEL">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<!--Begin - Solving problem with repetible products-->
 
+			<field name="databasejoin_where_ajax_default_eval"
+				   type="fabrikeditor"
+				   mode="php"
+				cols="60"
+				rows="6"
+				   description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_DEFAULT_EVAL_DESC"
+				   label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_DEFAULT_EVAL_LABEL"/>
+
+			<!--
+						<field name="database_join_join_sql"
+							type="fabrikeditor"
+							mode="mysql"
+				cols="60"
+				rows="6"
+							description="PLG_ELEMENT_DBJOIN_JOIN_STATEMENT_DESC"
+							label="PLG_ELEMENT_DBJOIN_JOIN_STATEMENT_LABEL" />
+			-->
 			<field name="database_join_filter_where_sql"
 			       type="fabrikeditor"
 			       mode="mysql"
+				cols="60"
+				rows="6"
 			       description="PLG_ELEMENT_DBJOIN_FILTER_WHERE_SQL_DESC"
 			       label="PLG_ELEMENT_DBJOIN_FILTER_WHERE_SQL_LABEL"/>
 
@@ -227,6 +195,7 @@
 			       type="radio"
 			       default="1"
 			       class="btn-group"
+				layout="joomla.form.field.radio.switcher"
 			       description="PLG_ELEMENT_DBJOIN_SHOW_PLEASE_SELECT_DESC"
 			       label="PLG_ELEMENT_DBJOIN_SHOW_PLEASE_SELECT_LABEL">
 				<option value="0">JNO</option>
@@ -265,18 +234,9 @@
 			       type="radio"
 			       default="0"
 			       class="btn-group"
+				layout="joomla.form.field.radio.switcher"
 			       description="PLG_ELEMENT_DBJOIN_FRONTEND_ADD_DESC"
 			       label="PLG_ELEMENT_DBJOIN_FRONTEND_ADD_LABEL">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-
-			<field name="fabrikdatabasejoin_frontend_blank_page"
-			       type="radio"
-			       default="0"
-			       class="btn-group"
-			       description="PLG_ELEMENT_DBJOIN_FRONTEND_BLANK_PAGE_DESC"
-			       label="PLG_ELEMENT_DBJOIN_FRONTEND_BLANK_PAGE_LABEL">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -284,7 +244,7 @@
 			<field name="join_popupwidth"
 			       type="text"
 			       size="3"
-			       class="input-mini"
+			       class="col-sm-2"
 			       default=""
 			       description="PLG_ELEMENT_DBJOIN_POPUP_WINDOW_WIDTH_DESC"
 			       label="PLG_ELEMENT_DBJOIN_POPUP_WINDOW_WIDTH_LABEL"/>
@@ -293,6 +253,7 @@
 			       type="radio"
 			       default="0"
 			       class="btn-group"
+				layout="joomla.form.field.radio.switcher"
 			       description="PLG_ELEMENT_DBJOIN_READONLY_LINK_DESC"
 			       label="PLG_ELEMENT_DBJOIN_READONLY_LINK_LABEL">
 				<option value="0">JNO</option>
@@ -303,6 +264,7 @@
 			       type="radio"
 			       default="0"
 			       class="btn-group"
+				layout="joomla.form.field.radio.switcher"
 			       description="PLG_ELEMENT_DBJOIN_FRONTEND_SELECT_DESC"
 			       label="PLG_ELEMENT_DBJOIN_FRONTEND_SELECT_LABEL">
 				<option value="0">JNO</option>
@@ -321,6 +283,7 @@
 			       type="radio"
 			       default="0"
 			       class="btn-group"
+				layout="joomla.form.field.radio.switcher"
 			       label="PLG_ELEMENT_DROPDOWN_JQUERY_CHOSEN_LABEL"
 			       description="PLG_ELEMENT_DROPDOWN_JQUERY_CHOSEN_DESC">
 				<option value="0">JNO</option>
@@ -329,7 +292,7 @@
 
 			<field name="dbjoin_options_per_row"
 			       type="width"
-			       class="input-mini"
+			       class="col-sm-2"
 			       default="4"
 			       description="PLG_ELEMENT_DBJOIN_OPTIONS_PER_ROW_DESC"
 			       label="PLG_ELEMENT_DBJOIN_OPTIONS_PER_ROW_LABEL"
@@ -337,7 +300,7 @@
 
 			<field name="dbjoin_multiselect_max"
 			       type="field"
-			       class="input-mini"
+			       class="col-sm-2"
 			       default="0"
 			       description="PLG_ELEMENT_DBJOIN_MULTISELECT_MAX_DESC"
 			       label="PLG_ELEMENT_DBJOIN_MULTISELECT_MAX_LABEL"
@@ -345,7 +308,7 @@
 
 			<field name="dbjoin_multilist_size"
 				   type="field"
-				   class="input-mini"
+				   class="col-sm-2"
 				   default="6"
 				   description="PLG_ELEMENT_DBJOIN_MULTILIST_SIZE_DESC"
 				   label="PLG_ELEMENT_DBJOIN_MULTILIST_SIZE_LABEL"
@@ -353,7 +316,7 @@
 
 			<field name="dbjoin_autocomplete_size"
 			       type="field"
-			       class="input-mini"
+			       class="col-sm-2"
 			       default="20"
 			       description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_SIZE_DESC"
 			       label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_SIZE_LABEL"
@@ -361,37 +324,17 @@
 
 			<field name="dbjoin_autocomplete_rows"
 				   type="field"
-				   class="input-mini"
+				   class="col-sm-2"
 				   default="10"
 				   description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_ROWS_DESC"
 				   label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_ROWS_LABEL"
 				   size="3"/>
 
 			<field name="bootstrap_class"
-			       default="input-large"
+			       default="col-sm-8"
 			       type="bootstrapfieldclass"
 			       description="PLG_ELEMENT_DBJOIN_CLASS_DESC"
 			       label="PLG_ELEMENT_DBJOIN_CLASS_LABEL"/>
-			
-			<!-- begin - Update initial suggest -->
-			<field name="dbjoin_initial_suggest_size"
-				   type="field"
-				   class="input-mini"
-				   default="10"
-				   description="PLG_ELEMENT_DBJOIN_INITIAL_SUGGEST_SIZE_DESC"
-				   label="PLG_ELEMENT_DBJOIN_INITIAL_SUGGEST_SIZE_LABEL"
-				   size="2"/>
-			<!-- end - Update initial suggest -->
-
-			<!-- begin - Update customized label search -->
-			<field name="dbjoin_customized_label_size"
-				   type="number"
-				   default="0"
-				   description="PLG_ELEMENT_DBJOIN_CUSTOMIZED_LABEL_SIZE_DESC"
-				   label="PLG_ELEMENT_DBJOIN_CUSTOMIZED_LABEL_SIZE_LABEL"
-			       class="input-mini"
-			/>
-			<!-- end - Update customized label search -->
 
 		</fieldset>
 
@@ -404,6 +347,8 @@
 			<field name="dabase_join_label_eval"
 			       type="fabrikeditor"
 			       mode="php"
+				cols="60"
+				rows="6"
 			       description="PLG_ELEMENT_DBJOIN_OPTIONS_EVAL_DESC"
 			       label="PLG_ELEMENT_DBJOIN_OPTIONS_EVAL_LABEL"/>
 
@@ -425,26 +370,17 @@
 				<option value="starts_with">PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_HOW_STARTS_WITH</option>
 			</field>
 
+
 			<field name="clean_concat"
 			       type="radio"
 			       class="btn-group"
 			       default="0"
+				layout="joomla.form.field.radio.switcher"
 			       description="PLG_ELEMENT_DBJOIN_CLEAN_CONCAT_DESC"
 			       label="PLG_ELEMENT_DBJOIN_CLEAN_CONCAT_LABEL">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-
-			<!-- Begin - Individual Customized Min Trigger Characters -->
-			<field name="dbjoin_autocomplete_min_trigger_chars"
-			       type="number"
-			       default="0"
-			       description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_MIN_TRIGGER_CHARS_DESC"
-			       label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_MIN_TRIGGER_CHARS_LABEL"
-				   class="readonly"
-				   size="3">
-			</field>
-			<!-- End - Individual Customized Min Trigger Characters -->
 
 		</fieldset>
 	</fields>

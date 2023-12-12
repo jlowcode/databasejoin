@@ -5,8 +5,7 @@
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-bootstrap', './autocompleteMultiselect', './multiSelectTreeView', 
-'./singleSelectTreeView', './multiSelectTreeviewAutocomplete', './singleSelectTreeviewAutocomplete', './autocompletemultiselectnovo'],
+define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-bootstrap'],
     function (jQuery, FbElement, Encoder, Fabrik, AutoComplete) {
     window.FbDatabasejoin = new Class({
         Extends: FbElement,
@@ -43,14 +42,16 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             var self = this, c, b;
             if (c = this.getContainer()) {
                 b = c.getElement('.toggle-addoption');
-
                 // If duplicated remove old events
-
                 b.removeEvent('click', this.watchAddEvent);
-
                 this.watchAddEvent = this.start.bind(this);
-
                 b.addEvent('click', this.watchAddEvent);
+
+                b = c.getElement('.toggle-editoption');
+                // If duplicated remove old events
+                b.removeEvent('click', this.watchEditEvent);
+                this.watchEditEvent = this.start.bind(this);
+                b.addEvent('click', this.watchEditEvent);
             }
         },
 
@@ -98,8 +99,16 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             if (this.element === null || c === null) {
                 return;
             }
+
             var a = c.getElement('.toggle-addoption'),
                 url = typeOf(a) === 'null' ? e.target.get('href') : a.get('href');
+
+            var title = Joomla.JText._('PLG_ELEMENT_DBJOIN_ADD');
+
+            if (e.target.closest('a').hasClass('toggle-editoption')) {
+                url += '&rowid=' + this.getValue();
+                title = Joomla.JText._('PLG_ELEMENT_DBJOIN_EDIT');
+            }
 
             url += '&format=partial';
 
@@ -107,7 +116,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             this.windowopts = {
                 'id'             : id,
                 'data'           : this.form.getFormElementData(),
-                'title'          : Joomla.JText._('PLG_ELEMENT_DBJOIN_ADD'),
+                'title'          : title,
                 'contentType'    : 'xhr',
                 'loadMethod'     : 'xhr',
                 'contentURL'     : url,
@@ -156,7 +165,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                                 el.selectedIndex = 0;
                             }
                             if (this.options.advanced) {
-                                jQuery('#' + this.element.id).trigger('liszt:updated');
+                                jQuery('#' + this.element.id).trigger('chosen:updated');
                             }
                             break;
                         }
@@ -188,11 +197,13 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 /* falls through */
                 case 'multilist':
                     var sel = jQuery.isArray(this.options.value) ? this.options.value : [this.options.value];
-                    selected = sel.contains(v) ? 'selected' : '';
+					
+					//J!4: v be ints or strings depending on render type, so always test/accept both
+                    selected = (sel.contains(v.toInt()) || sel.contains(v.toString()) ) ? 'selected' : '';
                     opt = new Element('option', {'value': v, 'selected': selected}).set('text', l);
                     document.id(this.element.id).adopt(opt);
                     if (this.options.advanced) {
-                        jQuery('#' + this.element.id).trigger('liszt:updated');
+                        jQuery('#' + this.element.id).trigger('chosen:updated');
                     }
                     break;
                 case 'auto-complete':
@@ -229,23 +240,26 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
          * @return  void
          */
         _addOption: function (opt, l, v, rowOpt) {
-            var sel = typeOf(this.options.value) === 'array' ?
-                    this.options.value : Array.mfrom(this.options.value),
+				var sel = jQuery.isArray(this.options.value) ? this.options.value : [this.options.value],
                 i = opt.getElement('input'),
                 subOpts = this.getSubOptions(),
                 subOptsRows = this.getSubOptsRow(),
-                checked = sel.contains(v) ? true : false,
+                checked = sel.contains(v.toInt()) || sel.contains(v.toString()) ? true : false,
                 nameIterator = this.options.displayType === 'radio' ? '' : subOpts.length;
 
             if (this.options.canRepeat) {
                 i.name = this.options.fullName + '[' + this.options.repeatCounter + '][' + nameIterator + ']';
+				var newid = this.options.fullName + '_' + this.options.repeatCounter + '_input_' + v;
             } else {
                 i.name = this.options.fullName + '[' + nameIterator + ']';
+				var newid = this.options.fullName +  '_input_' + v;
             }
-
+			
             // stuff the value and label into the opt
             opt.getElement('span').set('html', l);
             opt.getElement('input').set('value', v);
+			opt.getElement('input').set('id', newid);
+			opt.getElement('label').set('for', newid);
 
             // if no row containers yet, inject one
             if (subOptsRows.length === 0) {
@@ -253,14 +267,15 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             }
 
             // get the last row container
-            var lastRow = jQuery(this.element).children('div[data-role=fabrik-rowopts]').last()[0];
+            var lastRow = jQuery(this.element).children('div.row').last()[0];
             // get the opts in the last container
-            var lastRowOpts = jQuery(lastRow).children('div[data-role=suboption]');
+            var lastRowOpts = jQuery(lastRow).children('input[data-role=suboption]');
 
             // if last row is full, inject another one
+			//to fix: optsPerRow is not set
             if (lastRowOpts.length >= this.options.optsPerRow) {
                 rowOpt.inject(this.element, 'bottom');
-                lastRow = jQuery(this.element).children('div[data-role=fabrik-rowopts]').last()[0];
+                lastRow = jQuery(this.element).children('div.row').last()[0];
             }
 
             // inject the new opt into the last row
@@ -289,9 +304,6 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 this.chxTmplNode = jQuery(
                     Fabrik.jLayouts['fabrik-element-' + this.getPlugin() + '-form-checkbox' + '_' + this.strElement]
                 )[0];
-               // nova linha begin
-              if(typeof chxTmplNode !== "undefined" && chxTmplNode !== null){
-               	// nova linha end
                 if (!this.chxTmplNode && this.options.displayType === 'checkbox') {
                     var chxs = this.element.getElements('> .fabrik_subelement');
                     if (chxs.length === 0) {
@@ -301,7 +313,6 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         this.chxTmplNode = chxs.getLast().clone();
                     }
                 }
-               }
             }
 
             return this.chxTmplNode;
@@ -385,15 +396,18 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         return;
                     }
 
+					//J!4: json may be ints or strings depending on render type, same with self.option.value and self.GetValue; not sure if existingValues are always strings; so always test/accept both
                     var jsonValues = [];
                     json.each(function (o) {
                         jsonValues.push(o.value);
-                        if (!existingValues.contains(o.value) && o.value !== null) {
+                        if (!
+						( existingValues.contains(o.value.toInt()) || existingValues.contains(o.value.toString()) ) 
+						&& o.value !== null) {
                             if (o.selected) {
                                 self.options.value = o.value;
                                 changed = true;
                             }
-                            sel = self.options.value === o.value;
+                            sel = self.options.value == o.value;
                             if (sel && self.activePopUp) {
                                 changed = true;
                             }
@@ -401,7 +415,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         }
                         else {
                             if (o.selected) {
-                                if (self.options.value !== o.value) {
+                                if (self.options.value != o.value) {
                                     changed = true;
                                     self.update(o.value);
                                 }
@@ -410,8 +424,8 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                     });
 
                     existingValues.each(function (ev) {
-                        if (!jsonValues.contains(ev)) {
-                            sel = changed = self.getValue() === ev;
+                        if (!( jsonValues.contains(ev.toString()) || jsonValues.contains(ev.toInt() ))) {
+                            sel = changed = self.getValue() == ev;
                             self.removeOption(ev, sel);
                         }
                     });
@@ -431,7 +445,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                             var $desc = jQuery(descDiv).clone();
                             $desc.removeClass('description-0');
                             $desc.addClass('description-' + i++);
-                            if (self.options.value === o.value) {
+                            if (self.options.value == o.value) {
                                 $desc.css('display','');
                             }
                             $desc.html(o.description);
@@ -454,12 +468,12 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                     o = this.element.getElements('option');
                     break;
                 case 'checkbox':
-                    o = this.element.getElements('[data-role=suboption] input[type=checkbox]');
+                    o = this.element.getElements('input[type=checkbox]');
                     break;
                 case 'radio':
                 /* falls through */
                 default:
-                    o = this.element.getElements('[data-role=suboption] input[type=radio]');
+                    o = this.element.getElements('input[type=radio]');
                     break;
             }
             return o;
@@ -476,7 +490,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                     break;
                 case 'checkbox':
                 case 'radio':
-                    o = this.element.getElements('[data-role=fabrik-rowopts]');
+                    o = this.element.getElements('div.row');
                     break;
             }
             return o;
@@ -532,7 +546,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         /* falls through */
                         default:
                             o = self.element.getElements('.fabrik_subelement').filter(function (o, x) {
-                                if (o.get('value') === v) {
+                                if (o.get('value') == v) {
                                     o.checked = true;
                                     return true;
                                 }
@@ -695,10 +709,13 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
         },
 
         setValue: function (val) {
+            if (jQuery('#' + this.element.id).data('readonly')) {
+                jQuery('#' + this.element.id + ' option').attr('disabled', false);
+            }
             var found = false;
             if (typeOf(this.element.options) !== 'null') { //needed with repeat group code
                 for (var i = 0; i < this.element.options.length; i++) {
-                    if (this.element.options[i].value === val) {
+                    if ((typeof val === 'string' || typeof val === 'number') && this.element.options[i].value === val.toString()) {
                         this.element.options[i].selected = true;
                         found = true;
                         break;
@@ -714,7 +731,25 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         if (this.options.show_please_select) {
                             this.element.options[0].selected = true;
                         }
-                    } else {
+                    }
+                    if (this.options.displayType === 'multilist') {
+                        if (typeOf(val) === 'string') {
+                            val = val === '' ? [] : JSON.parse(val);
+                        }
+                        if (typeOf(val) !== 'array') {
+                            val = [val];
+                        }
+                        for (var i = 0; i < this.element.options.length; i++) {
+                            var sel = false;
+                            val.each(function (v) {
+                                if ((typeof v === 'string' || typeof v === 'number') && this.element.options[i].value === v.toString()) {
+                                    sel = true;
+                                }
+                            }.bind(this));
+                            this.element.options[i].selected = sel;
+                        }
+                    }
+                    else {
                         if (typeOf(val) === 'string') {
                             val = val === '' ? [] : JSON.parse(val);
                         }
@@ -725,7 +760,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         this.subElements.each(function (el) {
                             var chx = false;
                             val.each(function (v) {
-                                if (v.toString() === el.value) {
+                                if (v.toString() === el.value.toString()) {
                                     chx = true;
                                 }
                             }.bind(this));
@@ -734,9 +769,12 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                     }
                 }
             }
+            if (jQuery('#' + this.element.id).data('readonly')) {
+                jQuery('#' + this.element.id + ' option').attr('disabled', true);
+            }
             this.options.value = val;
             if (this.options.advanced) {
-                jQuery('#' + this.element.id).trigger('liszt:updated');
+                jQuery('#' + this.element.id).trigger('chosen:updated');
             }
         },
 
@@ -912,33 +950,16 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
          */
         cloneAutoComplete: function () {
             var f = this.getAutoCompleteLabelField();
-            
-            /**
-             * Begin - Toogle Submit in solicitações
-             * Altering the names of clone elements
-             * 
-             * Id Task: 116
-             */
-            var d = f.getParent('.fabrikElement').getElement('.elementIdAutoComplete');
-            /*if(f.id.indexOf('-auto-complete') < 0) {
-                f.id = this.element.id + '-auto-complete';
-            }
-            if(f.name.indexOf('-auto-complete') < 0) {
-                f.name = this.element.name.replace('[]', '') + '-auto-complete';
-            }*/
-            if (d) {
-                d.setProperty('value', f.id.replace('-auto-complete', ''));
-            }
-            this.options.element = f.id;
-            this.origId = this.options.fullName;
-            // End - Toogle Submit in solicitações
-
+            f.id = this.element.id + '-auto-complete';
+            f.name = this.element.name.replace('[]', '') + '-auto-complete';
             document.id(f.id).value = '';
-            document.id(f.id.replace('-auto-complete', '')).value = '';
             new AutoComplete(this.element.id, this.options.autoCompleteOpts);
         },
 
         watchObserve: function () {
+            if (this.options.ajaxOnLoad) {
+                this.updateFromServer();
+            }
             var v2, o2;
             this.options.observe.each(function (o) {
                 if (o === '') {
@@ -1032,47 +1053,12 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                             this.updateFromServer();
                         }
                     }
+                    Fabrik.fireEvent('fabrik.dbjoin.add.end', [this]);
                 }.bind(this));
             }
 
             if (this.options.editable) {
                 this.watchSelect();
-
-                /**
-                 * Begin - Toogle Submit in databasejoin
-                 * Adding databasejoin to validation Toogle Submit 
-                 * 
-                 * Id Task: 70
-                 */
-                switch (this.options.displayType) {
-                    case 'auto-complete':
-                        this.element.addEvent('change', function (e) {
-                            // Alter blur to focusout by id task: 172
-                            jQuery('#'+this.element.id).trigger('focusout');
-                        }.bind(this));
-                        break;
-                    
-                    case 'checkbox':
-                        let el = document.getElement('#'+this.element.id+'-multi-select');
-                        el = document.getElement('.select2-selection__rendered');
-                        var idElTarget = this.element.id;
-                        let observerConfig = { childList: true, subtree: true };
-                        var observer = new MutationObserver(observeMultiselect(idElTarget));
-                        observer.observe(el, observerConfig);
-                        
-                        function observeMultiselect(idElTarget) {
-                            return function(mutationsList, observer) {
-                                for(var mutation of mutationsList) {
-                                    if (mutation.type === 'childList') {
-                                        jQuery('#'+idElTarget).trigger('change');
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                }
-                // End - Toogle Submit in databasejoin
-
                 if (this.options.showDesc === true) {
                     this.element.addEvent('change', function (e) {
                         this.showDesc(e);
@@ -1082,17 +1068,11 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
         },
 
         getAutoCompleteLabelField: function () {
-            // Id task: 172
-            if(this.element.id.indexOf('-auto-complete') >= 0) {
-                var p = this.element.getParent('.fabrikElement');
-                var f = p.getElement('input[name*=-auto-complete]');
-                if (typeOf(f) === 'null') {
-                    f = p.getElement('input[id*=-auto-complete]');
-                }
-            } else {
-                var f = this.element;
+            var p = this.element.getParent('.fabrikElement');
+            var f = p.getElement('input[name*=-auto-complete]');
+            if (typeOf(f) === 'null') {
+                f = p.getElement('input[id*=-auto-complete]');
             }
-
             return f;
         },
 
