@@ -4204,7 +4204,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		// default to "contains" for backward compat.
 		$elementModel->autocomplete_where = $elementModel->_autocompleteWhere($params->get('dbjoin_autocomplete_how', 'contains'), $c, $search);
 		$opts                             = array('mode' => 'filter');
-		$tmp                              = $elementModel->_getOptions(array(), 0, true, $opts);
+		// id task: 219
+		$dataPost = json_decode($_POST['data'], true);
+		$dataPost['value'] = $_POST['value'];
+		$tmp                              = $elementModel->_getOptions($dataPost, 0, true, $opts);
 		return json_encode($tmp);
 	}
 
