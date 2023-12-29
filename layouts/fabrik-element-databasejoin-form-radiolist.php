@@ -12,6 +12,20 @@ if ($d->optsPerRow > 12)
 	$d->optsPerRow = 12;
 }
 
+// Original databasejoin 4.0
+$grid = FabrikHelperHTML::grid(
+	array_column($d->options, 'value'), 
+	array_column($d->options, 'text'), 
+	$d->default, 
+	$d->name, 
+	'radio',
+	false,
+	$d->optsPerRow,
+	["form-check-input"]
+);
+echo implode("\n", $grid);
+// Original databasejoin 4.0
+
 $colSize    = floor(floatval(12) / $d->optsPerRow);
 $colCounter = 0;
 $rowStarted = false;
