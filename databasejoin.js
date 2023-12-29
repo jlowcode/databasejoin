@@ -5,8 +5,7 @@
  * @license:   GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
-define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-bootstrap', './autocompleteMultiselect', './multiSelectTreeView', 
-'./singleSelectTreeView', './multiSelectTreeviewAutocomplete', './singleSelectTreeviewAutocomplete', './autocompletemultiselectnovo'],
+define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-bootstrap'],
     function (jQuery, FbElement, Encoder, Fabrik, AutoComplete) {
     window.FbDatabasejoin = new Class({
         Extends: FbElement,
@@ -289,9 +288,6 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 this.chxTmplNode = jQuery(
                     Fabrik.jLayouts['fabrik-element-' + this.getPlugin() + '-form-checkbox' + '_' + this.strElement]
                 )[0];
-               // nova linha begin
-              if(typeof chxTmplNode !== "undefined" && chxTmplNode !== null){
-               	// nova linha end
                 if (!this.chxTmplNode && this.options.displayType === 'checkbox') {
                     var chxs = this.element.getElements('> .fabrik_subelement');
                     if (chxs.length === 0) {
@@ -301,7 +297,6 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         this.chxTmplNode = chxs.getLast().clone();
                     }
                 }
-               }
             }
 
             return this.chxTmplNode;
@@ -912,29 +907,9 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
          */
         cloneAutoComplete: function () {
             var f = this.getAutoCompleteLabelField();
-            
-            /**
-             * Begin - Toogle Submit in solicitações
-             * Altering the names of clone elements
-             * 
-             * Id Task: 116
-             */
-            var d = f.getParent('.fabrikElement').getElement('.elementIdAutoComplete');
-            /*if(f.id.indexOf('-auto-complete') < 0) {
-                f.id = this.element.id + '-auto-complete';
-            }
-            if(f.name.indexOf('-auto-complete') < 0) {
-                f.name = this.element.name.replace('[]', '') + '-auto-complete';
-            }*/
-            if (d) {
-                d.setProperty('value', f.id.replace('-auto-complete', ''));
-            }
-            this.options.element = f.id;
-            this.origId = this.options.fullName;
-            // End - Toogle Submit in solicitações
-
+            f.id = this.element.id + '-auto-complete';
+            f.name = this.element.name.replace('[]', '') + '-auto-complete';
             document.id(f.id).value = '';
-            document.id(f.id.replace('-auto-complete', '')).value = '';
             new AutoComplete(this.element.id, this.options.autoCompleteOpts);
         },
 
@@ -1037,42 +1012,6 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
 
             if (this.options.editable) {
                 this.watchSelect();
-
-                /**
-                 * Begin - Toogle Submit in databasejoin
-                 * Adding databasejoin to validation Toogle Submit 
-                 * 
-                 * Id Task: 70
-                 */
-                switch (this.options.displayType) {
-                    case 'auto-complete':
-                        this.element.addEvent('change', function (e) {
-                            // Alter blur to focusout by id task: 172
-                            jQuery('#'+this.element.id).trigger('focusout');
-                        }.bind(this));
-                        break;
-                    
-                    case 'checkbox':
-                        let el = document.getElement('#'+this.element.id+'-multi-select');
-                        el = document.getElement('.select2-selection__rendered');
-                        var idElTarget = this.element.id;
-                        let observerConfig = { childList: true, subtree: true };
-                        var observer = new MutationObserver(observeMultiselect(idElTarget));
-                        observer.observe(el, observerConfig);
-                        
-                        function observeMultiselect(idElTarget) {
-                            return function(mutationsList, observer) {
-                                for(var mutation of mutationsList) {
-                                    if (mutation.type === 'childList') {
-                                        jQuery('#'+idElTarget).trigger('change');
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                }
-                // End - Toogle Submit in databasejoin
-
                 if (this.options.showDesc === true) {
                     this.element.addEvent('change', function (e) {
                         this.showDesc(e);
@@ -1082,17 +1021,11 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
         },
 
         getAutoCompleteLabelField: function () {
-            // Id task: 172
-            if(this.element.id.indexOf('-auto-complete') >= 0) {
-                var p = this.element.getParent('.fabrikElement');
-                var f = p.getElement('input[name*=-auto-complete]');
-                if (typeOf(f) === 'null') {
-                    f = p.getElement('input[id*=-auto-complete]');
-                }
-            } else {
-                var f = this.element;
+            var p = this.element.getParent('.fabrikElement');
+            var f = p.getElement('input[name*=-auto-complete]');
+            if (typeOf(f) === 'null') {
+                f = p.getElement('input[id*=-auto-complete]');
             }
-
             return f;
         },
 

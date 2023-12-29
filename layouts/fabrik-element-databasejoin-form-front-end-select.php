@@ -17,28 +17,18 @@ endif;
 if ($d->frontEndSelect && $d->editable) :
 	JText::script('PLG_ELEMENT_DBJOIN_SELECT');
 ?>
-	<a href="<?php echo $d->chooseUrl; ?>" target="<?php echo $d->renderStyle ? '_blank' : '' ?>" formValue="<?php echo $d->formId; ?>" class="toggle-selectoption btn" title="<?php echo FText::_('COM_FABRIK_SELECT'); ?>">
+	<a href="<?php echo $d->chooseUrl; ?>" class="toggle-selectoption btn" title="<?php echo FText::_('COM_FABRIK_SELECT'); ?>">
 		<?php echo FabrikHelperHTML::image('search', 'form', @$d->tmpl, array('alt' => FText::_('COM_FABRIK_SELECT'))); ?>
 	</a>
-	<?php if($d->refreshButton) : ?>
-		<a class="btn refreshTree" title="<?php echo 'Atualizar árvore';?>">
-			<?php echo FabrikHelperHTML::image('refresh.png', 'form', @$d->tmpl, array('alt' => 'Atualizar árvore')); ?>
-		</a>
-	<?php endif; ?>
 <?php
 endif;
 
 if ($d->frontEndAdd && $d->editable) :
 	JText::script('PLG_ELEMENT_DBJOIN_ADD');
 	?>
-	<a href="<?php echo $d->addURL; ?>" target="<?php echo $d->renderStyle ? '_blank' : '' ?>" formValue="<?php echo $d->formId; ?>" title="<?php echo FText::_('COM_FABRIK_ADD');?>" class="toggle-addoption btn">
+	<a href="<?php echo $d->addURL; ?>" title="<?php echo FText::_('COM_FABRIK_ADD');?>" class="toggle-addoption btn">
 		<?php echo FabrikHelperHTML::image('plus', 'form', @$d->tmpl, array('alt' => FText::_('COM_FABRIK_SELECT'))); ?>
 	</a>
-	<?php if($d->refreshButton) : ?>
-		<a class="btn refreshTree" title="<?php echo 'Atualizar árvore';?>">
-			<?php echo FabrikHelperHTML::image('refresh.png', 'form', @$d->tmpl, array('alt' => 'Atualizar árvore')); ?>
-		</a>
-	<?php endif; ?>
 <?php
 endif;
 // If add and select put them in a button group.

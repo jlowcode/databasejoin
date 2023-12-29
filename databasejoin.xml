@@ -15,25 +15,7 @@
 		<filename plugin="databasejoin">databasejoin.php</filename>
 		<filename>databasejoin.js</filename>
 		<filename>databasejoin-min.js</filename>
-		<filename>autocompleteMultiselect.js</filename>
-		<filename>autocompletemultiselectnovo.js</filename>
-		<filename>autocompleteSearch.php</filename>
-		<filename>selectedNodesForMultipleTreeview.php</filename>
-		<filename>selectedNodesForSingleTreeview.php</filename>
-		<filename>jqtree.css</filename>
-		<filename>multiSelectTreeView.js</filename>
-		<filename>multiSelectTreeviewAutocomplete.js</filename>
-		<filename>singleSelectTreeView.js</filename>
-		<filename>singleSelectTreeviewAutocomplete.js</filename>
-		<filename>tags.css</filename>
-		<filename>autocompletetreeview.css</filename>
-		<filename>tree.jquery.js</filename>
-		<filename>treeViewSearch.php</filename>
-		<filename>jquery.min.js</filename> <!-- Update initial suggest -->
-		<filename>scriptInitialSuggest.js</filename> <!-- Update initial suggest -->
-		<filename>scriptTags.js</filename> <!-- Update of tags for databasejoin -->
 		<folder>forms</folder>
-		<folder>dist</folder>
 		<filename>index.html</filename>
 		<folder>language</folder>
 		<folder>layouts</folder>
