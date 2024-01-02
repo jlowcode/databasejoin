@@ -3041,7 +3041,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		//Commented by Id task: 208
 		//if ($label == '') {
-			$label = $params->get('filter_required') == 1 ? FText::_('COM_FABRIK_PLEASE_SELECT') : FText::_('COM_FABRIK_FILTER_PLEASE_SELECT');
+			$label = $params->get('filter_required') == 1 ? Text::_('COM_FABRIK_PLEASE_SELECT') : Text::_('COM_FABRIK_FILTER_PLEASE_SELECT');
 		//}
 
 		return $label;
