@@ -3604,7 +3604,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$filters = $this->getlistModel()->getFilterArray();
 		if (isset($filters)) 
 		{
-			$sqlprefilter = $this->getlistModel()->_filtersToSQL($filters, true, false)[0];
+			$sqlprefilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
 			if (isset($sqlprefilter) && !empty($sqlprefilter)) 
 			{
 				$table_name = $this->getTableName();
@@ -3686,7 +3686,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$filters = $this->getlistModel()->getFilterArray();
 		if (isset($filters)) 
 		{
-			$sqlprefilter = $this->getlistModel()->_filtersToSQL($filters, true, false)[0];
+			$sqlprefilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
 			if (isset($sqlprefilter) && !empty($sqlprefilter) && $this->getFilterBuildMethod() == 1) 
 			{
 				$table_name = $this->getTableName();
@@ -3779,7 +3779,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$filters = $this->getlistModel()->getFilterArray();
 		if (isset($filters)) 
 		{
-			$sqlprefilter = $this->getlistModel()->_filtersToSQL($filters, true, false)[0];
+			$sqlprefilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
 			if (isset($sqlprefilter) && !empty($sqlprefilter)) 
 			{
 				$table_name = $this->getTableName();
@@ -3877,7 +3877,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$filters = $this->getlistModel()->getFilterArray();
 		if (isset($filters)) 
 		{
-			$sqlprefilter = $this->getlistModel()->_filtersToSQL($filters, true, false)[0];
+			$sqlprefilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
 			if (isset($sqlprefilter) && !empty($sqlprefilter) && $this->getFilterBuildMethod() == 1) 
 			{
 				$table_name = $this->getTableName();
