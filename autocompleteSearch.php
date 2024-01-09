@@ -55,8 +55,22 @@ if(preg_match('/{thistable}/', $data_where)){
 $query->from($db->quoteName($join_name));
 // Aonde o valor inicie com $value
 
+if (preg_match('/(ORDER\s+BY)(.*)/is', $data_where, $matches)) {
+	$data_orderBy = $matches[0];
+	$data_where         = str_replace($data_orderBy, '', $data_where);
+	$data_where         = str_replace($data_orderBy, '', $data_where);
+}
+
 if(isset($data_where) && !empty($data_where)){
 	$query->where($data_where);
+}
+
+if(isset($data_orderBy) && !empty($data_orderBy)) {
+	if(preg_match('/{thistable}/', $data_orderBy)){
+		$data_orderBy = str_replace('{thistable}', $db->quoteName($join_name), $data_orderBy);
+	}
+	$data_orderBy = JString::str_ireplace('ORDER BY', '', $data_orderBy);
+	$query->order($data_orderBy);
 }
 
 //Limit the query values
