@@ -19,6 +19,7 @@ use Joomla\CMS\Layout\LayoutInterface;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Factory;
 use Joomla\String\StringHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -1252,7 +1253,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				{
 					$where .= $this->autocomplete_where;
 				}
-			}
+				}
 		}
 
 		/*
@@ -5726,7 +5727,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	public function jsSuggest() 
 	{
 		$params = $this->getParams();
-		$document = Factory::getDocument();
+		$document = Factory::getApplication()->getDocument();
 		
 		if(!$params->get('jsSuggest')) 
 		{
@@ -5744,7 +5745,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	public function jsTags() 
 	{
 		$params = $this->getParams();
-		$document = Factory::getDocument();
+		$document = Factory::getApplication()->getDocument();
 		
 		if(!(bool) $params->get('moldTags')) 
 		{
