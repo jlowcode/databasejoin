@@ -622,7 +622,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		if (!isset($this->_aJoins)) 
 		{
 			$query = $db->getQuery(true);
-			$query->select('*')->from('#__fabrik_joins')->where('element_id = ' . (int) $this->id)->orderby('id');
+			$query->select('*')->from('#__fabrik_joins')->where('element_id = ' . (int) $this->id)->order('id');
 			$db->setQuery($query);
 			$this->_aJoins = $db->LoadObjectList();
 		}
