@@ -1244,7 +1244,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				|| ($mode == 'filter' && $displayType == 'auto-complete')
 			) 
 			{
-				$where .= StringHelper::stristr($where, 'WHERE') ? ' AND ' . $this->autocomplete_where : ' WHERE ' . $this->autocomplete_where;
+				if(!StringHelper::stristr($where, 'WHERE') && !empty($where))
+				{
+					$where = 'WHERE ' . $this->autocomplete_where . ' AND ' . $where;
+				} 
+				else 
+				{
+					$where .= $this->autocomplete_where;
+				}
 			}
 		}
 
