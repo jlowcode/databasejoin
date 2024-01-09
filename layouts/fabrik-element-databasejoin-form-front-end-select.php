@@ -40,7 +40,7 @@ if ($d->frontEndAdd && $d->editable) :
 		<a class="btn refreshTree" title="<?php echo 'Atualizar árvore';?>">
 			<?php echo FabrikHelperHTML::image('refresh.png', 'form', @$d->tmpl, array('alt' => 'Atualizar árvore')); ?>
 		</a>
-	<?php else 
+	<?php else :
 		Text::script('PLG_ELEMENT_DBJOIN_EDIT');
 		?>
 		<a href="<?php echo $d->addURL; ?>" title="<?php echo Text::_('COM_FABRIK_EDIT');?>" class="toggle-editoption btn">
