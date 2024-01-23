@@ -1147,12 +1147,20 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
         decreaseName: function (delIndex) {
             if (this.options.displayType === 'auto-complete') {
                 var f = this.getAutoCompleteLabelField();
-                if (typeOf(f) !== 'null') {
+                if (typeOf(f) !== 'null' && f.name.indexOf('-auto-complete') > 0) {
                     f.name = this._decreaseName(f.name, delIndex, '-auto-complete');
                     f.id = this._decreaseId(f.id, delIndex, '-auto-complete');
                 }
             }
-            return this.parent(delIndex);
+
+            var idParent = this.parent(delIndex);
+            // Id task: 249
+            if(this.element.name.indexOf('-auto-complete]') > 0 && this.options.displayType === 'auto-complete') {
+                this.element.name = this.element.name.split('-auto-complete]').join(']') + '-auto-complete';
+                this.element.getParent().getElementsByClassName('elementIdAutoComplete')[0].value = this.element.id.replace('-auto-complete', '');
+            }
+            
+            return idParent;
         },
 
         /**
