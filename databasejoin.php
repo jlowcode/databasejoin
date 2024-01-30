@@ -1465,11 +1465,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		//Begin - Update customized label search
 		$numberCharacters = $params->get('dbjoin_customized_label_size');
-		foreach($tmp as $t) 
+		if($numberCharacters > 0) 
 		{
-			if(strlen($t->text) > $numberCharacters && $numberCharacters > 0) 
+			foreach($tmp as $t) 
 			{
-				$t->text = substr($t->text, 0, $numberCharacters) . '...';
+				if(strlen($t->text) > $numberCharacters) 
+				{
+					$t->text = substr($t->text, 0, $numberCharacters) . '...';
+				}
 			}
 		}
 		//End - Update customized label search
