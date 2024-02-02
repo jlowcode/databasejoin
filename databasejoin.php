@@ -357,7 +357,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 *
 	 * @return  array    filter value and labels
 	 */
-	protected function filterValueList_Exact_Count($normal, $tableName = '', $label = '', $id = '', $incjoin = true, $isUnion)
+	protected function filterValueList_Exact_Count($normal, $tableName = '', $label = '', $id = '', $incjoin = true, $isUnion = false)
 	{
 		if ($this->isJoin()) 
 		{
