@@ -24,7 +24,8 @@ let checkEvent = setInterval(function () {
 
     if(modAutoComplete == 'auto-complete') {
         var idAutoComplete = jQuery('.elementIdAutoComplete').val();
-        var eventsInput = jQuery('#' + idAutoComplete + '-auto-complete').data('events');
+        //var eventsInput = jQuery('#' + idAutoComplete + '-auto-complete').data('events');
+        var eventsInput = jQuery._data(jQuery('#' + idAutoComplete + '-auto-complete')[0],`events`);
         
         jQuery.each(eventsInput['keyup'], function  () {
             if(this.handler.toString().indexOf('event.keyCode == 13 || event.keyCode == 188') > 0) {
