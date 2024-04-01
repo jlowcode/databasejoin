@@ -43,24 +43,26 @@ let checkEvent = setInterval(function () {
 function tagsAutocomplete(id) {
     jQuery('#' + id + '-auto-complete').on('keyup', function (event) {
         var optionsMessage = jQuery('.dropdown-menu li .alert-info i').html();
-        console.log(optionsMessage);
         if(optionsMessage != undefined) {
             if(event.keyCode == 13 || event.keyCode == 188) { //Important for line 26
-                var Tag = jQuery(this).val();
-                var valueTag = '#fabrik#' + Tag;
-
-                jQuery('#' + id + '-auto-complete').val(Tag);
-                jQuery('#' + id).val('\"' + valueTag + '\"');
-                jQuery('.dropdown-menu').css({'visibility': 'hidden', 'display': 'initial'});
-                
-                var e = jQuery.Event('blur');
-                jQuery('#' + id + '-auto-complete').trigger(e);
+                setTimeout(setValue(this, id), 1000);
             }
         }
     });
 }
-/* END - For modRender auto-complete*/
 
+function setValue(self, id) {
+    var Tag = jQuery(self).val();
+    var valueTag = '#fabrik#' + Tag;
+
+    jQuery('#' + id + '-auto-complete').val(Tag);
+    jQuery('#' + id).val('\"' + valueTag + '\"');
+    jQuery('.dropdown-menu').css({'visibility': 'hidden', 'display': 'initial'});
+    
+    var e = jQuery.Event('blur');
+    jQuery('#' + id + '-auto-complete').trigger(e);
+}
+/* END - For modRender auto-complete*/
 
 /* BEGIN - For modRender multi-select-novo */
 //Function for decision of rewrite or not
