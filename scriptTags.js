@@ -109,7 +109,7 @@ function eventKeyup(id) {
                 var Tag = jQuery(this).val();
                 jQuery(this).val('');
 
-                if(!duplicateTags(id, Tag)) {
+                if(!duplicateTags(id, Tag) && Tag != '') {
                     AddSpan(Tag, id);
                     AddSelect(id, Tag);
                 }
