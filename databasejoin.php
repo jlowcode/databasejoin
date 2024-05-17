@@ -1954,16 +1954,17 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$rowOptsLayout = 'fabrik-element-' . $this->getPluginName() . '-form-rowopts';
 		FabrikHelperHTML::jLayoutJs($rowOptsLayout, $rowOptsLayout, $displayData, array($this->layoutBasePath()));
 
-		if (FabrikWorker::j3()) 
-		{
+		//if (FabrikWorker::j3()) 
+		//{
 			$html[] = $layout->render($displayData);
-		} 
-		else 
-		{
-			$html[] = FabrikHelperHTML::aList('checkbox', $tmp, $name, $attributes, $default, 'value', 'text', $displayData->optsPerRow, $displayData->editable);
-		}
+		//} 
+		//else 
+		//{
+		//	$html[] = FabrikHelperHTML::aList('checkbox', $tmp, $name, $attributes, $default, 'value', 'text', $displayData->optsPerRow, $displayData->editable);
+		//}
 
-		if (empty($tmp) && !FabrikWorker::j3()) 
+		//if (empty($tmp) && !FabrikWorker::j3()) 
+		if (empty($tmp) && false) 
 		{
 			$tmpIds   = array();
 			$o        = new stdClass;
