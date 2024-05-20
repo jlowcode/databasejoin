@@ -2058,7 +2058,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$selectedInput = '';
 		if ($defaultValue) 
 		{
-			$labelDefault = empty($data[$id]) ? $this->getLabelForValue($defaultValue, $defaultValue, true) : $data[$id];
+			$labelDefault = empty($data[$id]) || is_numeric($data[$id][0]) ? $this->getLabelForValue($defaultValue, $defaultValue, true) : $data[$id];
 			$selectedInput = '<input type="checkbox" name="' . $thisElName . '" value="' . $defaultValue . '" data="' . $labelDefault . '" style="display: none" checked hidden/>';
 		}
 
@@ -2109,7 +2109,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$selectedInput = '';
 		if ($defaultValue) 
 		{
-			$labelDefault = empty($data[$id]) ? $this->getLabelForValue($defaultValue, $defaultValue, true) : $data[$id];
+			$labelDefault = empty($data[$id]) || is_numeric($data[$id][0]) ? $this->getLabelForValue($defaultValue, $defaultValue, true) : $data[$id];
 			$selectedInput = '<input type="checkbox" class="selected-value-treeview" name="' . $thisElName . '" value="' . $defaultValue . '" data="' . $labelDefault . '" style="display: none" checked hidden/>';
 		}
 
