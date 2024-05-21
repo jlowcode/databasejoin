@@ -2904,6 +2904,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				$this->reapplyFilterLabels($rows);
 			}
 
+			foreach ($rows as &$r) {
+				$r->name = $r->text;
+			}
+
 			if (!in_array($element->filter_type, array('range', 'checkbox', 'multiselect', 'treeview', 'tagcloud'))) 
 			{
 				array_unshift($rows, HTMLHelper::_('select.option', '', $this->filterSelectLabel()));
