@@ -1686,6 +1686,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$displayData->frontEndSelect = $params->get('fabrikdatabasejoin_frontend_select');
 		$displayData->frontEndAdd    = $params->get('fabrikdatabasejoin_frontend_add');
 		$displayData->refreshButton  = $params->get('fabrikdatabasejoin_frontend_blank_page', 0) == 0 ? false : true;
+		$displayData->refreshButton  = true;
 		$displayData->renderStyle	 = (in_array($params->get('database_join_display_style'), array('both-treeview-autocomplete', 'only-treeview')) && $params->get('fabrikdatabasejoin_frontend_blank_page') == 1 ) ? true : false;
 		$forms                       = $this->getLinkedForms();
 		$popupForm                   = (int) $params->get('databasejoin_popupform');

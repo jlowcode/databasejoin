@@ -50,9 +50,9 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
 
                 b = c.getElement('.toggle-editoption');
                 // If duplicated remove old events
-                b.removeEvent('click', this.watchEditEvent);
+                /*b.removeEvent('click', this.watchEditEvent);
                 this.watchEditEvent = this.start.bind(this);
-                b.addEvent('click', this.watchEditEvent);
+                b.addEvent('click', this.watchEditEvent);*/
             }
         },
 
@@ -252,7 +252,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                     }
                     break;
                 case 'auto-complete':
-                    if (autoCompleteUpdate) {
+                    if (autoCompleteUpdate && this.options.displayStyle == 'only-autocomplete') {
                         labelField = this.element.getParent('.fabrikElement').getElement('input[name*=-auto-complete]');
                         this.element.value = v;
                         labelField.value = l;
