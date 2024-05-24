@@ -7,7 +7,7 @@ if (initDivTA.length) {
         function multiSelectTreeviewAutocomplete() {
             [].forEach.call(document.getElementsByClassName('autocomplete-multiple'), function (element) {
                 const elementIdInput = $(element).find('.input-autocompletetreeview-id')[0].value;
-                let mainInput = document.getElementById(elementIdInput),      //create main input to select elements
+                let mainInput = element.getElementById(elementIdInput),      //create main input to select elements
                     tags = [];
 
                 element.classList.add("autocomplete");
@@ -253,7 +253,7 @@ if (initDivTA.length) {
                 function closeAllLists(elmnt) {
                     /*close all autocomplete lists in the document,
                     except the one passed as an argument:*/
-                    var x = document.getElementsByName(join_name + "-autocomplete-list");
+                    var x = element.getElementsByName(join_name + "-autocomplete-list");
                     for (var i = 0; i < x.length; i++) {
                         if (elmnt != x[i] && elmnt != mainInput) {
                             x[i].parentNode.removeChild(x[i]);
@@ -286,7 +286,7 @@ if (initDivTA.length) {
 
                 /*execute a function presses a key on the keyboard:*/
                 mainInput.addEventListener("keydown", function (e) {
-                    var x = document.getElementById(join_name + "-autocomplete-list");
+                    var x = element.getElementById(join_name + "-autocomplete-list");
                     if (x) x = x.getElementsByTagName("div");
                     if (e.keyCode == 40) {
                         /*If the arrow DOWN key is pressed,

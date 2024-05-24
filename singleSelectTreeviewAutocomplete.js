@@ -6,12 +6,12 @@ if (initDivStA.length) {
 
         function singleSelectTreeviewAutocomplete() {
             [].forEach.call(document.getElementsByClassName('treeview-autocomplete-single'), function (element) {
-                var mainDiv = element;
+                const mainDiv = element;
                 element.classList.add("autocomplete");
                 const nameElement = $(element).find('.attribute_name')[0].value;
                 var selectedCheckbox = $(mainDiv).find('.selected-checkbox-' + nameElement)[0];
                 const join_name = $(mainDiv).find('.join_name-' + nameElement)[0].value;
-                var mainInput = document.getElementById(join_name + '_single'); //create main input to select elements
+                var mainInput = mainDiv.getElementById(join_name + '_single'); //create main input to select elements
                 const table_name = $(mainDiv).find('.table_name-' + nameElement)[0].value;
                 const attribute_name = $(mainDiv).find('.attribute_name')[0].value;
                 const join_val_column = $(mainDiv).find('.join_val_column-' + nameElement)[0].value;
@@ -328,7 +328,7 @@ if (initDivStA.length) {
                 function closeAllLists(elmnt) {
                     /*close all autocomplete lists in the document,
                     except the one passed as an argument:*/
-                    var x = document.getElementsByName(join_name + "-autocomplete-list");
+                    var x = mainDiv.getElementsByName(join_name + "-autocomplete-list");
                     for (var i = 0; i < x.length; i++) {
                         if (elmnt != x[i] && elmnt != mainInput) {
                             x[i].parentNode.removeChild(x[i]);

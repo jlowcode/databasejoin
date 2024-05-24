@@ -6,7 +6,7 @@ if (initDivSt.length) {
         
         function singleSelectTreeView() {
             [].forEach.call(document.getElementsByClassName('singleTreeView'), function (element) {
-                var mainDiv = element;
+                const mainDiv = element;
                 const nameElement = $(element).find('.attribute_name')[0].value;
                 var selectedCheckbox = $(mainDiv).find('.selected-checkbox-' + nameElement)[0];
                 const join_name = $(mainDiv).find('.join_name-' + nameElement)[0].value;
