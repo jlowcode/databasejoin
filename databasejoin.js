@@ -138,7 +138,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
 
             this.win = Fabrik.getWindow(this.windowopts);
 
-            setTimeout(() => {this.requireDependences()}, 300);
+            setTimeout(() => {this.requireDependences()}, 500);
         },
 
         requireDependences: function () {
