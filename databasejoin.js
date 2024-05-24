@@ -127,7 +127,8 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 'visible'        : visible,
                 modalId          : this.options.modalId,
                 'onContentLoaded': onContentLoaded,
-                destroy          : destroy
+                destroy          : destroy,
+                'type'           : 'modal'   
             };
             var winWidth = this.options.windowwidth;
             if (winWidth !== '') {
@@ -136,6 +137,49 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             }
 
             this.win = Fabrik.getWindow(this.windowopts);
+
+            setTimeout(() => {this.requireDependences()}, 300);
+        },
+
+        requireDependences: function () {
+            require(["/plugins/fabrik_element/databasejoin/multiSelectTreeviewAutocomplete.js"], function (module) {
+                var initDivTA = document.getElementsByClassName('autocomplete-multiple');
+                if (initDivTA.length) {
+                    module.multiSelectTreeviewAutocomplete();
+                }
+            });
+
+            require(["/plugins/fabrik_element/databasejoin/singleSelectTreeView.js"], function (module) {
+                var initDivSt = document.getElementsByClassName('singleTreeView');
+                if (initDivSt.length) {
+                    module.singleSelectTreeView();
+                }
+            });      
+
+            require(["/plugins/fabrik_element/databasejoin/multiSelectTreeView.js"], function (module) {
+                var initDiv = document.getElementsByClassName('tree-view2');
+                if(initDiv.length){
+                    module.multiSelectTreeView();
+                }
+            });
+
+            require(["/plugins/fabrik_element/databasejoin/singleSelectTreeviewAutocomplete.js"], function (module) {
+                let initDivStA = document.getElementsByClassName('treeview-autocomplete-single');
+                if (initDivStA.length) {
+                    module.singleSelectTreeviewAutocomplete();
+                }
+            });
+
+            require(["/plugins/fabrik_element/databasejoin/autocompleteMultiselect.js"], function (module) {
+                module.autocompleteMultiselect();
+            });
+
+            require(["/plugins/fabrik_element/databasejoin/autocompletemultiselectnovo.js"], function (module) {
+                var initDivTA = document.getElementsByClassName('multiselect-autocomplete');
+                if (initDivTA.length) {
+                    module.autocompleteMultiselectNovo();
+                }
+            });
         },
 
         getBlurEvent: function () {
@@ -1099,7 +1143,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         }.bind(this));
                         break;
                     
-                    case 'checkbox':
+                    /*case 'checkbox':
                         let el = document.getElement('#'+this.element.id+'-multi-select');
                         el = document.getElement('.select2-selection__rendered');
                         var idElTarget = this.element.id;
@@ -1116,7 +1160,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                                 }
                             }
                         }
-                        break;
+                        break;*/
                 }
                 // End - Toogle Submit in databasejoin
 

@@ -28,6 +28,7 @@
 		<filename>tags.css</filename>
 		<filename>autocompletetreeview.css</filename>
 		<filename>tree.jquery.js</filename>
+		<filename>multipleTreeViewSearch.php</filename>
 		<filename>treeViewSearch.php</filename>
 		<filename>jquery.min.js</filename> <!-- Update initial suggest -->
 		<filename>scriptInitialSuggest.js</filename> <!-- Update initial suggest -->
