@@ -64,7 +64,7 @@ if (initDivStA.length) {
 
                         if (Boolean(Number(databasejoin_linked_items))) {
                             buscaSelecionados(function (result2) {
-                                $(elementTreeId).tree({
+                                $(element).parent().find(elementTreeId).tree({
                                     data: res,
                                     selectable: false,
                                     onCreateLi: function (node, $li) {
@@ -82,7 +82,7 @@ if (initDivStA.length) {
                                 });
                             })
                         } else {
-                            $(elementTreeId).tree({
+                            $(element).parent().find(elementTreeId).tree({
                                 data: res,
                                 selectable: false
                             });
@@ -98,11 +98,11 @@ if (initDivStA.length) {
                 //add a refresh in the tree when there is a refresh button in the form
                 if (btnRefreshTree) {
                     btnRefreshTree.addEventListener("click", function (e) {
-                        var tree = $(elementTreeId).tree('getTree');
+                        var tree = $(element).parent().find(elementTreeId).tree('getTree');
                         //fechar todos os nós da árvore primeiro
                         tree.iterate(function(node) {
                             if (node.hasChildren()) {
-                                $(elementTreeId).tree('closeNode', node, true);
+                                $(element).parent().find(elementTreeId).tree('closeNode', node, true);
                             }
                         });
                         dataObj.value = null;
@@ -117,7 +117,7 @@ if (initDivStA.length) {
                                         node.children = [{}];
                                     }
                                 });
-                                $(elementTreeId).tree('loadData', res);
+                                $(element).parent().find(elementTreeId).tree('loadData', res);
                             },
                             dataType: "json"
                         });
@@ -161,7 +161,7 @@ if (initDivStA.length) {
                 }
 
                 // Make an AJAX request when open a tree branch
-                $(elementTreeId).off('tree.open').on(
+                $(element).parent().find(elementTreeId).off('tree.open').on(
                     'tree.open',
                     function (e) {
                         var id = parseInt(e.node.id);
@@ -187,7 +187,7 @@ if (initDivStA.length) {
                                         node.children = [{}];
                                     }
                                 });
-                                $(elementTreeId).tree('loadData', res, e.node);
+                                $(element).parent().find(elementTreeId).tree('loadData', res, e.node);
                             },
                             dataType: "json"
                         });
@@ -196,7 +196,7 @@ if (initDivStA.length) {
                 );
 
                 // On click on a node adds it to tags
-                $(elementTreeId).off('tree.click').on(
+                $(element).parent().find(elementTreeId).off('tree.click').on(
                     'tree.click',
                     function (event) {
                         var node = event.node;
