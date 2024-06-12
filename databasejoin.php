@@ -1099,7 +1099,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				|| ($mode == 'form' && $displayType == 'auto-complete')
 				|| ($mode == 'filter' && $displayType == 'auto-complete')
 			) {
-				if(!JString::stristr($where, 'WHERE') && !empty($where)){
+				//if(!JString::stristr($where, 'WHERE') && !empty($where)){
+				if((!JString::stristr($where, 'WHERE') || stripos(trim($where), 'WHERE') != 0) && !empty($where)){
 					$where = 'WHERE ' . $this->autocomplete_where . ' AND ' . $where;
 				} else {
 					$where .= $this->autocomplete_where;
