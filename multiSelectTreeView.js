@@ -60,7 +60,7 @@ if(initDiv.length){
 
                 // Build the tree making an AJAX request getting only the root nodes
                 $.ajax({
-                    url: root_url + 'plugins/fabrik_element/databasejoin/multipleTreeViewSearch.php',
+                    url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
                     data: {
                         value: null,
                         join_name: join_name,
@@ -119,7 +119,7 @@ if(initDiv.length){
                         });
                         // Build the tree making an AJAX request getting only the root nodes
                         $.ajax({
-                            url: root_url + 'plugins/fabrik_element/databasejoin/multipleTreeViewSearch.php',
+                            url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
                             data: {
                                 value: null,
                                 join_name: join_name,
@@ -150,7 +150,7 @@ if(initDiv.length){
                     function (e) {
                         var id = parseInt(e.node.id);
                         $.ajax({
-                            url: root_url + 'plugins/fabrik_element/databasejoin/multipleTreeViewSearch.php',
+                            url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
                             data: {
                                 value: id,
                                 join_name: join_name,
@@ -175,10 +175,10 @@ if(initDiv.length){
         
                     }
                 );
-        
+
                 function buscaSelecionados(handleData) {
                     $.ajax({
-                        url: root_url + 'plugins/fabrik_element/databasejoin/selectedNodesForMultipleTreeview.php',
+                        url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
                         data: {
                             attribute_name: nameElement,
                             table_name: table_name,
@@ -189,7 +189,7 @@ if(initDiv.length){
                         dataType: "json"
                     });
                 }
-        
+
                 function addTag(text, id) {
                     var tag = {
                         id: id,

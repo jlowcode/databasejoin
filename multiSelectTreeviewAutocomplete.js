@@ -85,7 +85,7 @@ if (initDivTA.length) {
                 }
 
                 $.ajax({
-                    url: root_url + 'plugins/fabrik_element/databasejoin/multipleTreeViewSearch.php',
+                    url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
                     data: dataObj,
                     success: function (result) {
                         var res = result;
@@ -144,7 +144,7 @@ if (initDivTA.length) {
                         dataObj.value = null;
                         // Build the tree making an AJAX request getting only the root nodes
                         $.ajax({
-                            url: root_url + 'plugins/fabrik_element/databasejoin/multipleTreeViewSearch.php',
+                            url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
                             data: dataObj,
                             success: function (result) {
                                 var res = result;
@@ -317,7 +317,7 @@ if (initDivTA.length) {
                         var id = parseInt(e.node.id);
                         dataObj.value = id;
                         $.ajax({
-                            url: root_url + 'plugins/fabrik_element/databasejoin/multipleTreeViewSearch.php',
+                            url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
                             data: dataObj,
                             success: function (result) {
                                 var res = result;
@@ -369,7 +369,7 @@ if (initDivTA.length) {
 
                 function buscaSelecionados(handleData) {
                     $.ajax({
-                        url: root_url + 'plugins/fabrik_element/databasejoin/selectedNodesForMultipleTreeview.php',
+                        url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
                         data: {
                             attribute_name: attribute_name,
                             table_name: table_name,
