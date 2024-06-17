@@ -42,17 +42,19 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
         watchAdd: function () {
             var self = this, c, b;
             if (c = this.getContainer()) {
-                b = c.getElement('.toggle-addoption');
-                // If duplicated remove old events
-                b.removeEvent('click', this.watchAddEvent);
-                this.watchAddEvent = this.start.bind(this);
-                b.addEvent('click', this.watchAddEvent);
+                if(this.strElement.indexOf('auto-complete') < 0) {
+                    b = c.getElement('.toggle-addoption');
+                    // If duplicated remove old events
+                    b.removeEvent('click', this.watchAddEvent);
+                    this.watchAddEvent = this.start.bind(this);
+                    b.addEvent('click', this.watchAddEvent);
 
-                b = c.getElement('.toggle-editoption');
-                // If duplicated remove old events
-                /*b.removeEvent('click', this.watchEditEvent);
-                this.watchEditEvent = this.start.bind(this);
-                b.addEvent('click', this.watchEditEvent);*/
+                    b = c.getElement('.toggle-editoption');
+                    // If duplicated remove old events
+                    /*b.removeEvent('click', this.watchEditEvent);
+                    this.watchEditEvent = this.start.bind(this);
+                    b.addEvent('click', this.watchEditEvent);*/
+                }
             }
         },
 
@@ -128,7 +130,6 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 modalId          : this.options.modalId,
                 'onContentLoaded': onContentLoaded,
                 destroy          : destroy,
-                'type'           : 'modal'   
             };
             var winWidth = this.options.windowwidth;
             if (winWidth !== '') {
