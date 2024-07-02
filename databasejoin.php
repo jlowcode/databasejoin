@@ -2151,7 +2151,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		* $$$ hugh 5/4/2015 - if we're coming from a related data link on a list, no non-raw data, so need
 		* to get it from $default[0]'s value
 		*/
-		if (array_key_exists('referring_table', $data)) 
+		if (array_key_exists('referring_table', $data) || !empty($default[0]))
 		{
 			$label = (array) $this->getLabelForValue($default[0], $default[0], true);
 		} 
@@ -2291,7 +2291,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$databasejoin_linked_items = $params->get('databasejoin_linked_items');
 		$data_where = $params->get('database_join_where_sql');
 		$concat = $params->get('join_val_column_concat');
-		$default = $this->multiOptionTargetIds($data, $repeatCounter);
+		//$default = $this->multiOptionTargetIds($data, $repeatCounter);
 
 		$select = '';
 		foreach ($default as $item_id) 
