@@ -32,7 +32,6 @@
 		<filename>treeViewSearch.php</filename>
 		<filename>jquery.min.js</filename> <!-- Update initial suggest -->
 		<filename>scriptInitialSuggest.js</filename> <!-- Update initial suggest -->
-		<filename>scriptTags.js</filename> <!-- Update of tags for databasejoin -->
 		<folder>forms</folder>
 		<folder>dist</folder>
 		<filename>index.html</filename>
