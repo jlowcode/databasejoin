@@ -2196,14 +2196,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		{
 			$this->jsSuggest();
 		}
-
-		//Update of tags for databasejoin
-		$html[] = '<input class="elementIdAutoComplete" type="hidden" value="' . $id . '"/>';
-		$html[] = '<input class="modRenderAutoComplete" type="hidden" value="auto-complete"/>';
-		if((bool) $params->get('moldTags')) 
-		{
-			$this->jsTags();
-		}
 	}
 
 	/**
@@ -2329,12 +2321,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		{
 			//Original
 			$html[] = '<div class="multiselect-autocomplete" id="' . $id . '">'.$data.'<select name="' . $elName . '" multiple="multiple" style="width: 100%;">'.$select.'</select></div>';
-		}
-
-		//Update of tags for databasejoin
-		if((bool) $params->get('moldTags')) 
-		{
-			$this->jsTags();
 		}
 	}
 
@@ -4196,8 +4182,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$opts->allowadd           = $params->get('fabrikdatabasejoin_frontend_add', 0) == 0 ? false : true;
 		$opts->listName           = $this->getListModel()->getTable()->db_table_name;
 		$this->elementJavascriptJoinOpts($opts);
-		$opts->isJoin   = $this->isJoin();
-		$opts->advanced = $this->getAdvancedSelectClass() != '';
+		$opts->isJoin   		  = $this->isJoin();
+		$opts->advanced 		  = $this->getAdvancedSelectClass() != '';
+		$opts->tags 			  = (bool) $params->get('moldTags');
 
 		// Begin - Individual Customized Min Trigger Characters
 		$this->minTriggerCharsCustomized($opts->autoCompleteOpts);
@@ -5748,24 +5735,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	}
 
 	/**
-	 * Update of tags for databasejoin
-	 * 
-	 */
-	public function jsTags() 
-	{
-		$params = $this->getParams();
-		$document = Factory::getApplication()->getDocument();
-		
-		if(!(bool) $params->get('moldTags')) 
-		{
-			return;
-		}
-
-		$document->addScript(JURI::root() . '/plugins/fabrik_element/databasejoin/jquery.min.js');
-		$document->addScript(JURI::root() . '/plugins/fabrik_element/databasejoin/scriptTags.js');
-	}
-
-	/**
 	 * The method is executed at the begin of the form submission process, both add and edit.
 	 */
 	public function onBeforeStore() 
@@ -5801,7 +5770,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				{
 					$tagId = str_replace('#fabrik#', '', $tagId);
 					$query = $db->getQuery(true);
-					$query->insert($join->table_join)->set($db->quoteName($label) . ' = ' . $tagId);
+					$query->insert($join->table_join)->set($db->qn($label) . ' = ' . $db->q($tagId));
 
 					if($moreColumns) 
 					{
