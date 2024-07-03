@@ -1182,7 +1182,29 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             },
     
             setActionSuggest: function() {
-                
+                var displayType = this.options.displayType;
+                var idEl = this.strElement;
+                var event = this.options.changeEvent;
+    
+                switch (displayType) {
+                    case 'auto-complete':
+                        if(idEl.indexOf('-auto-complete') > 0) {
+                            this.element.addEvent('click', function (e) {
+                                var value = this.element.value;
+                                if(value != '') {
+                                    return;
+                                }
+    
+                                this.element.dispatchEvent(new KeyboardEvent('keyup', {key: 'a', bubbles: true, cancelable: true}))
+                            }.bind(this));
+                        }
+                        break;
+    
+                    case 'checkbox':
+                        // Treatead inside the file select2.min
+                        break;
+                }
+    
                 return true;
             },
     
@@ -1227,6 +1249,10 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 var valueTag = '#fabrik#' + tag;
                 var fullName = this.options.fullName;
     
+                if(tag == "") {
+                    return;
+                }
+    
                 this.element.parentNode.getElementById(fullName).value = valueTag;
             },
     
@@ -1234,6 +1260,10 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 var tag = e.target.value;
                 var valueTag = '#fabrik#' + tag;
                 var select2 = this.element.querySelectorAll('[name="' + this.strElement + '[]"]');
+    
+                if(tag == "") {
+                    return;
+                }
     
                 var valuesCheck = [];
                 for (var i = 0; i < select2[0].options.length; i++) {

@@ -2163,11 +2163,19 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			}
 		}
 
+		// Update initial suggest
+		$suggest = '';
+		if((bool) $params->get('jsSuggest')) 
+		{
+			$suggest = "suggest";
+		}
+
 		$class = ' class="fabrikinput inputbox autocomplete-trigger ' . $params->get('bootstrap_class', 'col-sm-8') . '"';
 
 		$placeholder      = ' placeholder="' . htmlspecialchars($params->get('placeholder', ''), ENT_COMPAT) . '"';
 		$autoCompleteName = str_replace('[]', '', $thisElName) . '-auto-complete';
-		$html[]           = '<input type="text" size="' . $params->get('dbjoin_autocomplete_size', '20') . '" name="' . $autoCompleteName . '" id="' . $id
+		
+		$html[]           = '<input type="text" ' . $suggest . ' size="' . $params->get('dbjoin_autocomplete_size', '20') . '" name="' . $autoCompleteName . '" id="' . $id
 			. '-auto-complete" value="' . htmlspecialchars(FArrayHelper::getValue($label, 0)) . '"' . $class . $placeholder . '/>';
 
 		// $$$ rob - class property required when cloning repeat groups - don't remove
@@ -2187,15 +2195,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$urlAjax = JURI::root() . '/plugins/fabrik_element/databasejoin/autocompleteSearch.php?value=&join_name=' . $join_name .'&join_val_column=' . $join_val_column . '&limit_query=' . $limit . '&join_key_column=' . $join_key_column;
 		//$urlAjax = '/index.php?option=com_fabrik&format=json&view=plugin&task=pluginAjax&g=element&element_id=' . $elementId . '&formid=' . $formId . '&plugin=databasejoin&method=autocomplete_options&package=fabrik'; //Old method
-
-		$html[] = '<input class="urlAjax" type="hidden" value="' . $urlAjax . '"/>';
-		$html[] = '<input class="limitResults" type="hidden" value="' . $limit . '"/>';
-		$html[] = '<input class="limitChars" type="hidden" value="' . $limit_chars . '"/>';
-		
-		if((bool) $params->get('jsSuggest')) 
-		{
-			$this->jsSuggest();
-		}
 	}
 
 	/**
@@ -2321,6 +2320,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		{
 			//Original
 			$html[] = '<div class="multiselect-autocomplete" id="' . $id . '">'.$data.'<select name="' . $elName . '" multiple="multiple" style="width: 100%;">'.$select.'</select></div>';
+
 		}
 	}
 
@@ -4185,6 +4185,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$opts->isJoin   		  = $this->isJoin();
 		$opts->advanced 		  = $this->getAdvancedSelectClass() != '';
 		$opts->tags 			  = (bool) $params->get('moldTags');
+		$opts->suggest 			  = (bool) $params->get('jsSuggest');
+		$opts->limitResults 	  = $params->get('dbjoin_initial_suggest_size');
+		$opts->limitChars 		  = $params->get('dbjoin_customized_label_size');
 
 		// Begin - Individual Customized Min Trigger Characters
 		$this->minTriggerCharsCustomized($opts->autoCompleteOpts);
@@ -5714,24 +5717,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$db->setQuery($query);
 			$db->execute();
 		}
-	}
-
-	/**
-	 * Update initial suggest
-	 * Method that will include a js file on the page to add a listener to the checkbox to suggest initial data
-	 */
-	public function jsSuggest() 
-	{
-		$params = $this->getParams();
-		$document = Factory::getApplication()->getDocument();
-		
-		if(!$params->get('jsSuggest')) 
-		{
-			return;
-		}
-
-		$document->addScript(JURI::root() . '/plugins/fabrik_element/databasejoin/jquery.min.js');
-		$document->addScript(JURI::root() . '/plugins/fabrik_element/databasejoin/scriptInitialSuggest.js');
 	}
 
 	/**
