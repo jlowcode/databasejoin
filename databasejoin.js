@@ -1175,6 +1175,15 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 if(this.options.tags === true) {
                     this.setActionTags();
                 }
+    
+                if(this.options.suggest === true) {
+                    this.setActionSuggest();
+                }
+            },
+    
+            setActionSuggest: function() {
+                
+                return true;
             },
     
             setActionTags: function () {
@@ -1186,44 +1195,62 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                     case 'auto-complete':
                         if(idEl.indexOf('-auto-complete') > 0) {
                             this.element.addEvent(event, function (e) {
-                                var tag = this.element.value;
-                                var valueTag = '#fabrik#' + tag;
-                                var fullName = this.options.fullName;
+                                this.createTagToRenderAutoComplete();
+                            }.bind(this));
     
-                                this.element.parentNode.getElementById(fullName).value = valueTag;
+                            this.element.addEvent('keyup', function (e) {
+                                if(e.event.key == 'Enter' || e.event.key == 'Tab') {
+                                    this.createTagToRenderAutoComplete();
+                                }
                             }.bind(this));
                         }
                         break;
     
                     case 'checkbox':
                         this.element.addEvent(event, function (e) {
-                            if(!this.options.ignoreTag) {
-                                var tag = e.target.value;
-                                var valueTag = '#fabrik#' + tag;
-                                var select2 = this.element.querySelectorAll('[name="' + this.strElement + '[]"]');
-    
-                                var valuesCheck = [];
-                                for (var i = 0; i < select2[0].options.length; i++) {
-                                    valuesCheck.push(select2[0].options[i].value);
-                                }
-    
-                                if(!valuesCheck.includes(valueTag)) {
-                                    var values = [];
-                                    newOption = new Option(tag, valueTag, false, false);
-    
-                                    jQuery(select2).append(newOption).trigger('change');
-                                    for (var i = 0; i < select2[0].options.length; i++) {
-                                        values.push(select2[0].options[i].value);
-                                    }
-                                    jQuery(select2).val(values).trigger('change');
-                                }
-                            }
+                            this.createTagToRenderMultiSelect();        
                         }.bind(this));
     
+                        this.element.addEvent('keyup', function (e) {
+                            if(e.event.key == 'Enter' || e.event.key == 'Tab') {
+                                this.createTagToRenderMultiSelect(e);
+                            }
+                        }.bind(this));
                         break;
                 }
     
                 return true;
+            },
+    
+            createTagToRenderAutoComplete: function() {
+                var tag = this.element.value;
+                var valueTag = '#fabrik#' + tag;
+                var fullName = this.options.fullName;
+    
+                this.element.parentNode.getElementById(fullName).value = valueTag;
+            },
+    
+            createTagToRenderMultiSelect: function(e) {
+                var tag = e.target.value;
+                var valueTag = '#fabrik#' + tag;
+                var select2 = this.element.querySelectorAll('[name="' + this.strElement + '[]"]');
+    
+                var valuesCheck = [];
+                for (var i = 0; i < select2[0].options.length; i++) {
+                    valuesCheck.push(select2[0].options[i].value);
+                }
+    
+                if(!valuesCheck.includes(valueTag)) {
+                    var values = [];
+                    newOption = new Option(tag, valueTag, false, false);
+    
+                    jQuery(select2).append(newOption).trigger('change');
+                    for (var i = 0; i < select2[0].options.length; i++) {
+                        values.push(select2[0].options[i].value);
+                    }
+                    jQuery(select2).val(values).trigger('change');
+                }
+                e.target.value = "";
             },
     
             getAutoCompleteLabelField: function () {
