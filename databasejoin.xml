@@ -30,8 +30,6 @@
 		<filename>tree.jquery.js</filename>
 		<filename>multipleTreeViewSearch.php</filename>
 		<filename>treeViewSearch.php</filename>
-		<filename>jquery.min.js</filename> <!-- Update initial suggest -->
-		<filename>scriptInitialSuggest.js</filename> <!-- Update initial suggest -->
 		<folder>forms</folder>
 		<folder>dist</folder>
 		<filename>index.html</filename>
