@@ -2151,7 +2151,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		* $$$ hugh 5/4/2015 - if we're coming from a related data link on a list, no non-raw data, so need
 		* to get it from $default[0]'s value
 		*/
-		if (array_key_exists('referring_table', $data) || !empty($default[0]))
+		if (array_key_exists('referring_table', $data) || (!empty($default[0]) && (int) $default[0]))
 		{
 			$label = (array) $this->getLabelForValue($default[0], $default[0], true);
 		} 
