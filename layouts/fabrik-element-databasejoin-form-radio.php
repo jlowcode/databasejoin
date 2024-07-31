@@ -20,7 +20,7 @@ $colClass = (int) $colSize === 12 ? '' : 'col-sm-' . $colSize . '" ';
 $id = isset($d->option->id) ? $d->option->id : '';
 ?>
 <div class="form-check fabrikgrid_radio <?php echo $colClass;?> " data-role="suboption">
-	<label class="radio">
+	<label class="radio" style="display: flex; align-items: center;">
 		<input type="radio" value="<?php echo $value;?>" <?php echo $checked;?> data-role="fabrikinput" name="<?php echo $d->name; ?>" class="fabrikinput  form-check-input" />
 		<span><?php echo $label;?></span>
 	</label>
