@@ -23,8 +23,8 @@ if ($d->frontEndSelect && $d->editable) :
 		<?php echo FabrikHelperHTML::image('search', 'form', @$d->tmpl, array('alt' => Text::_('COM_FABRIK_SELECT'))); ?>
 	</a>
 	<?php if($d->refreshButton) : ?>
-		<a class="btn refreshTree" title="<?php echo 'Atualizar árvore';?>">
-			<?php echo FabrikHelperHTML::image('refresh.png', 'form', @$d->tmpl, array('alt' => 'Atualizar árvore')); ?>
+		<a class="btn refreshTree" title="<?php echo Text::_("PLG_ELEMENT_DBJOIN_UPDATE_TREE_LABEL");?>">
+			<?php echo FabrikHelperHTML::image('refresh.png', 'form', @$d->tmpl, array('alt' => Text::_("PLG_ELEMENT_DBJOIN_UPDATE_TREE_LABEL"))); ?>
 		</a>
 	<?php endif; ?>
 <?php
@@ -37,8 +37,8 @@ if ($d->frontEndAdd && $d->editable) :
 		<?php echo FabrikHelperHTML::image('plus', 'form', @$d->tmpl, array('alt' => Text::_('COM_FABRIK_SELECT'))); ?>
 	</a>
 	<?php if($d->refreshButton) : ?>
-		<a class="btn refreshTree" title="<?php echo 'Atualizar árvore';?>">
-			<?php echo FabrikHelperHTML::image('refresh.png', 'form', @$d->tmpl, array('alt' => 'Atualizar árvore')); ?>
+		<a class="btn refreshTree" title="<?php echo Text::_("PLG_ELEMENT_DBJOIN_UPDATE_TREE_LABEL");?>">
+			<?php echo FabrikHelperHTML::image('refresh.png', 'form', @$d->tmpl, array('alt' => Text::_("PLG_ELEMENT_DBJOIN_UPDATE_TREE_LABEL"))); ?>
 		</a>
 	<?php else :
 		Text::script('PLG_ELEMENT_DBJOIN_EDIT');

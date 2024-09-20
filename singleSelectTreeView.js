@@ -105,7 +105,7 @@ if (initDivSt.length) {
                 });
 
                 var parentDiv = jQuery(mainDiv).parent()[0];
-                var btnRefreshTree = parentDiv ? jQuery(parentDiv).find("a.refreshTree")[0] : null;
+                var btnRefreshTree = parentDiv ? jQuery(parentDiv).parent().find(".refreshTree")[0] : null;
                 //add a refresh in the tree when there is a refresh button in the form
                 if (btnRefreshTree) {
                     btnRefreshTree.addEventListener("click", function (e) {
@@ -118,7 +118,7 @@ if (initDivSt.length) {
                         });
                         // Build the tree making an AJAX request getting only the root nodes
                         $.ajax({
-                            url: root_urlTA + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                            url: root_urlSt + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
                             data: {
                                 value: null,
                                 join_name: join_name,

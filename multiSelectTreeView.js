@@ -178,7 +178,7 @@ if(initDiv.length){
 
                 function buscaSelecionados(handleData) {
                     $.ajax({
-                        url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                        url: root_url + 'plugins/fabrik_element/databasejoin/selectedNodesForMultipleTreeview.php',
                         data: {
                             attribute_name: nameElement,
                             table_name: table_name,
@@ -207,7 +207,7 @@ if(initDiv.length){
                     tag.input.value = id;
                     tag.input.setAttribute('type', 'checkbox');
                     tag.input.setAttribute('name', el_name);
-                    tag.input.setAttribute('style', 'display: block');
+                    tag.input.setAttribute('style', 'display: none');
                     tag.input.setAttribute('checked', 'true');
                     tag.input.setAttribute('class', 'fabrikinput');
                     tag.input.setAttribute('data-role', 'fabrikinput');
