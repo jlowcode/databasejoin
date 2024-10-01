@@ -2285,7 +2285,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		//$default = $this->multiOptionTargetIds($data, $repeatCounter);
 
 		$select = '';
-		foreach ($default as $item_id) 
+		$targetIds = $this->multiOptionTargetIds($data, $repeatCounter);
+		$targetIds = FArrayHelper::emptyIsh($targetIds, true) ? $default : $targetIds;
+
+		foreach ($targetIds as $item_id) 
 		{
 			// Iterates over the $tmp array to find the text of the items
 			foreach ($tmp as $the_item) 
