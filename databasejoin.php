@@ -648,8 +648,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			->join('LEFT', '#__fabrik_formgroup AS fg ON fg.group_id = el.group_id')
 			->join('LEFT', '#__fabrik_forms AS f ON f.id = fg.form_id')
 			->join('LEFT', ' #__fabrik_tables AS t ON t.form_id = f.id')
-			->where('plugin = ' . $db->quote('databasejoin'))
-			->where('join_db_name = ' . $db->quote($table->get('db_table_name')))
+			->where('plugin = ' . $db->q('databasejoin'))
+			->where('join_db_name = ' . $db->q($table->get('db_table_name')))
 			->where('join_conn_id = ' . (int) $table->get('connection_id'));
 		$db->setQuery($query);
 
@@ -714,7 +714,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 				foreach ($value as $v) 
 				{
-					$quoteV[] = $db->quote($v);
+					$quoteV[] = $db->q($v);
 				}
 
 				if ($params->get('database_join_display_style')) 
@@ -2524,7 +2524,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$query = $db->getQuery(true);
 			$query->select('f.id AS value, f.label AS text, l.id AS listid')->from('#__fabrik_forms AS f')
 				->join('LEFT', '#__fabrik_lists As l ON f.id = l.form_id')
-				->where('f.published = 1 AND l.db_table_name = ' . $db->quote($params->get('join_db_name')))->order('f.label');
+				->where('f.published = 1 AND l.db_table_name = ' . $db->q($params->get('join_db_name')))->order('f.label');
 			$db->setQuery($query);
 			$this->linkedForms = $db->loadObjectList('value');
 		}
@@ -4713,7 +4713,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		} 
 		else 
 		{
-			$query->where($key . ' = ' . $db->quote($v));
+			$query->where($key . ' = ' . $db->q($v));
 		}
 
 		$db->setQuery($query);
@@ -4820,20 +4820,20 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		{
 			case 'contains':
 			default:
-				$where = $field . ' LIKE ' . $db->quote('%' . $search . '%');
+				$where = $field . ' LIKE ' . $db->q('%' . $search . '%');
 				break;
 			case 'words':
 				$words = array_filter(explode(' ', $search));
 
 				foreach ($words as &$word) 
 				{
-					$word = $db->quote('%' . $word . '%');
+					$word = $db->q('%' . $word . '%');
 				}
 
 				$where = $field . ' LIKE ' . implode(' AND ' . $field . ' LIKE ', $words);
 				break;
 			case 'starts_with':
-				$where = $field . ' LIKE ' . $db->quote($search . '%');
+				$where = $field . ' LIKE ' . $db->q($search . '%');
 				break;
 		}
 
@@ -5374,9 +5374,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					$result = $this->selectTableDeleteRelationshipTable($value, $joinTableKey, $joinTableJoin, $joinTable);
 
 					$query = $db->getQuery(true)
-						->delete($db->quoteName($resultJoinsMult->table_join))
-						->where($db->quoteName($resultJoinsMult->table_key) . ' = ' . $result[$joinTableJoin])
-						->andWhere($db->quoteName($resultJoinsMult->table_join_key) . ' = ' . $result[$joinTableKey]);
+						->delete($db->qn($resultJoinsMult->table_join))
+						->where($db->qn($resultJoinsMult->table_key) . ' = ' . $result[$joinTableJoin])
+						->andWhere($db->qn($resultJoinsMult->table_join_key) . ' = ' . $result[$joinTableKey]);
 
 					$db->setQuery($query);
 					$db->execute();
@@ -5391,9 +5391,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					$result = $this->selectTableDeleteRelationshipTable($value, $joinTableKey, $joinTableJoin, $joinTable);
 
 					$query = $db->getQuery(true)
-						->update($db->quoteName($elementTable))
-						->set($db->quoteName($resultJoinsDrop->table_key) . ' =  NULL')
-						->where($db->quoteName('id') . ' = ' . $result[$joinTableKey]);
+						->update($db->qn($elementTable))
+						->set($db->qn($resultJoinsDrop->table_key) . ' =  NULL')
+						->where($db->qn('id') . ' = ' . $result[$joinTableKey]);
 
 					$db->setQuery($query);
 					$db->execute();
@@ -5413,18 +5413,18 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					$arrayFields = array('rjoins.' . $resultJoinsMult->table_join_key, 'rjoins.' . $resultJoinsMult->table_key);
 
 					$query = $db->getQuery(true)
-						->select($db->quoteName($arrayFields))
-						->from($db->quoteName($resultJoinsMult->table_join, 'rjoins'))
-						->where($db->quoteName($resultJoinsMult->table_join_key) . '=' . $db->quote($arValue[1]));
+						->select($db->qn($arrayFields))
+						->from($db->qn($resultJoinsMult->table_join, 'rjoins'))
+						->where($db->qn($resultJoinsMult->table_join_key) . '=' . $db->q($arValue[1]));
 
 					$db->setQuery($query);
 
 					$result = $db->loadAssoc();
 
 					$query = $db->getQuery(true)
-						->delete($db->quoteName($resultJoinsMult->table_join))
-						->where($db->quoteName($resultJoinsMult->table_key) . ' = ' . $result[$resultJoinsMult->table_key])
-						->andWhere($db->quoteName($resultJoinsMult->table_join_key) . ' = ' . $result[$resultJoinsMult->table_join_key]);
+						->delete($db->qn($resultJoinsMult->table_join))
+						->where($db->qn($resultJoinsMult->table_key) . ' = ' . $result[$resultJoinsMult->table_key])
+						->andWhere($db->qn($resultJoinsMult->table_join_key) . ' = ' . $result[$resultJoinsMult->table_join_key]);
 
 					$db->setQuery($query);
 					$db->execute();
@@ -5452,9 +5452,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$arrayFields = array('rjoins.' . $joinTableKey, 'rjoins.' . $joinTableJoin);
 
 		$query = $db->getQuery(true)
-			->select($db->quoteName($arrayFields))
-			->from($db->quoteName($joinTable, 'rjoins'))
-			->where($db->quoteName('rjoins.id') . '=' . $db->quote($arValue[1]));
+			->select($db->qn($arrayFields))
+			->from($db->qn($joinTable, 'rjoins'))
+			->where($db->qn('rjoins.id') . '=' . $db->q($arValue[1]));
 
 		$db->setQuery($query);
 
@@ -5575,9 +5575,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		foreach ($formData[$elementName] as $value) 
 		{
 			$query = $db->getQuery(true)
-				->update($db->quoteName($elementTable))
-				->set($db->quoteName($resultJoins->table_key) . ' = ' . $db->quote($formData['id']))
-				->where($db->quoteName($resultJoins->table_join_key) . ' = ' . $db->quote($value));
+				->update($db->qn($elementTable))
+				->set($db->qn($resultJoins->table_key) . ' = ' . $db->q($formData['id']))
+				->where($db->qn($resultJoins->table_join_key) . ' = ' . $db->q($value));
 
 			$db->setQuery($query);
 			$db->execute();
@@ -5596,9 +5596,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$db = $this->getDb();
 
 		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName($elementTable))
-			->Where($db->quoteName($resultJoins->table_key) . '=' . $db->quote($formData['id']));
+			->select($db->qn('id'))
+			->from($db->qn($elementTable))
+			->Where($db->qn($resultJoins->table_key) . '=' . $db->q($formData['id']));
 
 		$db->setQuery($query);
 
@@ -5610,9 +5610,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			foreach ($result as $value) 
 			{
 				$query = $db->getQuery(true)
-					->update($db->quoteName($elementTable))
-					->set($db->quoteName($resultJoins->table_key) . ' =  NULL')
-					->where($db->quoteName('id') . ' = ' . $value->id);
+					->update($db->qn($elementTable))
+					->set($db->qn($resultJoins->table_key) . ' =  NULL')
+					->where($db->qn('id') . ' = ' . $value->id);
 
 				$db->setQuery($query);
 				$db->execute();
@@ -5636,13 +5636,13 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$query = $db->getQuery(true)
 			->select($arrayFields)
-			->from($db->quoteName('#__fabrik_joins', 'rjoins'))
-			->join('LEFT', $db->quoteName('#__fabrik_elements', 'element') . ' ON (' . $db->quoteName('rjoins.element_id') . ' = ' . $db->quoteName('element.id') . ')')
-			->join('LEFT', $db->quoteName('#__fabrik_formgroup', 'group') . ' ON (' . $db->quoteName('rjoins.group_id') . ' = ' . $db->quoteName('group.group_id') . ')')
-			->join('LEFT', $db->quoteName('#__fabrik_lists', 'list') . ' ON (' . $db->quoteName('group.form_id') . ' = ' . $db->quoteName('list.form_id') . ')')
-			->where($db->quoteName('rjoins.table_join') . '=' . $db->quote($joinFromTable))
-			->andWhere($db->quoteName('list.db_table_name') . '=' . $db->quote($elementTable))
-			->andWhere($db->quoteName('rjoins.table_key') . ' = ' . $db->quote($syncField));
+			->from($db->qn('#__fabrik_joins', 'rjoins'))
+			->join('LEFT', $db->qn('#__fabrik_elements', 'element') . ' ON (' . $db->qn('rjoins.element_id') . ' = ' . $db->qn('element.id') . ')')
+			->join('LEFT', $db->qn('#__fabrik_formgroup', 'group') . ' ON (' . $db->qn('rjoins.group_id') . ' = ' . $db->qn('group.group_id') . ')')
+			->join('LEFT', $db->qn('#__fabrik_lists', 'list') . ' ON (' . $db->qn('group.form_id') . ' = ' . $db->qn('list.form_id') . ')')
+			->where($db->qn('rjoins.table_join') . '=' . $db->q($joinFromTable))
+			->andWhere($db->qn('list.db_table_name') . '=' . $db->q($elementTable))
+			->andWhere($db->qn('rjoins.table_key') . ' = ' . $db->q($syncField));
 
 		$db->setQuery($query);
 
@@ -5664,11 +5664,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$query = $db->getQuery(true)
 			->select($arrayFields)
-			->from($db->quoteName('#__fabrik_joins', 'rjoins'))
-			->join('LEFT', $db->quoteName('#__fabrik_elements', 'element') . ' ON (' . $db->quoteName('rjoins.element_id') . ' = ' . $db->quoteName('element.id') . ')')
-			->Where($db->quoteName('rjoins.join_from_table') . '=' . $db->quote($elementTable))
-			->andWhere($db->quoteName('rjoins.table_key') . ' = ' . $db->quote($syncField))
-			->andWhere($db->quoteName('element.params') . ' like ' . $db->quote('%multilist%'));
+			->from($db->qn('#__fabrik_joins', 'rjoins'))
+			->join('LEFT', $db->qn('#__fabrik_elements', 'element') . ' ON (' . $db->qn('rjoins.element_id') . ' = ' . $db->qn('element.id') . ')')
+			->Where($db->qn('rjoins.join_from_table') . '=' . $db->q($elementTable))
+			->andWhere($db->qn('rjoins.table_key') . ' = ' . $db->q($syncField))
+			->andWhere($db->qn('element.params') . ' like ' . $db->q('%multilist%'));
 
 		$db->setQuery($query);
 
@@ -5686,8 +5686,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$db = $this->getDb();
 
 		$query = $db->getQuery(true)
-			->delete($db->quoteName($resultJoins->table_join))
-			->where($db->quoteName($resultJoins->table_key) . ' = ' . $formData['id']);
+			->delete($db->qn($resultJoins->table_join))
+			->where($db->qn($resultJoins->table_key) . ' = ' . $formData['id']);
 
 		$db->setQuery($query);
 		$db->execute();
@@ -5713,8 +5713,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$values = array($formData['id'], $value);
 
 			$query = $db->getQuery(true)
-				->insert($db->quoteName($resultJoins->table_join))
-				->columns($db->quoteName($columns))
+				->insert($db->qn($resultJoins->table_join))
+				->columns($db->qn($columns))
 				->values(implode(',', $values));
 
 			$db->setQuery($query);
@@ -5824,7 +5824,18 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					{
 						$tagId = str_replace('#fabrik#', '', $tagId);
 						$query = $db->getQuery(true);
-						$query->insert($tableJoin)->set($db->quoteName($label) . ' = ' . $db->quote($tagId));
+						$query->insert($tableJoin)
+							->set($db->qn($label) . ' = ' . $db->q($tagId));
+						
+						// If column created_by exists, we need save the user
+						try {
+							$db->setQuery("SELECT `created_by` FROM $tableJoin WHERE `id`='1'" );
+							if($db->loadResult()) {
+								$query->set($db->qn('created_by') . ' = ' . $db->q($this->user->id));
+							}
+						} catch (\Throwable $th) {
+							//throw $th;
+						}
 						
 						if($moreColumns) 
 						{
