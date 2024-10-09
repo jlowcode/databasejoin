@@ -3085,7 +3085,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	 */
 	protected function filterValueList_All($normal, $tableName = '', $label = '', $id = '', $incjoin = true)
 	{
-		if ($this->isJoin()) 
+		if ($this->isJoin())
 		{
 			if ($this->getElement()->get('filter_type') == 'treeview' && $this->getFilterBuildMethod() == 2) 
 			{
@@ -5826,11 +5826,18 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 						$query = $db->getQuery(true);
 						$query->insert($tableJoin)
 							->set($db->qn($label) . ' = ' . $db->q($tagId));
-						
+
 						// If column created_by exists, we need save the user
 						try {
-							$db->setQuery("SELECT `created_by` FROM $tableJoin WHERE `id`='1'" );
-							if($db->loadResult()) {
+							$dbVerify = FabrikWorker::getDbo(true);
+							$queryVerify = $dbVerify->getQuery(true);
+							$queryVerify->select($dbVerify->qn('COLUMN_NAME'))
+								->from($dbVerify->qn('INFORMATION_SCHEMA') . '.' . $dbVerify->qn('COLUMNS'))
+								->where($dbVerify->qn('TABLE_NAME') . ' = ' . $dbVerify->q($tableJoin))
+								->where($dbVerify->qn('COLUMN_NAME') . ' = ' . $dbVerify->q('created_by'))
+								->where($dbVerify->qn('TABLE_SCHEMA') . ' = (SELECT DATABASE())');
+							$dbVerify->setQuery($queryVerify);
+							if($dbVerify->loadResult()) {
 								$query->set($db->qn('created_by') . ' = ' . $db->q($this->user->id));
 							}
 						} catch (\Throwable $th) {
