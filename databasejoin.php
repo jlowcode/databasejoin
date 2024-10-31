@@ -5853,6 +5853,28 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 						$db->execute();
 						$tagId = $db->insertid();
 					}
+				} else if($params->get('database_join_display_type') == 'auto-complete') {
+					// If column created_by exists, we need save the user
+					try {
+						$dbVerify = FabrikWorker::getDbo(true);
+						$queryVerify = $dbVerify->getQuery(true);
+						$queryVerify->select($dbVerify->qn('COLUMN_NAME'))
+							->from($dbVerify->qn('INFORMATION_SCHEMA') . '.' . $dbVerify->qn('COLUMNS'))
+							->where($dbVerify->qn('TABLE_NAME') . ' = ' . $dbVerify->q($join->table_join))
+							->where($dbVerify->qn('COLUMN_NAME') . ' = ' . $dbVerify->q('created_by'))
+							->where($dbVerify->qn('TABLE_SCHEMA') . ' = (SELECT DATABASE())');
+						$dbVerify->setQuery($queryVerify);
+						if($dbVerify->loadResult()) {
+							$query = $db->getQuery(true);
+							$query->update($db->qn($join->table_join))
+								->set($db->qn('created_by') . ' = ' . $db->q($this->user->id))
+								->where($db->qn($join->table_join_key) . ' = ' . $db->q($tagId));
+							$db->setQuery($query);
+							$db->execute();
+						}
+					} catch (\Throwable $th) {
+						//throw $th;
+					}
 				}
 			}
 
