@@ -5740,7 +5740,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		//Update of tags for databasejoin
 		$formDataWithTableName = $formModel->formDataWithTableName;
 		$label = $params->get('join_val_column');
-		if((bool) $params->get('moldTags')) 
+		if((bool) $params->get('moldTags'))
 		{
 			$rootcat = $params->get('root_category2');
 			if(isset($rootcat) && !empty($rootcat)) 
@@ -5753,24 +5753,38 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 			if($params->get('database_join_display_type') == 'auto-complete') 
 			{
-				$tagId = $formDataWithTableName[$joinFromTable . '___' .$elementName][0];
-				if(strstr($tagId, '#fabrik#')) 
+				$tag = $formDataWithTableName[$joinFromTable . '___' .$elementName][0];
+				$tagId = str_replace('#fabrik#', '', $tag);
+
+				$c = $this->getLabelOrConcatVal();
+				$this->autocomplete_where = "LOWER($c) = " . $db->q($tagId);
+				$opts                             = array('mode' => 'filter');
+				$tmp                              = $this->_getOptions(array(), 0, true, $opts);
+
+				if(strstr($tag, '#fabrik#'))
 				{
-					$tagId = str_replace('#fabrik#', '', $tagId);
-					$query = $db->getQuery(true);
-					$query->insert($join->table_join)->set($db->qn($label) . ' = ' . $db->q($tagId));
-
-					if($moreColumns) 
+					if(empty($tmp))
 					{
-						$query->set($resRootCategory);
+						$query = $db->getQuery(true);
+						$query->insert($join->table_join)->set($db->qn($label) . ' = ' . $db->q($tagId));
+	
+						if($moreColumns) 
+						{
+							$query->set($resRootCategory);
+						}
+	
+						$db->setQuery($query);
+						$db->execute();
+						$tagId = $db->insertid();
+
+						$this->form->formData[$joinFromTable . '___' . $elementName][0] = $tagId;
+						$this->form->formData[$joinFromTable . '___' . $elementName . '_raw'][0] = $tag;
+					} 
+					else
+					{
+						$this->form->formData[$joinFromTable . '___' . $elementName][0] = $tmp[0]->value;
+						$this->form->formData[$joinFromTable . '___' . $elementName . '_raw'][0] = $tmp[0]->value;
 					}
-
-					$db->setQuery($query);
-					$db->execute();
-					$tagId = $db->insertid();
-
-					$this->form->formData[$joinFromTable . '___' . $elementName][0] = $tagId;
-					$this->form->formData[$joinFromTable . '___' . $elementName . '_raw'][0] = $tagId;
 				}
 			}
 		}
@@ -5818,13 +5832,13 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 				$label = $params->get('join_val_column');
 				$tableJoin = $params->get('join_db_name');
-				if($params->get('database_join_display_type') == 'checkbox') 
+				if(strstr($tagId, '#fabrik#')) 
 				{
-					if (strstr($tagId, '#fabrik#')) 
+					if($params->get('database_join_display_type') == 'checkbox') 
 					{
 						$tagId = str_replace('#fabrik#', '', $tagId);
 						$query = $db->getQuery(true);
-						$query->insert($tableJoin)
+							$query->insert($tableJoin)
 							->set($db->qn($label) . ' = ' . $db->q($tagId));
 
 						// If column created_by exists, we need save the user
@@ -5852,28 +5866,29 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 						$db->setQuery($query);
 						$db->execute();
 						$tagId = $db->insertid();
-					}
-				} else if($params->get('database_join_display_type') == 'auto-complete') {
-					// If column created_by exists, we need save the user
-					try {
-						$dbVerify = FabrikWorker::getDbo(true);
-						$queryVerify = $dbVerify->getQuery(true);
-						$queryVerify->select($dbVerify->qn('COLUMN_NAME'))
-							->from($dbVerify->qn('INFORMATION_SCHEMA') . '.' . $dbVerify->qn('COLUMNS'))
-							->where($dbVerify->qn('TABLE_NAME') . ' = ' . $dbVerify->q($join->table_join))
-							->where($dbVerify->qn('COLUMN_NAME') . ' = ' . $dbVerify->q('created_by'))
-							->where($dbVerify->qn('TABLE_SCHEMA') . ' = (SELECT DATABASE())');
-						$dbVerify->setQuery($queryVerify);
-						if($dbVerify->loadResult()) {
-							$query = $db->getQuery(true);
-							$query->update($db->qn($join->table_join))
-								->set($db->qn('created_by') . ' = ' . $db->q($this->user->id))
-								->where($db->qn($join->table_join_key) . ' = ' . $db->q($tagId));
-							$db->setQuery($query);
-							$db->execute();
+					} else if($params->get('database_join_display_type') == 'auto-complete') {
+						$tagId = $formData[$name][$tagKey];
+						// If column created_by exists, we need save the user
+						try {
+							$dbVerify = FabrikWorker::getDbo(true);
+							$queryVerify = $dbVerify->getQuery(true);
+							$queryVerify->select($dbVerify->qn('COLUMN_NAME'))
+								->from($dbVerify->qn('INFORMATION_SCHEMA') . '.' . $dbVerify->qn('COLUMNS'))
+								->where($dbVerify->qn('TABLE_NAME') . ' = ' . $dbVerify->q($join->table_join))
+								->where($dbVerify->qn('COLUMN_NAME') . ' = ' . $dbVerify->q('created_by'))
+								->where($dbVerify->qn('TABLE_SCHEMA') . ' = (SELECT DATABASE())');
+							$dbVerify->setQuery($queryVerify);
+							if($dbVerify->loadResult()) {
+								$query = $db->getQuery(true);
+								$query->update($db->qn($join->table_join))
+									->set($db->qn('created_by') . ' = ' . $db->q($this->user->id))
+									->where($db->qn($join->table_join_key) . ' = ' . $db->q($tagId));
+								$db->setQuery($query);
+								$db->execute();
+							}
+						} catch (\Throwable $th) {
+							//throw $th;
 						}
-					} catch (\Throwable $th) {
-						//throw $th;
 					}
 				}
 			}
