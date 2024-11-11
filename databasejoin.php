@@ -2163,19 +2163,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			}
 		}
 
-		// Update initial suggest
-		$suggest = '';
-		if((bool) $params->get('jsSuggest')) 
-		{
-			$suggest = "suggest";
-		}
+		$tags = (bool) $params->get('moldTags') ? ' tags ' : '';
+		$suggest = (bool) $params->get('jsSuggest') ? ' suggest ' : '';
 
 		$class = ' class="fabrikinput inputbox autocomplete-trigger ' . $params->get('bootstrap_class', 'col-sm-8') . '"';
 
 		$placeholder      = ' placeholder="' . htmlspecialchars($params->get('placeholder', ''), ENT_COMPAT) . '"';
 		$autoCompleteName = str_replace('[]', '', $thisElName) . '-auto-complete';
 		
-		$html[]           = '<input type="text" ' . $suggest . ' size="' . $params->get('dbjoin_autocomplete_size', '20') . '" name="' . $autoCompleteName . '" id="' . $id
+		$html[]           = '<input type="text" ' . $suggest . $tags . ' size="' . $params->get('dbjoin_autocomplete_size', '20') . '" name="' . $autoCompleteName . '" id="' . $id
 			. '-auto-complete" value="' . htmlspecialchars(FArrayHelper::getValue($label, 0)) . '"' . $class . $placeholder . '/>';
 
 		// $$$ rob - class property required when cloning repeat groups - don't remove
@@ -2314,17 +2310,10 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			'<input class="limit_query-' . $this->getElement()->name . '" type="hidden" value="' . 
 					htmlspecialchars($params->get('dbjoin_autocomplete_rows')) . '"/>';
 
-		//Update initial suggest
-		if($params->get('jsSuggest')) 
-		{
-			$html[] = '<div class="multiselect-autocomplete" id="' . $id . '">'.$data.'<select suggest name="' . $elName . '" multiple="multiple" style="width: 100%;">'.$select.'</select></div>';
-		} 
-		else 
-		{
-			//Original
-			$html[] = '<div class="multiselect-autocomplete" id="' . $id . '">'.$data.'<select name="' . $elName . '" multiple="multiple" style="width: 100%;">'.$select.'</select></div>';
+		$tags = (bool) $params->get('moldTags') ? ' tags ' : '';
+		$suggest = (bool) $params->get('jsSuggest') ? ' suggest ' : '';
 
-		}
+		$html[] = '<div class="multiselect-autocomplete" ' . $tags . ' id="' . $id . '">'.$data.'<select ' . $suggest . $tags . 'name="' . $elName . '" multiple="multiple" style="width: 100%;">'.$select.'</select></div>';
 	}
 
 	/**
