@@ -4066,8 +4066,12 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			 * 
 			 * Id Task: 116
 			 */
-			$return[] = array('FbDatabasejoin', $id, $opts);
-			$return[] = array('FbDatabasejoin', $id.'-auto-complete', $opts);
+			if(stripos($id, '_ro') > 0) {
+				$return = array('FbDatabasejoin', $id, $opts);
+			} else {
+				$return[] = array('FbDatabasejoin', $id, $opts);
+				$return[] = array('FbDatabasejoin', $id.'-auto-complete', $opts);
+			}
 		} 
 		else 
 		{
