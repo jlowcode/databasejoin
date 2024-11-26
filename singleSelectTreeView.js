@@ -71,17 +71,21 @@ if (initDivSt.length) {
                     },
                     success: function (result) {
                         var res = result;
-                        res.forEach(node => {
-                            if (node.children) {
-                                node.children = [{}];
-                            } else {
-                                node.children = [{}];
+                        var res2 = Array();
+
+                        res.forEach((node) => {
+                            if(node.id != jQuery("input[name='rowid']").val()) {
+                                res2.push(node);
                             }
+                        });
+
+                        res2.forEach(node => {
+                            node.children = [{}];
                         });
 
                         buscaSelecionados(function (result2) {
                             $(element).parent().find(elementTreeId).tree({
-                                data: res,
+                                data: res2,
                                 selectable: false,
                                 onCreateLi: function (node, $li) {
                                     if (Boolean(Number(databasejoin_linked_items))) {
@@ -93,7 +97,6 @@ if (initDivSt.length) {
                                             }
                                         })
                                     }
-
                                 }
                             });
                         })
@@ -131,12 +134,21 @@ if (initDivSt.length) {
                             },
                             success: function (result) {
                                 var res = result;
+                                var res2 = Array();
+
                                 res.forEach(node => {
+                                    if(node.id != jQuery("input[name='rowid']").val()) {
+                                        res2.push(node);
+                                    }
+                                });
+
+                                res2.forEach(node => {
                                     if (node.children) {
                                         node.children = [{}];
                                     }
                                 });
-                                $(element).parent().find(elementTreeId).tree('loadData', res);
+
+                                $(element).parent().find(elementTreeId).tree('loadData', res2);
                             },
                             dataType: "json"
                         });
@@ -163,12 +175,21 @@ if (initDivSt.length) {
                             },
                             success: function (result) {
                                 var res = result;
+                                var res2 = Array();
+
                                 res.forEach(node => {
+                                    if(node.id != jQuery("input[name='rowid']").val()) {
+                                        res2.push(node);
+                                    }
+                                });
+
+                                res2.forEach(node => {
                                     if (node.children) {
                                         node.children = [{}];
                                     }
                                 });
-                                $(element).parent().find(elementTreeId).tree('loadData', res, e.node);
+
+                                $(element).parent().find(elementTreeId).tree('loadData', res2, e.node);
                             },
                             dataType: "json"
                         });
