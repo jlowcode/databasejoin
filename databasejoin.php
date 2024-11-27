@@ -1457,6 +1457,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$tmp     = $this->_getOptions($data, $repeatCounter);
 		$w       = new FabrikWorker;
 		$default = $w->parseMessageForPlaceHolder($default);
+		!is_numeric($default[0]) ? $default = '' : null;
 		$id      = $this->getHTMLId($repeatCounter);
 		$html    = array();
 
