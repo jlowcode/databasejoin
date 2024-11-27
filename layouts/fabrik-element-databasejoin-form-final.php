@@ -4,7 +4,7 @@ defined('JPATH_BASE') or die;
 $d = $displayData;
 
 if (!empty($d->control)) :
-    echo $d->control . "<br />\n";
+    echo $d->control . "\n";
 endif;
 
 if (!empty($d->frontEndSelect)) :
@@ -16,4 +16,3 @@ if (!empty($d->description)) :
 endif;
 
 ?>
-
