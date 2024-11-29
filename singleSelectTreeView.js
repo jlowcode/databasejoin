@@ -74,10 +74,14 @@ if (initDivSt.length) {
                         var res2 = Array();
 
                         res.forEach((node) => {
-                            if(node.id != jQuery("input[name='rowid']").val()) {
+                            if(node.id != jQuery("input[name='rowid']").val() && join_name == table_name) {
                                 res2.push(node);
                             }
                         });
+
+                        if(join_name != table_name) {
+                            res2 = res;
+                        }
 
                         res2.forEach(node => {
                             node.children = [{}];
@@ -137,10 +141,14 @@ if (initDivSt.length) {
                                 var res2 = Array();
 
                                 res.forEach(node => {
-                                    if(node.id != jQuery("input[name='rowid']").val()) {
+                                    if(node.id != jQuery("input[name='rowid']").val() && join_name == table_name) {
                                         res2.push(node);
                                     }
                                 });
+
+                                if(join_name != table_name) {
+                                    res2 = res;
+                                }
 
                                 res2.forEach(node => {
                                     if (node.children) {
@@ -178,10 +186,14 @@ if (initDivSt.length) {
                                 var res2 = Array();
 
                                 res.forEach(node => {
-                                    if(node.id != jQuery("input[name='rowid']").val()) {
+                                    if(node.id != jQuery("input[name='rowid']").val() && join_name == table_name) {
                                         res2.push(node);
                                     }
                                 });
+
+                                if(join_name != table_name) {
+                                    res2 = res;
+                                }
 
                                 res2.forEach(node => {
                                     if (node.children) {
