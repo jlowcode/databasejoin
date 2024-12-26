@@ -1656,7 +1656,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 				$displayData->control = implode("\n", $html);
 				$displayData->frontEndSelect = $this->renderFrontEndSelect($data, $repeatCounter);
-			} 
+			}
 			elseif ($this->canView()) 
 			{
 				$oData = ArrayHelper::toObject($data);
@@ -2339,7 +2339,8 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$inputfields = $this->filterHiddenFieldsForTreeView($name);
 		$targetIds = $this->multiOptionTargetIds($data, $repeatCounter);
 		$targetValues = $this->multiOptionTargetValues($data, $repeatCounter);
-
+		
+		$default = FArrayHelper::getValue($data, $id . '_id', $data[$id . '_id']);
 		$input = '';
 		foreach ($this->getLabelForValue($default, $default) as $item_id) 
 		{
