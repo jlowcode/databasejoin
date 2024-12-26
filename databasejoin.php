@@ -619,7 +619,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		if (!isset($this->_aJoins))
 		{
 			$query = $db->getQuery(true);
-			$query->select('*')->from('#__fabrik_joins')->where('element_id = ' . (int) $this->id)->orderby('id');
+			$query->select('*')->from('#__fabrik_joins')->where('element_id = ' . (int) $this->id)->order('id');
 			$db->setQuery($query);
 			$this->_aJoins = $db->LoadObjectList();
 		}
@@ -2791,6 +2791,20 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		return $default;
 	}
+
+	/**
+	 * Get the id value of popupform
+	 *
+	 * @return  string
+	 */
+	public function getPopUpId(){
+		$params = $this->getParams();
+		$popupForm                = (int) $params->get('databasejoin_popupform');
+		$popupListId              = (empty($popupForm) || !isset($forms[$popupForm])) ? '' : $forms[$popupForm]->listid;
+
+		return $popupForm;
+	}
+
 
 	/**
 	 * Get the list filter for the element

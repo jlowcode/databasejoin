@@ -9,12 +9,14 @@ define('JPATH_BASE', '../../../');
 require_once JPATH_BASE . 'includes/defines.php';
 require_once JPATH_BASE . 'includes/framework.php';
 
+use Joomla\CMS\Factory;
+
 // Recebe atributos para acessar a tabela
 $table_name = $_GET['table_name'];
 $attribute_name = $_GET['attribute_name'];
 
 // Recebe o obj para acessar o DB
-$db = JFactory::getDBO();
+$db = Factory::getDBO();
 // Cria novo obj query
 $query = $db->getQuery(true);
 // // Seleciona identificador e valor

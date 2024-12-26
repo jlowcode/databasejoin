@@ -10,6 +10,7 @@ define('JPATH_BASE', '../../../');
 require_once JPATH_BASE . 'includes/defines.php';
 require_once JPATH_BASE . 'includes/framework.php';
 
+use Joomla\CMS\Factory;
 
 // Recebe atributos para acessar a tabela
 $value = $_GET['value'];
@@ -21,7 +22,7 @@ $concat_val = $_GET['concat_val'];
 $limit_val = $_GET['limit_query'];
 
 // Recebe o obj para acessar o DB
-$db = JFactory::getDBO();
+$db = Factory::getDBO();
 // Cria novo obj query
 $query = $db->getQuery(true);
 // // Seleciona identificador e valor
@@ -43,7 +44,7 @@ if(isset($concat_val) && !empty($concat_val)){
 
 //if there is {$my->id} clauses in data-WHERE then replace fot the user id
 if(preg_match('/{\$my->id}/', $data_where)){
-	$data_where = str_replace('{$my->id}', JFactory::getUser()->get('id'), $data_where);
+	$data_where = str_replace('{$my->id}', Factory::getUser()->get('id'), $data_where);
 }
 
 //if there are {thistable} clauses in data-WHERE then replace all of them to the table name
