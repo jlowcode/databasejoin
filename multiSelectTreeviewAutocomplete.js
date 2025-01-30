@@ -38,6 +38,12 @@ if (initDivTA.length) {
                 const limit_query = limitQuery[0] ? JSON.parse(limitQuery[0].value) : '';
 
                 var dataObj = {
+                    option: 'com_fabrik',
+                    format: 'raw',
+                    task: 'plugin.pluginAjax',
+                    g: 'element',
+                    plugin: 'databasejoin',
+                    method: 'treeViewSearch',
                     value: null,
                     join_name: join_name,
                     join_val_column: join_val_column,
@@ -85,7 +91,7 @@ if (initDivTA.length) {
                 }
 
                 $.ajax({
-                    url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                    url: '',
                     data: dataObj,
                     success: function (result) {
                         var res = result;
@@ -144,7 +150,7 @@ if (initDivTA.length) {
                         dataObj.value = null;
                         // Build the tree making an AJAX request getting only the root nodes
                         $.ajax({
-                            url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                            url: '',
                             data: dataObj,
                             success: function (result) {
                                 var res = result;
@@ -317,7 +323,7 @@ if (initDivTA.length) {
                         var id = parseInt(e.node.id);
                         dataObj.value = id;
                         $.ajax({
-                            url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                            url: '',
                             data: dataObj,
                             success: function (result) {
                                 var res = result;
@@ -369,8 +375,14 @@ if (initDivTA.length) {
 
                 function buscaSelecionados(handleData) {
                     $.ajax({
-                        url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                        url: '',
                         data: {
+                            option: 'com_fabrik',
+                            format: 'raw',
+                            task: 'plugin.pluginAjax',
+                            g: 'element',
+                            plugin: 'databasejoin',
+                            method: 'treeViewSearch',
                             attribute_name: attribute_name,
                             table_name: table_name,
                         },

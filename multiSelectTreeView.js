@@ -60,8 +60,14 @@ if(initDiv.length){
 
                 // Build the tree making an AJAX request getting only the root nodes
                 $.ajax({
-                    url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                    url: '',
                     data: {
+                        option: 'com_fabrik',
+                        format: 'raw',
+                        task: 'plugin.pluginAjax',
+                        g: 'element',
+                        plugin: 'databasejoin',
+                        method: 'treeViewSearch',
                         value: null,
                         join_name: join_name,
                         join_val_column: join_val_column,
@@ -119,8 +125,14 @@ if(initDiv.length){
                         });
                         // Build the tree making an AJAX request getting only the root nodes
                         $.ajax({
-                            url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                            url: '',
                             data: {
+                                option: 'com_fabrik',
+                                format: 'raw',
+                                task: 'plugin.pluginAjax',
+                                g: 'element',
+                                plugin: 'databasejoin',
+                                method: 'treeViewSearch',
                                 value: null,
                                 join_name: join_name,
                                 join_val_column: join_val_column,
@@ -150,8 +162,14 @@ if(initDiv.length){
                     function (e) {
                         var id = parseInt(e.node.id);
                         $.ajax({
-                            url: root_url + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                            url: '',
                             data: {
+                                option: 'com_fabrik',
+                                format: 'raw',
+                                task: 'plugin.pluginAjax',
+                                g: 'element',
+                                plugin: 'databasejoin',
+                                method: 'treeViewSearch',
                                 value: id,
                                 join_name: join_name,
                                 join_val_column: join_val_column,
