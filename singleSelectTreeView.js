@@ -57,8 +57,14 @@ if (initDivSt.length) {
 
                 // Build the tree making an AJAX request getting only the root nodes
                 $.ajax({
-                    url: root_urlSt + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                    url: '',
                     data: {
+                        option: 'com_fabrik',
+                        format: 'raw',
+                        task: 'plugin.pluginAjax',
+                        g: 'element',
+                        plugin: 'databasejoin',
+                        method: 'treeViewSearch',
                         value: null,
                         join_name: join_name,
                         join_val_column: join_val_column,
@@ -121,8 +127,14 @@ if (initDivSt.length) {
                         });
                         // Build the tree making an AJAX request getting only the root nodes
                         $.ajax({
-                            url: root_urlSt + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                            url: '',
                             data: {
+                                option: 'com_fabrik',
+                                format: 'raw',
+                                task: 'plugin.pluginAjax',
+                                g: 'element',
+                                plugin: 'databasejoin',
+                                method: 'treeViewSearch',
                                 value: null,
                                 join_name: join_name,
                                 join_val_column: join_val_column,
@@ -130,7 +142,8 @@ if (initDivSt.length) {
                                 tree_parent_id: tree_parent_id,
                                 filter_sortedby: filter_sortedby,
                                 data_where: data_where,
-                                concat_val: concat_val
+                                concat_val: concat_val,
+                                format: 'raw'
                             },
                             success: function (result) {
                                 var res = result;
@@ -162,8 +175,14 @@ if (initDivSt.length) {
                         var id = parseInt(e.node.id);
 
                         $.ajax({
-                            url: root_urlSt + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                            url: '',
                             data: {
+                                option: 'com_fabrik',
+                                format: 'raw',
+                                task: 'plugin.pluginAjax',
+                                g: 'element',
+                                plugin: 'databasejoin',
+                                method: 'treeViewSearch',
                                 value: id,
                                 join_name: join_name,
                                 join_val_column: join_val_column,
@@ -171,7 +190,8 @@ if (initDivSt.length) {
                                 tree_parent_id: tree_parent_id,
                                 filter_sortedby: filter_sortedby,
                                 data_where: data_where,
-                                concat_val: concat_val
+                                concat_val: concat_val,
+                                format: 'raw'
                             },
                             success: function (result) {
                                 var res = result;

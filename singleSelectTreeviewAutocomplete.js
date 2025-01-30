@@ -37,6 +37,12 @@ if (initDivStA.length) {
                 let tags = [];
 
                 var dataObj = {
+                    option: 'com_fabrik',
+                    format: 'raw',
+                    task: 'plugin.pluginAjax',
+                    g: 'element',
+                    plugin: 'databasejoin',
+                    method: 'treeViewSearch',
                     value: null,
                     join_name: join_name,
                     join_val_column: join_val_column,
@@ -50,7 +56,7 @@ if (initDivStA.length) {
 
                 // Build the tree making an AJAX request getting only the root nodes
                 $.ajax({
-                    url: root_urlStA + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                    url: '',
                     data: dataObj,
                     success: function (result) {
                         var res = result;
@@ -108,7 +114,7 @@ if (initDivStA.length) {
                         dataObj.value = null;
                         // Build the tree making an AJAX request getting only the root nodes
                         $.ajax({
-                            url: root_urlStA + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                            url: '',
                             data: dataObj,
                             success: function (result) {
                                 var res = result;
@@ -167,8 +173,14 @@ if (initDivStA.length) {
                         var id = parseInt(e.node.id);
 
                         $.ajax({
-                            url: root_urlStA + 'plugins/fabrik_element/databasejoin/treeViewSearch.php',
+                            url: '',
                             data: {
+                                option: 'com_fabrik',
+                                format: 'raw',
+                                task: 'plugin.pluginAjax',
+                                g: 'element',
+                                plugin: 'databasejoin',
+                                method: 'treeViewSearch',
                                 value: id,
                                 join_name: join_name,
                                 join_val_column: join_val_column,
