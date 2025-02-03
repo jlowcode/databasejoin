@@ -1,7 +1,7 @@
 var initDivTA = document.getElementsByClassName('multiselect-autocomplete');
 if (initDivTA.length) {
     var root_urlStA = jQuery(initDivTA).find('.root_url')[0].value;
-    define(['jquery', root_urlStA + '/plugins/fabrik_element/databasejoin/dist/js/select2.min.js'], function ($, select2) {
+    define(['jquery', root_urlStA + '/plugins/fabrik_element/databasejoin/dist/js/select2.js'], function ($, select2) {
         autocompleteMultiselectNovo();
 
         function autocompleteMultiselectNovo() {
