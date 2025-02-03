@@ -5980,7 +5980,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			}
 			
 			if($order) {
-				$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
+				$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order)[1];
 				$query->order(trim($order));
 			}
 			
@@ -6038,7 +6038,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 		
 		if($order) {
-			$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
+			$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order)[1];
 			$query->order(trim($order));
 		}
 

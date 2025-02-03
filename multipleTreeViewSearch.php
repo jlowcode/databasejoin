@@ -86,7 +86,7 @@ if(!$id){
 	}
 	
 	if($order) {
-		$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
+		$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order)[1];
 		$query->order(trim($order));
 	}
 	
@@ -139,7 +139,7 @@ function getChildren($parentId, $query, $db, $tableArray, $tree_parent_id, $data
 	}
 	
 	if($order) {
-		$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
+		$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order)[1];
 		$query->order(trim($order));
 	}
 	

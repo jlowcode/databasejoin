@@ -63,7 +63,7 @@ if(isset($data_where) && !empty($data_where) && !$order) {
 }
 
 if($order) {
-	$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
+	$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order)[1];
 	$query->order(trim($order));
 }
 
