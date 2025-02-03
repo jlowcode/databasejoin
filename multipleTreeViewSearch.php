@@ -11,6 +11,7 @@ require_once JPATH_BASE . 'includes/defines.php';
 require_once JPATH_BASE . 'includes/framework.php';
 
 use Joomla\CMS\Factory;
+use Joomla\String\StringHelper;
 
 // Recebe atributos para acessar a tabela
 $id = $_GET['value'];
@@ -79,8 +80,14 @@ if(!$id){
 		$query->where($db->qn($join_name) . '.' . $db->qn($join_val_column) . ' LIKE ' . $db->quote(urldecode($modalValue)));
 	}
 
-	if(isset($data_where) && !empty($data_where)){
+	$order = StringHelper::stristr($data_where, 'ORDER BY');
+	if(isset($data_where) && !empty($data_where) && !$order) {
 		$query->where($data_where);
+	}
+	
+	if($order) {
+		$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
+		$query->order($order);
 	}
 	
 	//$table recebe toda a tabela
@@ -126,9 +133,16 @@ function getRoots($tableArray){
 function getChildren($parentId, $query, $db, $tableArray, $tree_parent_id, $data_where, $repeat_join_name) {
 	$query->where("{$repeat_join_name}." . $db->qn($tree_parent_id) . ' = '. $parentId);
 
-	if(isset($data_where) && !empty($data_where)){
+	$order = StringHelper::stristr($data_where, 'ORDER BY');
+	if(isset($data_where) && !empty($data_where) && !$order) {
 		$query->where($data_where);
 	}
+	
+	if($order) {
+		$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
+		$query->order($order);
+	}
+	
 	$db->setQuery($query);
 	$childreen = $db->loadObjectList();
 	foreach($childreen as $key => $child){

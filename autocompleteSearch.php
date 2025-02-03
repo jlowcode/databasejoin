@@ -56,8 +56,14 @@ if(preg_match('/{thistable}/', $data_where)){
 $query->from($db->quoteName($join_name));
 // Aonde o valor inicie com $value
 
-if(isset($data_where) && !empty($data_where)){
+$order = StringHelper::stristr($data_where, 'ORDER BY');
+if(isset($data_where) && !empty($data_where) && !$order) {
 	$query->where($data_where);
+}
+
+if($order) {
+	$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
+	$query->order($order);
 }
 
 //Limit the query values

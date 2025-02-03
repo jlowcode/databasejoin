@@ -5974,8 +5974,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				$query->where($db->qn($join_name) . '.' . $db->qn($join_val_column) . ' LIKE ' . $db->q(urldecode($modalValue)));
 			}
 
-			if(isset($data_where) && !empty($data_where)){
+			$order = StringHelper::stristr($data_where, 'ORDER BY');
+			if(isset($data_where) && !empty($data_where) && !$order) {
 				$query->where($data_where);
+			}
+			
+			if($order) {
+				$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
+				$query->order($order);
 			}
 			
 			//$table recebe toda a tabela
@@ -6026,9 +6032,16 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 	public function getChildren($parentId, $query, $db, $tableArray, $tree_parent_id, $data_where) {
 		$query->where($db->qn($tree_parent_id) . '='. $parentId);
 
-		if(isset($data_where) && !empty($data_where)){
+		$order = StringHelper::stristr($data_where, 'ORDER BY');
+		if(isset($data_where) && !empty($data_where) && !$order) {
 			$query->where($data_where);
 		}
+		
+		if($order) {
+			$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
+			$query->order($order);
+		}
+
 		$db->setQuery($query);
 		$childreen = $db->loadObjectList();
 		foreach($childreen as $key => $child){
