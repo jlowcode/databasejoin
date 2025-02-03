@@ -11,6 +11,7 @@ require_once JPATH_BASE . 'includes/defines.php';
 require_once JPATH_BASE . 'includes/framework.php';
 
 use Joomla\CMS\Factory;
+use Joomla\String\StringHelper;
 
 // Recebe atributos para acessar a tabela
 $value = $_GET['value'];
