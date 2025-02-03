@@ -64,7 +64,7 @@ if(isset($data_where) && !empty($data_where) && !$order) {
 
 if($order) {
 	$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
-	$query->order($order);
+	$query->order(trim($order));
 }
 
 //Limit the query values

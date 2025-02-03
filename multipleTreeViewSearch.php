@@ -87,7 +87,7 @@ if(!$id){
 	
 	if($order) {
 		$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
-		$query->order($order);
+		$query->order(trim($order));
 	}
 	
 	//$table recebe toda a tabela
@@ -140,7 +140,7 @@ function getChildren($parentId, $query, $db, $tableArray, $tree_parent_id, $data
 	
 	if($order) {
 		$order = preg_split("/" . preg_quote('order by', "/") . "/i", $order);
-		$query->order($order);
+		$query->order(trim($order));
 	}
 	
 	$db->setQuery($query);
