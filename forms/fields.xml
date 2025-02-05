@@ -129,10 +129,42 @@
 			       label="PLG_ELEMENT_DBJOIN_OR_CONCAT_LABEL_LABEL"
 			       rows="6"/>
 
+			<!-- begin - Update initial suggest -->
+			<field name="jsSuggest"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_ELEMENT_DBJOIN_JSSUGGEST_DESC"
+			       label="PLG_ELEMENT_DBJOIN_JSSUGGEST_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<!-- End - Update initial suggest -->
+
+			<!-- Begin - Update of tags for databasejoin -->
+			<field name="moldTags"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_ELEMENT_DBJOIN_MOLDTAGS_DESC"
+			       label="PLG_ELEMENT_DBJOIN_MOLDTAGS_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<!-- End - Update of tags for databasejoin -->
 		</fieldset>
 
 		<fieldset label="PLG_FABRIK_DBJOIN_DATA_WHERE"
 		          name="plg-databasejoin-where">
+
+			<field name="databasejoin_linked_items"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       label="PLG_ELEMENT_DBJOIN_HIDDEN_LINKED_ITEMS_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 
 			<field type="helplink"
 			       url="PLG_ELEMENT_DATABASEJOIN_HELP_SERVER"/>
@@ -222,24 +254,8 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+			<!--Begin - Solving problem with repetible products-->
 
-			<field name="databasejoin_where_ajax_default_eval"
-				   type="fabrikeditor"
-				   mode="php"
-				cols="60"
-				rows="6"
-				   description="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_DEFAULT_EVAL_DESC"
-				   label="PLG_ELEMENT_DBJOIN_JOIN_WHERE_AJAX_DEFAULT_EVAL_LABEL"/>
-
-			<!--
-						<field name="database_join_join_sql"
-							type="fabrikeditor"
-							mode="mysql"
-				cols="60"
-				rows="6"
-							description="PLG_ELEMENT_DBJOIN_JOIN_STATEMENT_DESC"
-							label="PLG_ELEMENT_DBJOIN_JOIN_STATEMENT_LABEL" />
-			-->
 			<field name="database_join_filter_where_sql"
 			       type="fabrikeditor"
 			       mode="mysql"
@@ -302,6 +318,16 @@
 				layout="joomla.form.field.radio.switcher"
 			       description="PLG_ELEMENT_DBJOIN_FRONTEND_ADD_DESC"
 			       label="PLG_ELEMENT_DBJOIN_FRONTEND_ADD_LABEL">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="fabrikdatabasejoin_frontend_blank_page"
+			       type="radio"
+			       default="0"
+			       class="btn-group"
+			       description="PLG_ELEMENT_DBJOIN_FRONTEND_BLANK_PAGE_DESC"
+			       label="PLG_ELEMENT_DBJOIN_FRONTEND_BLANK_PAGE_LABEL">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -466,6 +492,17 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<!-- Begin - Individual Customized Min Trigger Characters -->
+			<field name="dbjoin_autocomplete_min_trigger_chars"
+			       type="number"
+			       default="0"
+			       description="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_MIN_TRIGGER_CHARS_DESC"
+			       label="PLG_ELEMENT_DBJOIN_AUTOCOMPLETE_MIN_TRIGGER_CHARS_LABEL"
+				   class="readonly"
+				   size="3">
+			</field>
+			<!-- End - Individual Customized Min Trigger Characters -->
 
 		</fieldset>
 	</fields>
