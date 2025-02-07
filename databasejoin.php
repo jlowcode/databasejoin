@@ -2161,8 +2161,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$placeholder      = ' placeholder="' . htmlspecialchars($params->get('placeholder', ''), ENT_COMPAT) . '"';
 		$autoCompleteName = str_replace('[]', '', $thisElName) . '-auto-complete';
 		
-		$html[]           = '<input type="text" ' . $suggest . $tags . ' size="' . $params->get('dbjoin_autocomplete_size', '20') . '" name="' . $autoCompleteName . '" id="' . $id
-			. '-auto-complete" value="' . htmlspecialchars(FArrayHelper::getValue($label, 0)) . '"' . $class . $placeholder . '/>';
+		$html[]           = '<input type="text" ' . $suggest . $tags . ' size="' . $params->get('dbjoin_autocomplete_size', '20') . '" name="' . $autoCompleteName . '" id="' . $id . '-auto-complete" value="' . htmlspecialchars(FArrayHelper::getValue($label, 0)) . '"' . $class . $placeholder . '/>';
 
 		// $$$ rob - class property required when cloning repeat groups - don't remove
 		$html[] = '<input type="hidden" tabindex="-1" class="fabrikinput" name="' . $thisElName . '" id="' . $id . '" value="'
@@ -2180,7 +2179,11 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$limit_chars = $params->get('dbjoin_customized_label_size');
 
 		$urlAjax = JURI::root() . '/plugins/fabrik_element/databasejoin/autocompleteSearch.php?value=&join_name=' . $join_name .'&join_val_column=' . $join_val_column . '&limit_query=' . $limit . '&join_key_column=' . $join_key_column;
-		//$urlAjax = '/index.php?option=com_fabrik&format=json&view=plugin&task=pluginAjax&g=element&element_id=' . $elementId . '&formid=' . $formId . '&plugin=databasejoin&method=autocomplete_options&package=fabrik'; //Old method
+
+		$html[] = '<input class="urlAjax" type="hidden" value="' . $urlAjax . '"/>';
+		$html[] = '<input class="limitResults" type="hidden" value="' . $limit . '"/>';
+		$html[] = '<input class="limitChars" type="hidden" value="' . $limit_chars . '"/>';
+		$html[] = '<input class="elementIdAutoComplete" type="hidden" value="' . $id . '"/>';
 	}
 
 	/**

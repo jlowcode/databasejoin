@@ -1008,12 +1008,12 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                  * Id Task: 116
                  */
                 var d = f.getParent('.fabrikElement').getElement('.elementIdAutoComplete');
-                /*if(f.id.indexOf('-auto-complete') < 0) {
+                if(f.id.indexOf('-auto-complete') < 0) {
                     f.id = this.element.id + '-auto-complete';
                 }
                 if(f.name.indexOf('-auto-complete') < 0) {
                     f.name = this.element.name.replace('[]', '') + '-auto-complete';
-                }*/
+                }
                 if (d) {
                     d.setProperty('value', f.id.replace('-auto-complete', ''));
                 }
