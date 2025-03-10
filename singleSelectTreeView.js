@@ -29,6 +29,7 @@ if (initDivSt.length) {
                 let tags = [];
 
                 const databasejoin_linked_items = $(mainDiv).find('.databasejoin_linked_items-' + nameElement)[0].value;
+                const form = $(mainDiv).closest('.fabrikForm');
 
                 loadTags(selectedCheckbox);
                 var cssId = 'tagsCss';  // you could encode the css path itself to generate id..
@@ -80,7 +81,7 @@ if (initDivSt.length) {
                         var res2 = Array();
 
                         res.forEach((node) => {
-                            if(node.id != jQuery("input[name='rowid']").val()) {
+                            if(node.id != form.find("input[name='rowid']").val()) {
                                 res2.push(node);
                             }
                         });
@@ -150,7 +151,7 @@ if (initDivSt.length) {
                                 var res2 = Array();
 
                                 res.forEach(node => {
-                                    if(node.id != jQuery("input[name='rowid']").val()) {
+                                    if(node.id != form.find("input[name='rowid']").val()) {
                                         res2.push(node);
                                     }
                                 });
@@ -198,7 +199,7 @@ if (initDivSt.length) {
                                 var res2 = Array();
 
                                 res.forEach(node => {
-                                    if(node.id != jQuery("input[name='rowid']").val()) {
+                                    if(node.id != form.find("input[name='rowid']").val()) {
                                         res2.push(node);
                                     }
                                 });
