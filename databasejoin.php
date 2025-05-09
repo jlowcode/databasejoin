@@ -1775,7 +1775,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					}
 
 					$url               = $popUrl . $value;
-					$defaultLabels[$i] = '<a href="' . Route::_($url) . '">' . FArrayHelper::getValue($defaultLabels, $i) . '</a>';
+					$defaultLabels[$i] = '<a style="text-decoration: underline" href="' . Route::_($url) . '">' . FArrayHelper::getValue($defaultLabels, $i) . '</a>';
 				}
 			}
 		}
