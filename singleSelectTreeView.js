@@ -22,6 +22,7 @@ if (initDivSt.length) {
                 //If the user set the data-WHERE propriety in the administrator page
                 const dataWhereInput = $(mainDiv).find('.data_where-' + nameElement);
                 const data_where = dataWhereInput[0] ? JSON.parse(dataWhereInput[0].value) : '';
+                const selfRelationship = $(mainDiv).find('.self-relationship-' + nameElement)[0].value;
                 const rootCategory = $(mainDiv).find('.category_root-' + nameElement)[0].value;
 
                 const concatInput = $(mainDiv).find('.concat-' + nameElement);
@@ -78,21 +79,16 @@ if (initDivSt.length) {
                     },
                     success: function (result) {
                         var res = result;
-                        var res2 = Array();
-
-                        res.forEach((node) => {
-                            if(node.id != form.find("input[name='rowid']").val()) {
-                                res2.push(node);
-                            }
-                        });
-
-                        res2.forEach(node => {
+                        var dataTreeFormatted = Array();
+                        
+                        dataTreeFormatted = validateDataTree(res);
+                        dataTreeFormatted.forEach(node => {
                             node.children = [{}];
                         });
 
                         buscaSelecionados(function (result2) {
                             $(element).parent().find(elementTreeId).tree({
-                                data: res2,
+                                data: dataTreeFormatted,
                                 selectable: false,
                                 onCreateLi: function (node, $li) {
                                     if (Boolean(Number(databasejoin_linked_items))) {
@@ -148,21 +144,16 @@ if (initDivSt.length) {
                             },
                             success: function (result) {
                                 var res = result;
-                                var res2 = Array();
+                                var dataTreeFormatted = Array();
 
-                                res.forEach(node => {
-                                    if(node.id != form.find("input[name='rowid']").val()) {
-                                        res2.push(node);
-                                    }
-                                });
-
-                                res2.forEach(node => {
+                                dataTreeFormatted = validateDataTree(res);
+                                dataTreeFormatted.forEach(node => {
                                     if (node.children) {
                                         node.children = [{}];
                                     }
                                 });
 
-                                $(element).parent().find(elementTreeId).tree('loadData', res2);
+                                $(element).parent().find(elementTreeId).tree('loadData', dataTreeFormatted);
                             },
                             dataType: "json"
                         });
@@ -196,21 +187,16 @@ if (initDivSt.length) {
                             },
                             success: function (result) {
                                 var res = result;
-                                var res2 = Array();
+                                var dataTreeFormatted = Array();
 
-                                res.forEach(node => {
-                                    if(node.id != form.find("input[name='rowid']").val()) {
-                                        res2.push(node);
-                                    }
-                                });
-
-                                res2.forEach(node => {
+                                dataTreeFormatted = validateDataTree(res);
+                                dataTreeFormatted.forEach(node => {
                                     if (node.children) {
                                         node.children = [{}];
                                     }
                                 });
 
-                                $(element).parent().find(elementTreeId).tree('loadData', res2, e.node);
+                                $(element).parent().find(elementTreeId).tree('loadData', dataTreeFormatted, e.node);
                             },
                             dataType: "json"
                         });
@@ -313,6 +299,21 @@ if (initDivSt.length) {
 
                         mainDiv.insertBefore(tag.container, el);
                     }
+                }
+
+                function validateDataTree(dataTree) {
+                    var dataTreeFormatted = Array();
+
+                    // If the element has a self-relationship, we need to remove the current row from the tree
+                    if(selfRelationship) {
+                        dataTree.forEach((node) => {
+                            if(node.id != form.find("input[name='rowid']").val()) {
+                                dataTreeFormatted.push(node);
+                            }
+                        });
+                    }
+
+                    return dataTreeFormatted.length ? dataTreeFormatted : dataTree;
                 }
 
                 // On click on a node adds it to tags

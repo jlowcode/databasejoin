@@ -3003,6 +3003,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$return[] = '<input class="databasejoin_linked_items-' . $element . '" type="hidden" value="' . $databasejoin_linked_items . '"/>';
 		$return[] = '<input class="data_where-' . $element . '" type="hidden" value="' . htmlspecialchars(json_encode($data_where)) . '"/>';
 		$return[] = '<input class="concat-' . $element . '" type="hidden" value="' . htmlspecialchars(json_encode($concat)) . '"/>';
+		$return[] = '<input class="self-relationship-' . $element . '" type="hidden" value="' . $this->selfRelationship($table_name, $join_name) . '"/>';
 		$rootcat = $params->get('root_category2');
 		if(isset($rootcat) && !empty($rootcat)){
 			$worker = new FabrikWorker;
@@ -3016,6 +3017,24 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		return implode("\n", $return);
+	}
+
+	/**
+	 * This method return if the relationshiop is self relationship
+	 * 
+	 * @param		string 		$tableName		Table name
+	 * @param		string 		$joinTable		Join table name
+	 * 
+	 * @return		bool
+	 * 
+	 * @since		4.5.2
+	 */
+	protected function selfRelationship($tableName='', $joinTable='')
+	{
+		$tableName = empty($tableName) ? $this->getTableName() : $tableName;
+		$joinTable = empty($joinTable) ? $this->getParams()->get('join_db_name') : $joinTable;
+
+		return $tableName == $joinTable;
 	}
 
 	/**
