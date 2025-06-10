@@ -26,7 +26,8 @@ if (initDivTA.length) {
             const limit_query = limitQuery[0] ? JSON.parse(limitQuery[0].value) : '';
 
             this.select2 = el.getElement('select[name*=' + elName + ']');
-            
+            const self = this;
+
             var cssId = 'select2Css';  // you could encode the css path itself to generate id..
             if (!document.getElementById(cssId)) {
                 var head = document.getElementsByTagName('head')[0];
@@ -49,23 +50,32 @@ if (initDivTA.length) {
                     delay: 250,
                     url: root_url + '/plugins/fabrik_element/databasejoin/autocompleteSearch.php',
                     data: function(params){
-                    var query = {
-                        value: params.term,
-                        join_name: join_name,
-                        join_val_column: join_val_column,
-                        join_key_column: join_key_column,
-                        data_where: data_where,
-                        concat_val: concat_val,
-                        limit_query: limit_query
-                    }
-                    return query;
+                        var query = {
+                            value: params.term,
+                            join_name: join_name,
+                            join_val_column: join_val_column,
+                            join_key_column: join_key_column,
+                            data_where: data_where,
+                            concat_val: concat_val,
+                            limit_query: limit_query
+                        }
+                        return query;
                     },
-
                     processResults: function (data) {
-                    // Transforms the top-level key of the response object from 'items' to 'results'
-                    return {
-                        results: data
-                    };
+                        let selectedIds = jQuery(this.$element).val();
+                        
+                        for (let index = 0; index < data.length; index++) {
+                            for (let i = 0; i < selectedIds.length; i++) {
+                                if(data[index].id == selectedIds[i]) {
+                                    data.splice(index, 1);
+                                }
+                            }
+                        }
+
+                        // Transforms the top-level key of the response object from 'items' to 'results'
+                        return {
+                            results: data
+                        };
                     }
 
                 },

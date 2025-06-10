@@ -1209,10 +1209,12 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             },
     
             setActionTags: function () {
+                var self = this;
                 var displayType = this.options.displayType;
                 var idEl = this.strElement;
                 var event = this.options.changeEvent;
-    
+                let skipSelect = false;
+
                 switch (displayType) {
                     case 'auto-complete':
                         if(idEl.indexOf('-auto-complete') > 0) {
@@ -1229,18 +1231,42 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         break;
     
                     case 'checkbox':
+                        var select2 = jQuery(this.element).find('select[name="' + this.element.id + '[]"]');
                         this.element.addEvent(event, function (e) {
                             this.createTagToRenderMultiSelect();        
                         }.bind(this));
-    
+
                         this.element.addEvent('keyup', function (e) {
                             if(e.event.key == 'Enter' || e.event.key == 'Tab') {
                                 this.createTagToRenderMultiSelect(e);
                             }
                         }.bind(this));
+
+                        // Prevent select2 from selecting the first option when pressing enter
+                        select2.on('select2:opening', function (e) {
+                            const select = jQuery(this).parent().find('.select2-search__field');
+                            select.off('keydown.skipEnter');
+
+                            select.on('keydown.skipEnter', function(e) {
+                                if(e.key === 'Enter') {
+                                    e.preventDefault();
+                                    skipSelect = true;
+                                } else {
+                                    skipSelect = false;
+                                }
+                            });
+                        });
+
+                        select2.on('select2:selecting', function (e) {
+                            if(skipSelect) {
+                                e.preventDefault();
+                                skipSelect = false;
+                            }
+                        });
+
                         break;
                 }
-    
+
                 return true;
             },
     
@@ -1256,11 +1282,13 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 this.element.parentNode.getElementById(fullName).value = valueTag;
             },
     
-            createTagToRenderMultiSelect: function(e) {
-                var tag = e.target.value;
+            createTagToRenderMultiSelect: function(e, tagTemp='') {
+                if(e === undefined) return;
+
+                var tag = tagTemp != "" ? tagTemp : e.target.value;
                 var valueTag = '#fabrik#' + tag;
                 var select2 = this.element.querySelectorAll('[name="' + this.strElement + '[]"]');
-    
+
                 if(tag == "") {
                     return;
                 }
