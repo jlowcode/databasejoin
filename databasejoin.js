@@ -417,7 +417,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 // and v is empty, otherwise we'll just fetch every row in the target table,
                 // and do nothing with it in onComplete?  So just set it blank now.
                 if (this.options.displayType === 'auto-complete' && v === '') {
-                    this.addOption('', '', true);
+                    //this.addOption('', '', true);
                     this.element.fireEvent('change', new Event.Mock(this.element, 'change'));
                     this.element.fireEvent('blur', new Event.Mock(this.element, 'blur'));
                     return;
