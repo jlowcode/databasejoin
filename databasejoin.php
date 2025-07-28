@@ -5845,6 +5845,18 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					if($params->get('database_join_display_type') == 'checkbox') 
 					{
 						$tagId = str_replace('#fabrik#', '', $tagId);
+
+						$q = $db->getQuery(true);
+						$q->select('id')
+							->from($db->qn($tableJoin))
+							->where($db->qn($label) . ' = ' . $db->q($tagId));
+						$db->setQuery($q);
+						$tagId = $db->loadResult();
+						if (!empty($tagId)) {
+							$tagId = (int) $tagId;
+							continue;
+						}
+
 						$query = $db->getQuery(true);
 							$query->insert($tableJoin)
 							->set($db->qn($label) . ' = ' . $db->q($tagId));
