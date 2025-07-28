@@ -1232,37 +1232,12 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
     
                     case 'checkbox':
                         var select2 = jQuery(this.element).find('select[name="' + this.element.id + '[]"]');
-                        this.element.addEvent(event, function (e) {
-                            this.createTagToRenderMultiSelect();        
-                        }.bind(this));
 
                         this.element.addEvent('keyup', function (e) {
                             if(e.event.key == 'Enter' || e.event.key == 'Tab') {
                                 this.createTagToRenderMultiSelect(e);
                             }
                         }.bind(this));
-
-                        // Prevent select2 from selecting the first option when pressing enter
-                        select2.on('select2:opening', function (e) {
-                            const select = jQuery(this).parent().find('.select2-search__field');
-                            select.off('keydown.skipEnter');
-
-                            select.on('keydown.skipEnter', function(e) {
-                                if(e.key === 'Enter') {
-                                    e.preventDefault();
-                                    skipSelect = true;
-                                } else {
-                                    skipSelect = false;
-                                }
-                            });
-                        });
-
-                        select2.on('select2:selecting', function (e) {
-                            if(skipSelect) {
-                                e.preventDefault();
-                                skipSelect = false;
-                            }
-                        });
 
                         break;
                 }
@@ -1281,7 +1256,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
     
                 this.element.parentNode.getElementById(fullName).value = valueTag;
             },
-    
+
             createTagToRenderMultiSelect: function(e, tagTemp='') {
                 if(e === undefined) return;
 
@@ -1292,12 +1267,12 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 if(tag == "") {
                     return;
                 }
-    
+
                 var valuesCheck = [];
                 for (var i = 0; i < select2[0].options.length; i++) {
                     valuesCheck.push(select2[0].options[i].value);
                 }
-    
+
                 if(!valuesCheck.includes(valueTag)) {
                     var values = [];
                     newOption = new Option(tag, valueTag, false, false);

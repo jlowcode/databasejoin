@@ -5693,7 +5693,7 @@ S2.define('select2/core',[
 
           evt.preventDefault();
         } else if (key === KEYS.ENTER) {
-			      var elSearchAll = $('[id^=searchall]')[0];
+			      /*var elSearchAll = $('[id^=searchall]')[0];
             if(elSearchAll){
               //create option to append the select html
               var elOption = new Element('option', {'value': $('.select2-search__field').val(), 'selected': true});
@@ -5705,7 +5705,7 @@ S2.define('select2/core',[
               Fabrik.fireEvent('fabrik.list.dofilter', [this]);
             } else {
               self.trigger('results:select', {});
-            }
+            }*/
 
           evt.preventDefault();
         } else if ((key === KEYS.SPACE && evt.ctrlKey)) {
