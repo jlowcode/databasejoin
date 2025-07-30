@@ -5851,9 +5851,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 							->from($db->qn($tableJoin))
 							->where($db->qn($label) . ' = ' . $db->q($tagId));
 						$db->setQuery($q);
-						$tagId = $db->loadResult();
-						if (!empty($tagId)) {
-							$tagId = (int) $tagId;
+						$id = $db->loadResult();
+						if (!empty($id)) {
+							$tagId = (int) $id;
 							continue;
 						}
 
