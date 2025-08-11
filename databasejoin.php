@@ -1216,7 +1216,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$params         = $this->getParams();
 		$element        = $this->getElement();
 		$filterWhere    = trim($params->get('database_join_filter_where_sql', ''));
-		$whereAccess    = $params->get('database_join_where_access', 26);
+		$whereAccess    = $params->get('database_join_where_access', 1);
 		$where          = '';
 
 		// $$$ hugh - 5/13/2019 - filter where now overrides form where, if present
