@@ -417,7 +417,7 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                 // and v is empty, otherwise we'll just fetch every row in the target table,
                 // and do nothing with it in onComplete?  So just set it blank now.
                 if (this.options.displayType === 'auto-complete' && v === '') {
-                    this.addOption('', '', true);
+                    //this.addOption('', '', true);
                     this.element.fireEvent('change', new Event.Mock(this.element, 'change'));
                     this.element.fireEvent('blur', new Event.Mock(this.element, 'blur'));
                     return;
@@ -1209,10 +1209,12 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
             },
     
             setActionTags: function () {
+                var self = this;
                 var displayType = this.options.displayType;
                 var idEl = this.strElement;
                 var event = this.options.changeEvent;
-    
+                let skipSelect = false;
+
                 switch (displayType) {
                     case 'auto-complete':
                         if(idEl.indexOf('-auto-complete') > 0) {
@@ -1229,18 +1231,17 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
                         break;
     
                     case 'checkbox':
-                        this.element.addEvent(event, function (e) {
-                            this.createTagToRenderMultiSelect();        
-                        }.bind(this));
-    
+                        var select2 = jQuery(this.element).find('select[name="' + this.element.id + '[]"]');
+
                         this.element.addEvent('keyup', function (e) {
                             if(e.event.key == 'Enter' || e.event.key == 'Tab') {
                                 this.createTagToRenderMultiSelect(e);
                             }
                         }.bind(this));
+
                         break;
                 }
-    
+
                 return true;
             },
     
@@ -1255,21 +1256,23 @@ define(['jquery', 'fab/element', 'fab/encoder', 'fab/fabrik', 'fab/autocomplete-
     
                 this.element.parentNode.getElementById(fullName).value = valueTag;
             },
-    
-            createTagToRenderMultiSelect: function(e) {
-                var tag = e.target.value;
+
+            createTagToRenderMultiSelect: function(e, tagTemp='') {
+                if(e === undefined) return;
+
+                var tag = tagTemp != "" ? tagTemp : e.target.value;
                 var valueTag = '#fabrik#' + tag;
                 var select2 = this.element.querySelectorAll('[name="' + this.strElement + '[]"]');
-    
+
                 if(tag == "") {
                     return;
                 }
-    
+
                 var valuesCheck = [];
                 for (var i = 0; i < select2[0].options.length; i++) {
                     valuesCheck.push(select2[0].options[i].value);
                 }
-    
+
                 if(!valuesCheck.includes(valueTag)) {
                     var values = [];
                     newOption = new Option(tag, valueTag, false, false);

@@ -1216,7 +1216,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$params         = $this->getParams();
 		$element        = $this->getElement();
 		$filterWhere    = trim($params->get('database_join_filter_where_sql', ''));
-		$whereAccess    = $params->get('database_join_where_access', 26);
+		$whereAccess    = $params->get('database_join_where_access', 1);
 		$where          = '';
 
 		// $$$ hugh - 5/13/2019 - filter where now overrides form where, if present
@@ -1775,7 +1775,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					}
 
 					$url               = $popUrl . $value;
-					$defaultLabels[$i] = '<a href="' . Route::_($url) . '">' . FArrayHelper::getValue($defaultLabels, $i) . '</a>';
+					$defaultLabels[$i] = '<a style="text-decoration: underline" href="' . Route::_($url) . '">' . FArrayHelper::getValue($defaultLabels, $i) . '</a>';
 				}
 			}
 		}
@@ -3003,6 +3003,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$return[] = '<input class="databasejoin_linked_items-' . $element . '" type="hidden" value="' . $databasejoin_linked_items . '"/>';
 		$return[] = '<input class="data_where-' . $element . '" type="hidden" value="' . htmlspecialchars(json_encode($data_where)) . '"/>';
 		$return[] = '<input class="concat-' . $element . '" type="hidden" value="' . htmlspecialchars(json_encode($concat)) . '"/>';
+		$return[] = '<input class="self-relationship-' . $element . '" type="hidden" value="' . $this->selfRelationship($table_name, $join_name) . '"/>';
 		$rootcat = $params->get('root_category2');
 		if(isset($rootcat) && !empty($rootcat)){
 			$worker = new FabrikWorker;
@@ -3016,6 +3017,24 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		}
 
 		return implode("\n", $return);
+	}
+
+	/**
+	 * This method return if the relationshiop is self relationship
+	 * 
+	 * @param		string 		$tableName		Table name
+	 * @param		string 		$joinTable		Join table name
+	 * 
+	 * @return		bool
+	 * 
+	 * @since		4.5.2
+	 */
+	protected function selfRelationship($tableName='', $joinTable='')
+	{
+		$tableName = empty($tableName) ? $this->getTableName() : $tableName;
+		$joinTable = empty($joinTable) ? $this->getParams()->get('join_db_name') : $joinTable;
+
+		return $tableName == $joinTable;
 	}
 
 	/**
@@ -5826,6 +5845,18 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 					if($params->get('database_join_display_type') == 'checkbox') 
 					{
 						$tagId = str_replace('#fabrik#', '', $tagId);
+
+						$q = $db->getQuery(true);
+						$q->select('id')
+							->from($db->qn($tableJoin))
+							->where($db->qn($label) . ' = ' . $db->q($tagId));
+						$db->setQuery($q);
+						$id = $db->loadResult();
+						if (!empty($id)) {
+							$tagId = (int) $id;
+							continue;
+						}
+
 						$query = $db->getQuery(true);
 							$query->insert($tableJoin)
 							->set($db->qn($label) . ' = ' . $db->q($tagId));
