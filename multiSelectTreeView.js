@@ -217,7 +217,8 @@ if(initDiv.length){
                         input: document.createElement('input'),
                         closeButton: document.createElement('span')
                     };
-        
+
+                    tag.container.dataset.value = id;
                     tag.container.classList.add('tag-container');
                     tag.content.classList.add('tag-content');
                     tag.closeButton.classList.add('tag-close-button');
@@ -237,9 +238,11 @@ if(initDiv.length){
         
                     tag.content.textContent = tag.text;
                     tag.closeButton.textContent = 'x';
-        
-                    tag.closeButton.addEventListener('click', function () {
-                        removeTag(tags.indexOf(tag));
+                    tag.closeButton.style.cursor = 'pointer';
+
+                    tag.closeButton.addEventListener('click', function (e) {
+                        var valId = e.target.parentNode.dataset.value;
+                        removeTag(valId);
                     });
         
                     tag.container.appendChild(tag.content);
@@ -250,43 +253,43 @@ if(initDiv.length){
                     mainDiv.insertBefore(tag.container, el);
                 }
         
-                function removeTag(index) {
-                    var tag = tags[index];
-                    tags.splice(index, 1);
-                    mainDiv.removeChild(tag.container);
-                    selectedCheckbox.removeChild(tag.input);
+                function removeTag(valId) {
+                    tags = tags.filter(tag => tag.id !== valId);
+                    jQuery(mainDiv).find('[data-value="' + valId + '"]').remove();
+                    jQuery(selectedCheckbox).find('input[value=' + valId + ']').remove();
                 }
         
                 // Load the selected options to tags 
                 function loadTags(selectOptions) {
-        
                     for (const option of selectOptions.getElementsByTagName('input')) {
                         var tag = {
-                            id: option.getAttribute("value"),
-                            text: option.getAttribute("data"),
+                            id: option.getAttribute('value'),
+                            text: option.getAttribute('data'),
                             container: document.createElement('div'),
                             content: document.createElement('span'),
                             input: option,
                             closeButton: document.createElement('span')
                         };
-        
+
+                        tag.container.dataset.value = option.getAttribute('value');
                         tag.container.classList.add('tag-container');
                         tag.content.classList.add('tag-content');
                         tag.closeButton.classList.add('tag-close-button');
-        
-        
+
                         tag.content.textContent = tag.text;
                         tag.closeButton.textContent = 'x';
-        
-                        tag.closeButton.addEventListener('click', function () {
-                            removeTag(tags.indexOf(tag));
+                        tag.closeButton.style.cursor = 'pointer';
+
+                        tag.closeButton.addEventListener('click', function (e) {
+                            var valId = e.target.parentNode.dataset.value;
+                            removeTag(valId);
                         });
-        
+
                         tag.container.appendChild(tag.content);
                         tag.container.appendChild(tag.closeButton);
-        
+
                         tags.push(tag);
-        
+
                         mainDiv.insertBefore(tag.container, el);
                     }
                 }
