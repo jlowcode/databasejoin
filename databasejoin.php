@@ -5991,9 +5991,6 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 		$query->order('name ASC');
 
-		// Aonde o valor inicie com $id
-		// Aplica a query no obj DB
-		$db->setQuery($query);
 		// Salva resultado da query em results
 		$results = array();
 
@@ -6018,6 +6015,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 				$query->order(trim($order));
 			}
 			
+			// Aonde o valor inicie com $id
+			// Aplica a query no obj DB
+			$db->setQuery($query);
 			//$table recebe toda a tabela
 			$table = $db->loadObjectList();
 			//se for categoria root então retornar o que foi trago, pois ele é o pai
@@ -6032,6 +6032,7 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			}
 			
 		} else {
+			$db->setQuery($query);
 			$table = $db->loadObjectList();
 			$results = $this->getChildren($id, $query, $db, $table, $tree_parent_id, $data_where);
 		}

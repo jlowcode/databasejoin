@@ -63,9 +63,6 @@ $query->join('LEFT', $db->qn($repeat_join_name) . " AS {$db->qn($repeat_join_nam
 
 $query->order('name ASC');
 
-// Aonde o valor inicie com $id
-// Aplica a query no obj DB
-$db->setQuery($query);
 // Salva resultado da query em results
 $results = array();
 
@@ -90,6 +87,9 @@ if(!$id){
 		$query->order(trim($order));
 	}
 	
+	// Aonde o valor inicie com $id
+	// Aplica a query no obj DB
+	$db->setQuery($query);
 	//$table recebe toda a tabela
 	$table = $db->loadObjectList();
 	//se for categoria root então retornar o que foi trago, pois ele é o pai
@@ -104,6 +104,9 @@ if(!$id){
 	}
 	
 } else {
+	// Aonde o valor inicie com $id
+	// Aplica a query no obj DB
+	$db->setQuery($query);
 	$table = $db->loadObjectList();
 	$results = getChildren($id, $query, $db, $table, $tree_parent_id, $data_where, $repeat_join_name);
 }
