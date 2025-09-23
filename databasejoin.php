@@ -3613,15 +3613,16 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$filters = $this->getlistModel()->getFilterArray();
 		if (isset($filters)) 
 		{
-			$sqlprefilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
-			if (isset($sqlprefilter) && !empty($sqlprefilter)) 
+			$sqlPreFilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
+			if (isset($sqlPreFilter) && !empty($sqlPreFilter)) 
 			{
 				$table_name = $this->getTableName();
 				if (isset($table_name) && !empty($table_name)) 
 				{
-					$query->join('LEFT', $table_name . ' ON ' . $db->qn($table_name . '.' . 'id') . ' = ' .  $joinTable . '.' . '`parent_id`');
-					$sqlprefilter = str_replace('WHERE', '', $sqlprefilter);
-					$query->where($sqlprefilter);
+					$query->join('LEFT', $db->qn($table_name, $table_name . '_alias') . ' ON ' . $db->qn($table_name . '_alias.' . 'id') . ' = ' .  $joinTable . '.' . '`parent_id`');
+					$sqlPreFilter = str_replace('WHERE', '', $sqlPreFilter);
+					$sqlPreFilter = str_replace($table_name, "{$table_name}_alias", $sqlPreFilter);
+					$query->where($sqlPreFilter);
 				}
 			}
 		}
@@ -3695,15 +3696,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$filters = $this->getlistModel()->getFilterArray();
 		if (isset($filters)) 
 		{
-			$sqlprefilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
-			if (isset($sqlprefilter) && !empty($sqlprefilter) && $this->getFilterBuildMethod() == 1) 
+			$sqlPreFilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
+			if (isset($sqlPreFilter) && !empty($sqlPreFilter) && $this->getFilterBuildMethod() == 1) 
 			{
 				$table_name = $this->getTableName();
 				if (isset($table_name) && !empty($table_name)) 
 				{
 					$query->join('LEFT', $table_name . ' ON ' . $db->qn($table_name . '.' . 'id') . ' = ' .  $joinTable . '.' . '`parent_id`');
-					$sqlprefilter = str_replace('WHERE', '', $sqlprefilter);
-					$query->where($sqlprefilter);
+					$sqlPreFilter = str_replace('WHERE', '', $sqlPreFilter);
+					$query->where($sqlPreFilter);
 				}
 			}
 		}
@@ -3788,15 +3789,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$filters = $this->getlistModel()->getFilterArray();
 		if (isset($filters)) 
 		{
-			$sqlprefilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
-			if (isset($sqlprefilter) && !empty($sqlprefilter)) 
+			$sqlPreFilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
+			if (isset($sqlPreFilter) && !empty($sqlPreFilter)) 
 			{
 				$table_name = $this->getTableName();
 				if (isset($table_name) && !empty($table_name)) 
 				{
 					$query->join('LEFT', $table_name . ' ON ' . $db->qn($table_name . '.' . 'id') . ' = ' .  $joinTable . '.' . '`parent_id`');
-					$sqlprefilter = str_replace('WHERE', '', $sqlprefilter);
-					$query->where($sqlprefilter);
+					$sqlPreFilter = str_replace('WHERE', '', $sqlPreFilter);
+					$query->where($sqlPreFilter);
 				}
 			}
 		}
@@ -3886,15 +3887,15 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 		$filters = $this->getlistModel()->getFilterArray();
 		if (isset($filters)) 
 		{
-			$sqlprefilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
-			if (isset($sqlprefilter) && !empty($sqlprefilter) && $this->getFilterBuildMethod() == 1) 
+			$sqlPreFilter = $this->getlistModel()->_filtersToSQLPublic($filters, true, false)[0];
+			if (isset($sqlPreFilter) && !empty($sqlPreFilter) && $this->getFilterBuildMethod() == 1) 
 			{
 				$table_name = $this->getTableName();
 				if (isset($table_name) && !empty($table_name)) 
 				{
 					$query->join('LEFT', $table_name . ' ON ' . $db->qn($table_name . '.' . 'id') . ' = ' .  $joinTable . '.' . '`parent_id`');
-					$sqlprefilter = str_replace('WHERE', '', $sqlprefilter);
-					$query->where($sqlprefilter);
+					$sqlPreFilter = str_replace('WHERE', '', $sqlPreFilter);
+					$query->where($sqlPreFilter);
 				}
 			}
 		}
