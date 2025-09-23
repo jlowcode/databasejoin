@@ -56,6 +56,7 @@ if(initDiv.length){
                     head.appendChild(link);
                 }
         
+                jQuery(mainDiv).find('.tag-container').remove();
                 loadTags(selectedCheckbox);
 
                 // Build the tree making an AJAX request getting only the root nodes
@@ -232,7 +233,7 @@ if(initDiv.length){
                     tag.input.setAttribute('data-role', 'fabrikinput');
                     
                     tag.input.setAttribute('hidden', true);
-                    //tag.input.setAtttribute('data', )
+                    tag.input.setAttribute('data', text);
         
                     selectedCheckbox.appendChild(tag.input);
         

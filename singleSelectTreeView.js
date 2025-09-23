@@ -32,6 +32,7 @@ if (initDivSt.length) {
                 const databasejoin_linked_items = $(mainDiv).find('.databasejoin_linked_items-' + nameElement)[0].value;
                 const form = $(mainDiv).closest('.fabrikForm');
 
+                jQuery(mainDiv).find('.tag-container').remove();
                 loadTags(selectedCheckbox);
                 var cssId = 'tagsCss';  // you could encode the css path itself to generate id..
                 if (!document.getElementById(cssId)) {
@@ -239,6 +240,7 @@ if (initDivSt.length) {
                     tag.input.setAttribute('checked', 'checked');
                     tag.input.setAttribute('name', elName);
                     tag.input.setAttribute('hidden', true);
+                    tag.input.setAttribute('data', text);
 
                     selectedCheckbox.appendChild(tag.input);
 
@@ -283,7 +285,6 @@ if (initDivSt.length) {
                         tag.container.classList.add('tag-container');
                         tag.content.classList.add('tag-content');
                         tag.closeButton.classList.add('tag-close-button');
-
 
                         tag.content.textContent = tag.text;
                         tag.closeButton.textContent = 'x';
