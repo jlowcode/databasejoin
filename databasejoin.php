@@ -5833,7 +5833,9 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 
 			foreach ($tagIds as $tagKey => &$tagId) 
 			{
-				if (empty($tagId)) 
+                $isPlaceholder = preg_match('/^\{[^}]+\}$/', $tagId);
+
+				if (empty($tagId) || $isPlaceholder)
 				{
 					unset($tagIds[$tagKey]);
 					continue;
