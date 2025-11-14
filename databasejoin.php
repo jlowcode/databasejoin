@@ -2730,6 +2730,14 @@ class PlgFabrik_ElementDatabasejoin extends PlgFabrik_ElementList
 			$data[$k] = Text::_($label);
 		}
 
+		if ($this->isJoin())
+		{
+			foreach ($data as $k => $label)
+			{
+				$data[$k] = '<span class="tag-item">' . $label . '</span>';
+			}
+		}
+
 		$data = json_encode($data);
 
 		// $$$ rob add links and icons done in parent::renderListData();
